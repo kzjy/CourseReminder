@@ -27,11 +27,7 @@ import kz.coursereminder.structure.FileManager;
  */
 public class DashBoard extends Fragment {
 
-    /**
-     * Debugging fields
-     */
     private static final String TAG = "DashBoard";
-    public String FRAGMENT_NAME = "Courses";
 
     /**
      * Data Structure Fields
@@ -43,7 +39,6 @@ public class DashBoard extends Fragment {
      * Display Fields
      */
     private GridView gridView;
-    public DashboardCourseAdapter dashboardCourseAdapter;
 
     /**
      * default constructor
@@ -70,14 +65,16 @@ public class DashBoard extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_dashboard,container,false);
         gridView = view.findViewById(R.id.dashboard_gridview);
-        dashboardCourseAdapter = new DashboardCourseAdapter(this.getActivity(), courseManager);
-        Log.v(TAG, String.valueOf(courseManager.getCourses().size()));
-        gridView.setAdapter(dashboardCourseAdapter);
+        updateDashboard();
         addGridViewClickListener();
-
         return view;
     }
 
+    private void updateDashboard() {
+        DashboardCourseAdapter dashboardCourseAdapter = new DashboardCourseAdapter(
+                this.getActivity(), courseManager);
+        gridView.setAdapter(dashboardCourseAdapter);
+    }
     /**
      * add grid view listener
      */
@@ -114,6 +111,12 @@ public class DashBoard extends Fragment {
         startActivityForResult(toCreate, 10001);
     }
 
+    /**
+     * Catches the Course Creation intent for succesfully finishing course creation
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -121,11 +124,8 @@ public class DashBoard extends Fragment {
         if ((requestCode == 10001) && (resultCode == AppCompatActivity.RESULT_OK)) {
             fileManager.loadFile(CourseManager.COURSES);
             courseManager = fileManager.getCourseManager();
-            courseList.add(0, courseManager.getCourses().get(0));
-            dashboardCourseAdapter.notifyDataSetChanged();
-            Log.v(TAG, String.valueOf(courseManager.getCourses().size()));
+            updateDashboard();
         }
-
     }
 
 }

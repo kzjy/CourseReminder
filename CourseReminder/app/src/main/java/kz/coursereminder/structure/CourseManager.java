@@ -12,27 +12,29 @@ public class CourseManager implements Serializable {
     public static final String COURSES = "course_manager.ser";
 
     public CourseManager() {
-        addCourse("Add New", 0);
+        Course addNew = new Course("Add New", "", 0);
+        addCourse(addNew);
     }
 
+    /**
+     * Add a new course to the list of courses
+     * @param course New Course to be added
+     */
     public void addCourse(Course course) {
         courses.add(0, course);
-    }
-
-    private void addCourse(String name, int image) {
-        courses.add(new Course(name, image));
     }
 
     public ArrayList<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(ArrayList<Course> courses) {
-        this.courses.addAll(0, courses);
-    }
-
+    /**
+     * Return a Course in courses with courseName
+     * @param courseName name of the course
+     * @return a course in courses
+     */
     public Course getSpecificCourse(String courseName) {
-        for (Course course: courses) {
+        for (Course course : courses) {
             if (course.getName().equals(courseName)) {
                 return course;
             }
@@ -40,4 +42,28 @@ public class CourseManager implements Serializable {
         return null;
     }
 
+    /**
+     * Check whether course has a valid course name
+     * @param course course to be checked
+     * @return whether it is a valid name
+     */
+    public boolean checkValidCourseName(Course course) {
+        String name = course.getName();
+        return !name.equals("");
+    }
+
+    /**
+     * Check whether course name is already in use
+     * @param course course to be checked
+     * @return whether it is in use
+     */
+    public boolean checkExistingCourse(Course course) {
+        String name = course.getName();
+        for (Course c : courses) {
+            if (c.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -10,10 +10,12 @@ public class Course implements Serializable {
 
     private ArrayList<Assignment> assignments = new ArrayList<>();
     private String name;
+    private String info;
     private int image;
 
-    public Course(String name, int image) {
+    public Course(String name, String info, int image) {
         this.name = name;
+        this.info = info;
         selectImage(image);
     }
 

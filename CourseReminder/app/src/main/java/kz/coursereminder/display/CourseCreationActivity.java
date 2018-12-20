@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import kz.coursereminder.R;
 import kz.coursereminder.classes.CourseCreationIconAdapter;
 import kz.coursereminder.structure.Course;
+import kz.coursereminder.structure.CourseCreationController;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
@@ -29,23 +30,23 @@ public class CourseCreationActivity extends AppCompatActivity {
     private static final String TAG = "CourseCreationActivity";
 
     /**
-     * Display fields
+     * Display gridview
      */
     private GridView gridView;
     private CourseCreationIconAdapter creationIconAdapter;
 
     /**
-     * Data Fields
+     * Arraylist of possible course icons
      */
+
     private ArrayList<Integer> icons = new ArrayList<>();
-    private FileManager fileManager;
-    private CourseManager courseManager;
 
     /**
-     * On create
-     *
-     * @param savedInstanceState .
+     * Controller for Course Creation
      */
+    private CourseCreationController courseCreationController;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,19 +55,26 @@ public class CourseCreationActivity extends AppCompatActivity {
 
         // action bar stuff
         setTitle("New course");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         // setup icons
         addIconToList();
         //grid view
+        setupView();
+
+        //Instantiate controller
+        courseCreationController = new CourseCreationController(this);
+    }
+
+    /**
+     * Set up the view of the activity
+     */
+    private void setupView() {
         gridView = findViewById(R.id.create_course_grid);
         creationIconAdapter = new CourseCreationIconAdapter(this, icons);
         gridView.setAdapter(creationIconAdapter);
         addGridViewClickListener();
-        // filemanager and coursemanager
-        fileManager = new FileManager(this);
-        courseManager = fileManager.getCourseManager();
-        //
-
     }
 
     /**
@@ -83,29 +91,22 @@ public class CourseCreationActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent resultIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, resultIntent);
         switch (item.getItemId()) {
             case android.R.id.home:
-                setResult(AppCompatActivity.RESULT_CANCELED);
-//                NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
             case R.id.create_course:
-
                 // make new course
                 String name = courseNameListener();
                 String info = courseInfoListener();
-                Course newCourse = new Course (name, creationIconAdapter.getHighLight() + 1);
-                courseManager.addCourse(newCourse);
-                fileManager.writeFile(CourseManager.COURSES, courseManager);
-
-                // update dashboard & exit
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("course", newCourse);
-                setResult(AppCompatActivity.RESULT_OK, resultIntent);
-                hideSoftKeyboard(this);
-                finish();
+                int image = creationIconAdapter.getHighLight() + 1;
+                boolean creationSuccessful = courseCreationController.addCourse(name, info, image);
+                if (creationSuccessful) {
+                    finish();
+                }
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -129,8 +130,6 @@ public class CourseCreationActivity extends AppCompatActivity {
         EditText courseName = findViewById(R.id.create_course_name);
         courseName.requestFocus();
         courseName.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         return courseName.getText().toString();
     }
 
@@ -138,6 +137,7 @@ public class CourseCreationActivity extends AppCompatActivity {
         EditText courseInfo = findViewById(R.id.create_course_info);
         return courseInfo.getText().toString();
     }
+
     /**
      * Add these icons to the list of available icons
      */
@@ -156,9 +156,4 @@ public class CourseCreationActivity extends AppCompatActivity {
         icons.add(R.drawable.course_icon_stats);
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
-
-        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-    }
 }
