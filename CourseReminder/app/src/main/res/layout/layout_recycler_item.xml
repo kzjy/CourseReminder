@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:id="@+id/recycler_item">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:id="@+id/recycler_image"
+        android:src="@drawable/medium_assignment_72"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_course_name"
+        android:layout_toRightOf="@id/recycler_image"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="Course"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_assignment"
+        android:layout_alignStart="@+id/recycler_course_name"
+        android:layout_marginTop="28dp"
+        android:text="Assignment"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_due_date"
+        android:layout_alignStart="@+id/recycler_course_name"
+        android:text="Due: "
+        android:textColor="@color/DimGray"
+        android:textSize="11sp"
+        android:layout_marginTop="48dp"
+        />
+
+</RelativeLayout>
