@@ -8,14 +8,14 @@
     tools:context=".display.MainActivity">
 
 
-    <kz.coursereminder.classes.NoSwipeViewPager
+    <kz.coursereminder.adapters.NoSwipeViewPager
         android:id="@+id/page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"
         android:layout_alignParentTop="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </kz.coursereminder.classes.NoSwipeViewPager>
+    </kz.coursereminder.adapters.NoSwipeViewPager>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

@@ -1,4 +1,4 @@
-package kz.coursereminder.classes;
+package kz.coursereminder.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

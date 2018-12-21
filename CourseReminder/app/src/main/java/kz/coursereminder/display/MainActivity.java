@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import kz.coursereminder.R;
-import kz.coursereminder.classes.ViewStatePagerAdapter;
+import kz.coursereminder.adapters.ViewStatePagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

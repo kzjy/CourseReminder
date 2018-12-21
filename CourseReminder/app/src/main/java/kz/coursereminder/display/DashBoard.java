@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.GridView;
 import java.util.ArrayList;
 
 import kz.coursereminder.R;
-import kz.coursereminder.classes.DashboardCourseAdapter;
+import kz.coursereminder.adapters.DashboardCourseAdapter;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
@@ -100,7 +99,7 @@ public class DashBoard extends Fragment {
     private void swapToCourse(String courseName) {
         Intent toCourse = new Intent(this.getActivity(), CourseActivity.class);
         toCourse.putExtra("name", courseName);
-        startActivity(toCourse);
+        startActivityForResult(toCourse, 10000);
     }
 
     /**
@@ -121,7 +120,8 @@ public class DashBoard extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == 10001) && (resultCode == AppCompatActivity.RESULT_OK)) {
+        if (((requestCode == 10001) || (requestCode == 10000)) &&
+                (resultCode == AppCompatActivity.RESULT_OK)) {
             fileManager.loadFile(CourseManager.COURSES);
             courseManager = fileManager.getCourseManager();
             updateDashboard();

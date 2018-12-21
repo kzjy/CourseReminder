@@ -7,10 +7,29 @@ import kz.coursereminder.R;
 
 public class Course implements Serializable {
 
-
+    /**
+     * ArrayList for keeping tack of assignments and tests
+     */
     private ArrayList<Assignment> assignments = new ArrayList<>();
+    /**
+     * Arraylist for keeping tack of grades
+     */
+    private ArrayList<Grade> grades = new ArrayList<>();
+    /**
+     * Short notes for the course
+     */
+    private String notes;
+    /**
+     * Name of the course
+     */
     private String name;
+    /**
+     * Course info
+     */
     private String info;
+    /**
+     * Icon of the course
+     */
     private int image;
 
     public Course(String name, String info, int image) {
@@ -31,6 +50,22 @@ public class Course implements Serializable {
         return image;
     }
 
+    public ArrayList<Grade> getGrades() {
+        return grades;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * Choose an icon based on image
+     * @param image the icon to be added
+     */
     private void selectImage(int image) {
         switch (image) {
             case 0:

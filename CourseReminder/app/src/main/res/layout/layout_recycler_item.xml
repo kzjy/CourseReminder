@@ -37,7 +37,7 @@
         android:id="@+id/recycler_due_date"
         android:layout_alignStart="@+id/recycler_course_name"
         android:text="Due: "
-        android:textColor="@color/DimGray"
+        android:textColor="@color/DarkGray"
         android:textSize="11sp"
         android:layout_marginTop="48dp"
         />

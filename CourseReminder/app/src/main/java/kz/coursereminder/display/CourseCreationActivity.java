@@ -1,29 +1,20 @@
 package kz.coursereminder.display;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import kz.coursereminder.R;
-import kz.coursereminder.classes.CourseCreationIconAdapter;
-import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.CourseCreationController;
-import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.FileManager;
+import kz.coursereminder.adapters.CourseCreationIconAdapter;
+import kz.coursereminder.controllers.CourseCreationController;
 
 public class CourseCreationActivity extends AppCompatActivity {
 
@@ -119,13 +110,16 @@ public class CourseCreationActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                Integer icon = icons.get(position);
                 creationIconAdapter.setHighLight(position);
                 creationIconAdapter.notifyDataSetChanged();
             }
         });
     }
 
+    /**
+     * Course Name TextEdit Listener
+     * @return text within textedit
+     */
     private String courseNameListener() {
         EditText courseName = findViewById(R.id.create_course_name);
         courseName.requestFocus();
@@ -133,6 +127,10 @@ public class CourseCreationActivity extends AppCompatActivity {
         return courseName.getText().toString();
     }
 
+    /**
+     * Course Info TextEdit Listener
+     * @return text within the textEdit
+     */
     private String courseInfoListener() {
         EditText courseInfo = findViewById(R.id.create_course_info);
         return courseInfo.getText().toString();

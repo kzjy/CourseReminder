@@ -1,4 +1,4 @@
-package kz.coursereminder.classes;
+package kz.coursereminder.adapters;
 
 import android.content.Context;
 import android.util.AttributeSet;

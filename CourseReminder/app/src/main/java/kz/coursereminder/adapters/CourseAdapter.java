@@ -1,4 +1,4 @@
-package kz.coursereminder.classes;
+package kz.coursereminder.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import kz.coursereminder.R;
 import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.CourseManager;
 
 public class CourseAdapter extends BaseAdapter{
 

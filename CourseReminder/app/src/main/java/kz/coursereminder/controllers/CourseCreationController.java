@@ -1,7 +1,11 @@
-package kz.coursereminder.structure;
+package kz.coursereminder.controllers;
 
 import android.content.Context;
 import android.widget.Toast;
+
+import kz.coursereminder.structure.Course;
+import kz.coursereminder.structure.CourseManager;
+import kz.coursereminder.structure.FileManager;
 
 public class CourseCreationController {
 
@@ -15,6 +19,13 @@ public class CourseCreationController {
         courseManager = fileManager.getCourseManager();
     }
 
+    /**
+     * Adds a course to the list of courses on the device
+     * @param name name of the course
+     * @param info course info
+     * @param image icon selected for the course
+     * @return whether the addition is successful
+     */
     public boolean addCourse(String name, String info, int image) {
         Course newCourse = new Course(name, info, image);
         boolean valid = courseManager.checkValidCourseName(newCourse);
