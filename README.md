@@ -1,2 +1,3 @@
 # CourseReminder
-CourseReminder is an android app that allows you to set reminders for your school assignments and exams. 
+CourseReminder is an android app that allows you to calculate average, set reminders, add notes
+for your school assignments and exams
