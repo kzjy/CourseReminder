@@ -20,69 +20,29 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="70dp">
-
                         <TextView
                             android:id="@+id/course_name"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:text="CSC200"
                             android:textSize="50sp"
                             android:textStyle="bold" />
 
-
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="EDIT"
-                            android:textSize="50sp"
-                            android:textStyle="bold"
-                            android:id="@+id/course_name_edit"
-                            android:visibility="invisible"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingBottom="10dp">
-
                         <TextView
-                            android:paddingTop="10dp"
-                            android:layout_alignTop="@id/course_info_edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="some info"
                             android:textSize="12sp"
                             android:textStyle="italic"
-                            android:id="@+id/course_info" />
-
-                        <EditText
-                            android:id="@+id/course_info_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="EDIT info"
-                            android:textSize="12sp"
-                            android:textStyle="italic"
-                            android:visibility="invisible"
-                            />
-
-                    </RelativeLayout>
+                            android:id="@+id/course_info"
+                            android:paddingBottom="10dp"/>
                 </LinearLayout>
-            </LinearLayout>
+
 
             <View
                 android:layout_width="wrap_content"
@@ -103,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:text="Add New + " />
+                android:text="Add New + "
+                android:textColor="@color/green"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -145,7 +106,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:text="Add New + " />
+                android:text="Add New + "
+                android:textColor="@color/green"/>
 
             <Button
                 android:id="@+id/course_delete_button"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.DirectedAcyclicGraph;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.ActionMenuItemView;
@@ -18,71 +19,55 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import java.util.ArrayList;
+
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
+import kz.coursereminder.controllers.CourseActivityPopUpManager;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
-public class CourseActivity extends AppCompatActivity {
+public class CourseActivity extends AppCompatActivity implements View.OnClickListener,
+        View.OnLongClickListener {
     /**
      * Course Activity Controller
      */
     CourseActivityController courseActivityController;
+
+    CourseActivityPopUpManager popUpManager;
+
     /**
-     * Menu Items
+     * Arraylist of all textViews
+     * index 0 -> course name
+     * index 1 -> course info
+     * index 2 -> course notes
      */
-    private MenuItem edit;
-    private MenuItem done;
-    /**
-     * TextView and EditText for course details display
-     */
-    EditText courseEdit;
-    TextView courseName;
-    EditText courseInfoEdit;
-    TextView courseInfo;
-    EditText courseNotesEdit;
-    TextView courseNotes;
+    private ArrayList<TextView> textViews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
         // get current course info
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        String name = getIntent().getStringExtra("name");
         courseActivityController = new CourseActivityController(this, name);
+        popUpManager = new CourseActivityPopUpManager(this, this);
         // display current course info
-        findLayoutComponent();
+        findTextView();
         displayCourseInfo();
+        popUpManager.inflateDialogs();
         // Button listeners
         deleteButtonListener();
+        courseDisplayEditListener();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.course_activity_menu, menu);
-        done = menu.findItem(R.id.done_edit);
-        edit = menu.findItem(R.id.edit_course);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 back();
-                return true;
-            case R.id.edit_course:
-                toggleEdit();
-                return true;
-            case R.id.done_edit:
-                courseActivityController.saveEdit(
-                        courseEdit.getText().toString(),
-                        courseInfoEdit.getText().toString(),
-                        courseNotesEdit.getText().toString());
-                toggleEdit();
-                hideKeyboard();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -92,13 +77,10 @@ public class CourseActivity extends AppCompatActivity {
     /**
      * Finds the layout views
      */
-    private void findLayoutComponent() {
-        courseEdit = findViewById(R.id.course_name_edit);
-        courseName = findViewById(R.id.course_name);
-        courseInfo = findViewById(R.id.course_info);
-        courseInfoEdit = findViewById(R.id.course_info_edit);
-        courseNotes = findViewById(R.id.course_notes);
-        courseNotesEdit = findViewById(R.id.course_notes_edit);
+    private void findTextView() {
+        textViews.add((TextView) findViewById(R.id.course_name));
+        textViews.add((TextView) findViewById(R.id.course_info));
+        textViews.add((TextView) findViewById(R.id.course_notes));
     }
 
     /**
@@ -106,9 +88,9 @@ public class CourseActivity extends AppCompatActivity {
      */
     private void displayCourseInfo() {
         setTitle(courseActivityController.getCurrentCourse().getName());
-        courseName.setText(courseActivityController.getCurrentCourse().getName());
-        courseInfo.setText(courseActivityController.getCurrentCourse().getInfo());
-        courseNotes.setText(courseActivityController.getCurrentCourse().getNotes());
+        textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
+        textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
+        textViews.get(2).setText(courseActivityController.getCurrentCourse().getNotes());
     }
 
     /**
@@ -145,96 +127,88 @@ public class CourseActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDeletePopUp();
+                popUpManager.showDeletePopUp();
             }
         });
     }
 
     /**
-     * Toggle edit mode
+     * Activate textView hold listeners
      */
-    private void toggleEdit() {
-        boolean currentEditEnable = done.isVisible();
-        int currentTextEditEnable = (currentEditEnable) ? View.VISIBLE : View.GONE;
-        int notTextEditEnable = (currentEditEnable) ? View.GONE : View.VISIBLE;
-        toggleEditVisibility(currentEditEnable, currentTextEditEnable, notTextEditEnable);
-        if (currentEditEnable) {
-            displayCourseInfo();
-        } else {
-            setEdiText();
+    private void courseDisplayEditListener() {
+        for (int i = 0; i < 3; i++) {
+            textViews.get(i).setOnLongClickListener(this);
         }
     }
 
     /**
-     * Toggle all the edit text visibility
-     *
-     * @param currentEditEnable     whether edit is enabled right now
-     * @param currentTextEditEnable whether edit text is visible right now
-     * @param notTextEditEnable     int of not currentTextEnable
+     * Go back to dashboard
      */
-    private void toggleEditVisibility(boolean currentEditEnable, int currentTextEditEnable, int notTextEditEnable) {
-        done.setVisible(!currentEditEnable);
-        edit.setVisible(currentEditEnable);
-        courseEdit.setVisibility(notTextEditEnable);
-        courseName.setVisibility(currentTextEditEnable);
-        courseInfo.setVisibility(currentTextEditEnable);
-        courseInfoEdit.setVisibility(notTextEditEnable);
-        courseNotesEdit.setVisibility(notTextEditEnable);
-        courseNotes.setVisibility(currentTextEditEnable);
-    }
-
-    /**
-     * Set the edit text to the current text
-     */
-    private void setEdiText() {
-        courseEdit.setText(courseActivityController.getCurrentCourse().getName());
-        courseNotesEdit.setText(courseActivityController.getCurrentCourse().getNotes());
-        courseInfoEdit.setText(courseActivityController.getCurrentCourse().getInfo());
-    }
-
-    /**
-     * Hides the soft keyboard when edit mode is done
-     */
-    private void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(
-                AppCompatActivity.INPUT_METHOD_SERVICE);
-        if (inputManager != null) {
-            inputManager.hideSoftInputFromWindow(courseName.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
-
-    /**
-     * Show pop up for delete course confirmation
-     */
-    private void showDeletePopUp() {
-        final Dialog confirm = new Dialog(this);
-        confirm.setContentView(R.layout.popup_delete_course);
-        Button no = confirm.findViewById(R.id.popup_delete_no);
-        Button yes = confirm.findViewById(R.id.popup_delete_yes);
-        confirm.show();
-        if (confirm.getWindow() != null) {
-            confirm.getWindow().setBackgroundDrawable(
-                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.dismiss();
-            }
-        });
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                courseActivityController.deleteCurrentCourse();
-                confirm.dismiss();
-                back();
-            }
-        });
-    }
-
     private void back() {
         Intent resultIntent = new Intent();
         setResult(AppCompatActivity.RESULT_OK, resultIntent);
         finish();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.course_name:
+                popUpManager.showCourseNameEditPopUp(
+                        courseActivityController.getCurrentCourse().getName());
+                return true;
+            case R.id.course_info:
+                popUpManager.showCourseInfoPopUp(
+                        courseActivityController.getCurrentCourse().getInfo());
+                return true;
+            case R.id.course_notes:
+                popUpManager.showCourseNotesPopUp(
+                        courseActivityController.getCurrentCourse().getNotes());
+        }
+        return false;
+    }
+
+    /**
+     * Switch onClick event between different popup buttons
+     *
+     * @param v buttons pressed
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.popup_delete_no:
+                popUpManager.dismissPopUp(0);
+                break;
+            case R.id.popup_delete_yes:
+                courseActivityController.deleteCurrentCourse();
+                popUpManager.dismissPopUp(0);
+                back();
+                break;
+            case R.id.course_name_edit_discard:
+                popUpManager.dismissPopUp(1);
+                break;
+            case R.id.course_name_edit_save:
+                courseActivityController.saveEdits(
+                        popUpManager.getDialogInput("name"), "name");
+                popUpManager.dismissPopUp(1);
+                break;
+            case R.id.course_info_discard:
+                popUpManager.dismissPopUp(2);
+                break;
+            case R.id.course_info_save:
+                courseActivityController.saveEdits(
+                        popUpManager.getDialogInput("info"), "info");
+                popUpManager.dismissPopUp(2);
+                break;
+            case R.id.course_notes_discard:
+                popUpManager.dismissPopUp(3);
+                break;
+            case R.id.course_notes_save:
+                courseActivityController.saveEdits(
+                        popUpManager.getDialogInput("notes"), "notes");
+                popUpManager.dismissPopUp(3);
+                break;
+        }
+        displayCourseInfo();
     }
 }
