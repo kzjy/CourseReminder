@@ -1,6 +1,8 @@
 package kz.coursereminder.display;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +55,8 @@ public class CourseActivity extends AppCompatActivity {
         // display current course info
         findLayoutComponent();
         displayCourseInfo();
+        // Button listeners
+        deleteButtonListener();
     }
 
     @Override
@@ -67,9 +71,7 @@ public class CourseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent resultIntent = new Intent();
-                setResult(AppCompatActivity.RESULT_OK, resultIntent);
-                finish();
+                back();
                 return true;
             case R.id.edit_course:
                 toggleEdit();
@@ -143,7 +145,7 @@ public class CourseActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO add something
+                showDeletePopUp();
             }
         });
     }
@@ -165,9 +167,10 @@ public class CourseActivity extends AppCompatActivity {
 
     /**
      * Toggle all the edit text visibility
-     * @param currentEditEnable whether edit is enabled right now
+     *
+     * @param currentEditEnable     whether edit is enabled right now
      * @param currentTextEditEnable whether edit text is visible right now
-     * @param notTextEditEnable int of not currentTextEnable
+     * @param notTextEditEnable     int of not currentTextEnable
      */
     private void toggleEditVisibility(boolean currentEditEnable, int currentTextEditEnable, int notTextEditEnable) {
         done.setVisible(!currentEditEnable);
@@ -198,5 +201,40 @@ public class CourseActivity extends AppCompatActivity {
         if (inputManager != null) {
             inputManager.hideSoftInputFromWindow(courseName.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * Show pop up for delete course confirmation
+     */
+    private void showDeletePopUp() {
+        final Dialog confirm = new Dialog(this);
+        confirm.setContentView(R.layout.popup_delete_course);
+        Button no = confirm.findViewById(R.id.popup_delete_no);
+        Button yes = confirm.findViewById(R.id.popup_delete_yes);
+        confirm.show();
+        if (confirm.getWindow() != null) {
+            confirm.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirm.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                courseActivityController.deleteCurrentCourse();
+                confirm.dismiss();
+                back();
+            }
+        });
+    }
+
+    private void back() {
+        Intent resultIntent = new Intent();
+        setResult(AppCompatActivity.RESULT_OK, resultIntent);
+        finish();
     }
 }

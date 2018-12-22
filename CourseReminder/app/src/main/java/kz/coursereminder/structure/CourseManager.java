@@ -66,4 +66,17 @@ public class CourseManager implements Serializable {
         }
         return false;
     }
+
+    /**
+     * Delete a course from courses if it is valid
+     * @param course course to be deleted
+     * @return whether deletion was successful
+     */
+    public boolean deleteCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            return true;
+        }
+        return false;
+    }
 }
