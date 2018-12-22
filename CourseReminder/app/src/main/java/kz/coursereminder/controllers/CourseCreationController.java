@@ -7,18 +7,11 @@ import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
-public class CourseCreationController {
-
-    private Context context;
-    private FileManager fileManager;
-    private CourseManager courseManager;
+public class CourseCreationController extends  CourseControllers{
 
     public CourseCreationController(Context context) {
-        this.context = context;
-        fileManager = new FileManager(context);
-        courseManager = fileManager.getCourseManager();
+        super(context);
     }
-
     /**
      * Adds a course to the list of courses on the device
      * @param name name of the course
@@ -40,14 +33,6 @@ public class CourseCreationController {
         courseManager.addCourse(newCourse);
         fileManager.writeFile(CourseManager.COURSES, courseManager);
         return true;
-    }
-
-    private void makeToastInvalidName() {
-        Toast.makeText(context, "Course name cannot be empty", Toast.LENGTH_SHORT).show();
-    }
-
-    private void makeToastNameInUse() {
-        Toast.makeText(context, "Course name already in use", Toast.LENGTH_SHORT).show();
     }
 
 }

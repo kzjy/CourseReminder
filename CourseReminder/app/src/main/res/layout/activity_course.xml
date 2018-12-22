@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cloud"
-    android:orientation="vertical"
     android:backgroundTint="#E6FFFFFF"
     android:backgroundTintMode="src_atop"
+    android:orientation="vertical"
     tools:context=".display.CourseActivity">
 
     <ScrollView
@@ -29,48 +29,57 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ViewSwitcher
+                    <RelativeLayout
                         android:id="@+id/course_name_switcher"
                         android:layout_width="wrap_content"
-                        android:layout_height="60dp">
+                        android:layout_height="80dp">
 
                         <TextView
+                            android:id="@+id/course_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="CSC200"
                             android:textSize="50sp"
                             android:textStyle="bold" />
 
+
                         <EditText
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="EDIT"
                             android:textSize="50sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:id="@+id/course_name_edit"
+                            android:visibility="invisible"/>
 
-                    </ViewSwitcher>
+                    </RelativeLayout>
 
-                    <ViewSwitcher
-                        android:id="@+id/course_info_switcher"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp">
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp">
 
                         <TextView
+                            android:paddingTop="10dp"
+                            android:layout_alignTop="@id/course_info_edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="some info"
                             android:textSize="12sp"
-                            android:textStyle="italic" />
+                            android:textStyle="italic"
+                            android:id="@+id/course_info"/>
 
                         <EditText
+                            android:id="@+id/course_info_edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="EDIT info"
                             android:textSize="12sp"
-                            android:textStyle="italic" />
+                            android:textStyle="italic"
+                            />
 
-                    </ViewSwitcher>
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -99,19 +108,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Notes"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
-            <ViewSwitcher
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
+                    android:paddingTop="10dp"
+                    android:id="@+id/course_notes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="some notes"/>
 
                 <EditText
+                    android:id="@+id/course_notes_edit"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </ViewSwitcher>
+                    android:layout_height="wrap_content"
+                    android:text="edit some notes"/>
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

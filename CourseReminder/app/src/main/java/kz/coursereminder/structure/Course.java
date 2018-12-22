@@ -62,6 +62,18 @@ public class Course implements Serializable {
         return notes;
     }
 
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     /**
      * Choose an icon based on image
      * @param image the icon to be added
