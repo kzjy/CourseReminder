@@ -20,19 +20,26 @@ abstract class CourseControllers {
         this.courseManager = fileManager.getCourseManager();
     }
 
+    /**
+     * Make Toast invalid name
+     */
     private void makeToastInvalidName() {
         Toast.makeText(context, "Course name must be between 3 to 12 characters in length ",
                 Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Make Toast name in use
+     */
     private void makeToastNameInUse() {
         Toast.makeText(context, "Course name already in use", Toast.LENGTH_SHORT).show();
     }
 
-    private void makeTosstEditSsved() {
-        Toast.makeText(context, "Edits saved", Toast.LENGTH_SHORT).show();
-    }
-
+    /**
+     * Check whether name fits naming criteria
+     * @param course course to be checked
+     * @return whether name of the course is valid
+     */
     boolean checkValidName(Course course) {
         boolean valid = courseManager.checkValidCourseName(course);
         boolean exists = courseManager.checkExistingCourse(course);
@@ -43,7 +50,6 @@ abstract class CourseControllers {
             makeToastNameInUse();
             return false;
         }
-        makeTosstEditSsved();
         return true;
     }
 }

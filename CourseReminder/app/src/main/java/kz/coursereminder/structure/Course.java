@@ -18,7 +18,7 @@ public class Course implements Serializable {
     /**
      * Short notes for the course
      */
-    private String notes = "Click Edit to add notes";
+    private String notes = "Click and Hold to edit";
     /**
      * Name of the course
      */
@@ -36,7 +36,7 @@ public class Course implements Serializable {
         this.name = name;
         this.info = info;
         if (info.equals("")) {
-            this.info = "Click Edit to add info";
+            this.info = "Click and Hold to edit";
         }
         selectImage(image);
     }

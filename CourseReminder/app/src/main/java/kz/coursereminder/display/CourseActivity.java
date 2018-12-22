@@ -28,8 +28,7 @@ import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
-public class CourseActivity extends AppCompatActivity implements View.OnClickListener,
-        View.OnLongClickListener {
+public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener {
     /**
      * Course Activity Controller
      */
@@ -52,11 +51,10 @@ public class CourseActivity extends AppCompatActivity implements View.OnClickLis
         // get current course info
         String name = getIntent().getStringExtra("name");
         courseActivityController = new CourseActivityController(this, name);
-        popUpManager = new CourseActivityPopUpManager(this, this);
+        popUpManager = new CourseActivityPopUpManager(this, courseActivityController);
         // display current course info
         findTextView();
         displayCourseInfo();
-        popUpManager.inflateDialogs();
         // Button listeners
         deleteButtonListener();
         courseDisplayEditListener();
@@ -86,7 +84,7 @@ public class CourseActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Displays the course info on activity
      */
-    private void displayCourseInfo() {
+    public void displayCourseInfo() {
         setTitle(courseActivityController.getCurrentCourse().getName());
         textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
         textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
@@ -127,7 +125,7 @@ public class CourseActivity extends AppCompatActivity implements View.OnClickLis
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popUpManager.showDeletePopUp();
+                popUpManager.showPopUp(3);
             }
         });
     }
@@ -144,7 +142,7 @@ public class CourseActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Go back to dashboard
      */
-    private void back() {
+    public void back() {
         Intent resultIntent = new Intent();
         setResult(AppCompatActivity.RESULT_OK, resultIntent);
         finish();
@@ -154,61 +152,20 @@ public class CourseActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.course_name:
-                popUpManager.showCourseNameEditPopUp(
-                        courseActivityController.getCurrentCourse().getName());
+                popUpManager.showPopUp(0);
                 return true;
             case R.id.course_info:
-                popUpManager.showCourseInfoPopUp(
-                        courseActivityController.getCurrentCourse().getInfo());
+                popUpManager.showPopUp(1);
                 return true;
             case R.id.course_notes:
-                popUpManager.showCourseNotesPopUp(
-                        courseActivityController.getCurrentCourse().getNotes());
+                popUpManager.showPopUp(2);
         }
         return false;
     }
 
-    /**
-     * Switch onClick event between different popup buttons
-     *
-     * @param v buttons pressed
-     */
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.popup_delete_no:
-                popUpManager.dismissPopUp(0);
-                break;
-            case R.id.popup_delete_yes:
-                courseActivityController.deleteCurrentCourse();
-                popUpManager.dismissPopUp(0);
-                back();
-                break;
-            case R.id.course_name_edit_discard:
-                popUpManager.dismissPopUp(1);
-                break;
-            case R.id.course_name_edit_save:
-                courseActivityController.saveEdits(
-                        popUpManager.getDialogInput("name"), "name");
-                popUpManager.dismissPopUp(1);
-                break;
-            case R.id.course_info_discard:
-                popUpManager.dismissPopUp(2);
-                break;
-            case R.id.course_info_save:
-                courseActivityController.saveEdits(
-                        popUpManager.getDialogInput("info"), "info");
-                popUpManager.dismissPopUp(2);
-                break;
-            case R.id.course_notes_discard:
-                popUpManager.dismissPopUp(3);
-                break;
-            case R.id.course_notes_save:
-                courseActivityController.saveEdits(
-                        popUpManager.getDialogInput("notes"), "notes");
-                popUpManager.dismissPopUp(3);
-                break;
-        }
+    protected void onResume() {
+        super.onResume();
         displayCourseInfo();
     }
 }
