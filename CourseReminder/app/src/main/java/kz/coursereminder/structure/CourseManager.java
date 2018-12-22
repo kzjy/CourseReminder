@@ -49,7 +49,7 @@ public class CourseManager implements Serializable {
      */
     public boolean checkValidCourseName(Course course) {
         String name = course.getName();
-        return !name.equals("");
+        return (name.length() >= 3 ) && (name.length() <= 12);
     }
 
     /**

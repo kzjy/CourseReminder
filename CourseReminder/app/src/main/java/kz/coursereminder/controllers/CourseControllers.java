@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 
+import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
@@ -19,13 +20,30 @@ abstract class CourseControllers {
         this.courseManager = fileManager.getCourseManager();
     }
 
-    void makeToastInvalidName() {
-        Toast.makeText(context, "Course name cannot be empty", Toast.LENGTH_SHORT).show();
+    private void makeToastInvalidName() {
+        Toast.makeText(context, "Course name must be between 3 to 12 characters in length ",
+                Toast.LENGTH_SHORT).show();
     }
 
-    void makeToastNameInUse() {
+    private void makeToastNameInUse() {
         Toast.makeText(context, "Course name already in use", Toast.LENGTH_SHORT).show();
     }
 
+    private void makeTosstEditSsved() {
+        Toast.makeText(context, "Edits saved", Toast.LENGTH_SHORT).show();
+    }
 
+    boolean checkValidName(Course course) {
+        boolean valid = courseManager.checkValidCourseName(course);
+        boolean exists = courseManager.checkExistingCourse(course);
+        if (!valid) {
+            makeToastInvalidName();
+            return false;
+        } else if (exists) {
+            makeToastNameInUse();
+            return false;
+        }
+        makeTosstEditSsved();
+        return true;
+    }
 }

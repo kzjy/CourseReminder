@@ -19,9 +19,12 @@ public class CourseActivityController extends  CourseControllers{
     }
 
     public void saveEdit(String newName, String newInfo, String newNotes) {
-       currentCourse.setName(newName);
-       currentCourse.setInfo(newInfo);
-       currentCourse.setNotes(newNotes);
-       fileManager.writeFile(CourseManager.COURSES, courseManager);
+        Course dummyCourse = new Course(newName, newInfo, 0);
+        if (checkValidName(dummyCourse)) {
+            currentCourse.setName(newName);
+        }
+        currentCourse.setInfo(newInfo);
+        currentCourse.setNotes(newNotes);
+        fileManager.writeFile(CourseManager.COURSES, courseManager);
     }
 }

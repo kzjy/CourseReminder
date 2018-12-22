@@ -105,6 +105,8 @@ public class CourseActivity extends AppCompatActivity {
     private void displayCourseInfo() {
         setTitle(courseActivityController.getCurrentCourse().getName());
         courseName.setText(courseActivityController.getCurrentCourse().getName());
+        courseInfo.setText(courseActivityController.getCurrentCourse().getInfo());
+        courseNotes.setText(courseActivityController.getCurrentCourse().getNotes());
     }
 
     /**
@@ -183,6 +185,8 @@ public class CourseActivity extends AppCompatActivity {
      */
     private void setEdiText() {
         courseEdit.setText(courseActivityController.getCurrentCourse().getName());
+        courseNotesEdit.setText(courseActivityController.getCurrentCourse().getNotes());
+        courseInfoEdit.setText(courseActivityController.getCurrentCourse().getInfo());
     }
 
     /**
