@@ -18,18 +18,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".display.CourseActivity"
+        <activity
+            android:name=".display.CourseActivity"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".display.MainActivity" />
         </activity>
-        <activity android:name=".display.CourseCreationActivity"
+        <activity
+            android:name=".display.CourseCreationActivity"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".display.MainActivity" />
-
+        </activity>
+        <activity android:name=".display.AssignmentCreationActivity"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".display.CourseActivity" />
         </activity>
     </application>
 

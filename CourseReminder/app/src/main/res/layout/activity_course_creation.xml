@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".display.CourseCreationActivity">
+    tools:context=".display.CourseCreationActivity"
+    android:padding="10dp"
+    android:background="@drawable/cloud"
+    android:backgroundTint="#E6FFFFFF"
+    android:backgroundTintMode="src_atop">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/LightGrey"
         android:orientation="vertical">
 
         <LinearLayout
@@ -32,7 +35,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/LightGrey"
+                android:background="@android:color/transparent"
                 android:padding="10dp" />
 
             <GridView
@@ -52,7 +55,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/LightGrey" />
+            android:background="@android:color/transparent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,7 +76,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/LightGrey" />
+            android:background="@android:color/transparent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +97,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:background="@color/LightGrey" />
+            android:background="@android:color/transparent" />
 
     </LinearLayout>
 

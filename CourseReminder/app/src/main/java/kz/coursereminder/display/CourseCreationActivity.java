@@ -53,7 +53,6 @@ public class CourseCreationActivity extends AppCompatActivity {
         addIconToList();
         //grid view
         setupView();
-
         //Instantiate controller
         courseCreationController = new CourseCreationController(this);
     }

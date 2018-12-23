@@ -2,27 +2,28 @@ package kz.coursereminder.structure;
 
 import java.io.Serializable;
 
-public class Assignment implements Serializable{
+public class Task implements Serializable{
 
     private String date;
     private String course;
     private String name;
     private String time;
+    private String specialNotes;
     private boolean isTest;
 
-    public Assignment() {
+    public Task() {
         date = "";
         course = "";
         name = "";
         time = "";
     }
 
-    public Assignment(String course, String name, String date, String time, boolean isTest) {
+    public Task(String name, String date, String time, boolean isTest, String specialNotes) {
         this.date = date;
-        this.course = course;
         this.name = name;
         this.time = time;
         this.isTest = isTest;
+        this.specialNotes = specialNotes;
     }
 
     public String getDate() {

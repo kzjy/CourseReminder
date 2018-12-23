@@ -8,9 +8,9 @@ import kz.coursereminder.R;
 public class Course implements Serializable {
 
     /**
-     * ArrayList for keeping tack of assignments and tests
+     * ArrayList for keeping tack of tasks and tests
      */
-    private ArrayList<Assignment> assignments = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
     /**
      * Arraylist for keeping tack of grades
      */
@@ -41,8 +41,8 @@ public class Course implements Serializable {
         selectImage(image);
     }
 
-    public ArrayList<Assignment> getAssignments() {
-        return assignments;
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 
     public String getName() {
@@ -75,6 +75,10 @@ public class Course implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 
     /**

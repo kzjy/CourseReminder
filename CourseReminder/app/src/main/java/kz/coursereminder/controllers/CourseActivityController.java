@@ -3,11 +3,13 @@ package kz.coursereminder.controllers;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 
 
-public class CourseActivityController extends CourseControllers {
+public class CourseActivityController extends CourseControllers implements Serializable {
 
     private Course currentCourse;
 

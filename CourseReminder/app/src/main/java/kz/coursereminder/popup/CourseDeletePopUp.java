@@ -9,7 +9,6 @@ import android.widget.Button;
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.display.CourseActivity;
-import kz.coursereminder.structure.Course;
 
 public class CourseDeletePopUp extends PopUp {
 

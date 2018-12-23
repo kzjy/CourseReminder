@@ -12,19 +12,19 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.coursereminder.R;
-import kz.coursereminder.structure.Assignment;
+import kz.coursereminder.structure.Task;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<String> images;
-    private ArrayList<Assignment> assignments;
+    private ArrayList<Task> tasks;
     private Context context;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> images, ArrayList<Assignment> assignments) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> images, ArrayList<Task> tasks) {
         this.images = images;
-        this.assignments = assignments;
+        this.tasks = tasks;
         this.context = context;
     }
 
@@ -37,11 +37,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.course.setText(assignments.get(i).getCourse());
-        String dateTime = assignments.get(i).getDate() + assignments.get(i).getTime();
+        viewHolder.course.setText(tasks.get(i).getCourse());
+        String dateTime = tasks.get(i).getDate() + tasks.get(i).getTime();
         viewHolder.dueDate.setText(dateTime);
-        viewHolder.assignment.setText(assignments.get(i).getName());
-        if (assignments.get(i).getIsTest()) {
+        viewHolder.assignment.setText(tasks.get(i).getName());
+        if (tasks.get(i).getIsTest()) {
             viewHolder.image.setImageResource(R.drawable.ic_edit_black_72dp);
         } else {
             viewHolder.image.setImageResource(R.drawable.medium_assignment_72);

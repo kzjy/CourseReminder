@@ -1,32 +1,16 @@
 package kz.coursereminder.display;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v4.widget.DirectedAcyclicGraph;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ActionMenuItemView;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
-
 import java.util.ArrayList;
-
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.controllers.CourseActivityPopUpManager;
-import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.FileManager;
 
 public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener {
     /**
@@ -57,6 +41,7 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         displayCourseInfo();
         // Button listeners
         deleteButtonListener();
+        assignmentButtonListener();
         courseDisplayEditListener();
     }
 
@@ -99,9 +84,15 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         addAssignment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO add something
+                startAssignmentCreationActivity();
             }
         });
+    }
+
+    private void startAssignmentCreationActivity() {
+        Intent assignmentCreation = new Intent(this, AssignmentCreationActivity.class);
+        assignmentCreation.putExtra("course", courseActivityController.getCurrentCourse());
+        startActivityForResult(assignmentCreation, 111);
     }
 
     /**
@@ -167,5 +158,14 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
     protected void onResume() {
         super.onResume();
         displayCourseInfo();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == 111) && (resultCode == AppCompatActivity.RESULT_OK)) {
+            displayCourseInfo();
+        }
     }
 }
