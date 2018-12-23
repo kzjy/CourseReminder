@@ -67,8 +67,4 @@ public class CourseAdapter extends BaseAdapter{
         return convertView;
     }
 
-    private void setViewColor() {
-
-    }
-
 }

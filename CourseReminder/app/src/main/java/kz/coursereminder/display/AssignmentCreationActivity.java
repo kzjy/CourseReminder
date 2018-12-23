@@ -15,13 +15,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import kz.coursereminder.R;
-import kz.coursereminder.controllers.AssignmentCreationActivityController;
+import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.Task;
 
 public class AssignmentCreationActivity extends AppCompatActivity {
 
-    private AssignmentCreationActivityController controller;
+    private CourseActivityController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,8 @@ public class AssignmentCreationActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Intent intent = getIntent();
-        Course course = intent.getParcelableExtra("course");
-        controller = new AssignmentCreationActivityController(this, course);
-
+        Course course = (Course) intent.getSerializableExtra("course");
+        controller = new CourseActivityController(this, course.getName());
         timeSelectListener();
         dateSelectListener();
     }

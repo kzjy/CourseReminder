@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
+import kz.coursereminder.structure.Task;
 
 
 public class CourseActivityController extends CourseControllers implements Serializable {
@@ -46,11 +47,21 @@ public class CourseActivityController extends CourseControllers implements Seria
         Toast.makeText(context, "Edits saved", Toast.LENGTH_SHORT).show();
     }
 
+    public void addTask(Task task) {
+        currentCourse.addTask(task);
+        fileManager.writeFile(CourseManager.COURSES, courseManager);
+    }
     /**
      * Delete the current course and save its changes
      */
     public void deleteCurrentCourse() {
         courseManager.deleteCourse(currentCourse);
         fileManager.writeFile(CourseManager.COURSES, courseManager);
+    }
+
+    public void updateController() {
+        fileManager.loadFile(CourseManager.COURSES);
+        this.courseManager = fileManager.getCourseManager();
+        currentCourse = courseManager.getSpecificCourse(currentCourse.getName());
     }
 }

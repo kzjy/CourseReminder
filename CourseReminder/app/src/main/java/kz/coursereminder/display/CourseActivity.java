@@ -3,12 +3,15 @@ package kz.coursereminder.display;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import kz.coursereminder.R;
+import kz.coursereminder.adapters.CourseAssignmentAdapter;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.controllers.CourseActivityPopUpManager;
 
@@ -17,7 +20,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
      * Course Activity Controller
      */
     CourseActivityController courseActivityController;
-
     CourseActivityPopUpManager popUpManager;
 
     /**
@@ -45,7 +47,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         courseDisplayEditListener();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -70,12 +71,20 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
      * Displays the course info on activity
      */
     public void displayCourseInfo() {
+        courseActivityController.updateController();
         setTitle(courseActivityController.getCurrentCourse().getName());
         textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
         textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
         textViews.get(2).setText(courseActivityController.getCurrentCourse().getNotes());
+        updateAssignment();
     }
 
+    private void updateAssignment() {
+        ListView listView = findViewById(R.id.course_assignment_list);
+        CourseAssignmentAdapter adapter = new CourseAssignmentAdapter(this,
+                courseActivityController.getCurrentCourse());
+        listView.setAdapter(adapter);
+    }
     /**
      * Add new assignment button
      */

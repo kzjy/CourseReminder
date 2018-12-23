@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context=".display.CourseActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -55,8 +55,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
+                android:paddingBottom="10dp"
                 android:text="Assignments"
                 android:textSize="20sp" />
+
+            <ListView
+                android:id="@+id/course_assignment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/LightGrey">
+
+            </View>
 
             <Button
                 android:id="@+id/course_add_assignment_button"
@@ -119,6 +134,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>
