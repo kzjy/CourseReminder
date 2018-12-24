@@ -81,6 +81,10 @@ public class Course implements Serializable {
         tasks.add(task);
     }
 
+    public void removeTask(int position) {
+        tasks.remove(position);
+    }
+
     /**
      * Choose an icon based on image
      * @param image the icon to be added

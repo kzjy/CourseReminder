@@ -39,7 +39,7 @@ public class CourseActivityController extends CourseControllers implements Seria
                 currentCourse.setNotes(input);
                 break;
         }
-        fileManager.writeFile(CourseManager.COURSES, courseManager);
+        save();
         makeTosstEditSsved();
     }
 
@@ -47,21 +47,41 @@ public class CourseActivityController extends CourseControllers implements Seria
         Toast.makeText(context, "Edits saved", Toast.LENGTH_SHORT).show();
     }
 
-    public void addTask(Task task) {
+    public boolean addTask(Task task) {
+        if (task.getTime().equals("at") || task.getDate().equals("") || task.getName().equals("")) {
+            makeToastTaskFieldNotCompleted();
+            return false;
+        }
         currentCourse.addTask(task);
+        save();
+        return true;
+    }
+
+    public void removeAssignment(int position) {
+        currentCourse.removeTask(position);
+        save();
+    }
+
+    private void save() {
         fileManager.writeFile(CourseManager.COURSES, courseManager);
     }
+
     /**
      * Delete the current course and save its changes
      */
     public void deleteCurrentCourse() {
         courseManager.deleteCourse(currentCourse);
-        fileManager.writeFile(CourseManager.COURSES, courseManager);
+        save();
     }
+
 
     public void updateController() {
         fileManager.loadFile(CourseManager.COURSES);
         this.courseManager = fileManager.getCourseManager();
         currentCourse = courseManager.getSpecificCourse(currentCourse.getName());
+    }
+
+    private void makeToastTaskFieldNotCompleted() {
+        Toast.makeText(context, "Please fill in task name, date, and time", Toast.LENGTH_SHORT).show();
     }
 }

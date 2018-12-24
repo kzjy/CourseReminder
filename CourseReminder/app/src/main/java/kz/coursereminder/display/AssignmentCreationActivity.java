@@ -9,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+
 import java.util.Calendar;
+
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.structure.Course;
@@ -59,8 +62,10 @@ public class AssignmentCreationActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.create_assignment:
-                createTask();
-                finish();
+                boolean creationSuccesful = createTask();
+                if (creationSuccesful) {
+                    finish();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -75,12 +80,12 @@ public class AssignmentCreationActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AssignmentCreationActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        String s = hourOfDay + " : " + minutes;
-                        timeSelect.setText(s);
-                    }
-                }, 0, 0, false);
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                                String s = hourOfDay + " : " + minutes;
+                                timeSelect.setText(s);
+                            }
+                        }, 0, 0, false);
                 timePickerDialog.show();
             }
         });
@@ -110,13 +115,13 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         });
     }
 
-    private void createTask() {
+    private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
         String taskDate = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
         String taskTime = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
         String taskNotes = ((EditText) findViewById(R.id.assignment_creation_notes)).getText().toString();
         Task task = new Task(taskName, taskDate, taskTime, taskIsTest, taskNotes);
-        controller.addTask(task);
+        return controller.addTask(task);
     }
 }

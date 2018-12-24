@@ -3,19 +3,24 @@ package kz.coursereminder.display;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.CourseAssignmentAdapter;
+import kz.coursereminder.adapters.CourseRecyclerItemTouchHelper;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.controllers.CourseActivityPopUpManager;
 
-public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener {
+public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener,
+CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     /**
      * Course Activity Controller
      */
@@ -29,6 +34,7 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
      * index 2 -> course notes
      */
     private ArrayList<TextView> textViews = new ArrayList<>();
+    CourseAssignmentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         assignmentButtonListener();
         courseDisplayEditListener();
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -57,7 +62,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
                 return super.onOptionsItemSelected(item);
         }
     }
-
     /**
      * Finds the layout views
      */
@@ -66,7 +70,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         textViews.add((TextView) findViewById(R.id.course_info));
         textViews.add((TextView) findViewById(R.id.course_notes));
     }
-
     /**
      * Displays the course info on activity
      */
@@ -78,12 +81,19 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         textViews.get(2).setText(courseActivityController.getCurrentCourse().getNotes());
         updateAssignment();
     }
-
+    /**
+     * Display assignment listview information
+     */
     private void updateAssignment() {
-        ListView listView = findViewById(R.id.course_assignment_list);
-        CourseAssignmentAdapter adapter = new CourseAssignmentAdapter(this,
-                courseActivityController.getCurrentCourse());
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.course_assignment_list);
+        adapter = new CourseAssignmentAdapter(this,
+                courseActivityController);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
+        ItemTouchHelper.SimpleCallback itemTouchHelper =
+                new CourseRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
     }
     /**
      * Add new assignment button
@@ -97,13 +107,14 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
             }
         });
     }
-
+    /**
+     * Start AssignmentCreationActivity
+     */
     private void startAssignmentCreationActivity() {
         Intent assignmentCreation = new Intent(this, AssignmentCreationActivity.class);
         assignmentCreation.putExtra("course", courseActivityController.getCurrentCourse());
         startActivityForResult(assignmentCreation, 111);
     }
-
     /**
      * Add new grade button
      */
@@ -116,7 +127,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
             }
         });
     }
-
     /**
      * Delete course button
      */
@@ -129,7 +139,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
             }
         });
     }
-
     /**
      * Activate textView hold listeners
      */
@@ -138,7 +147,6 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
             textViews.get(i).setOnLongClickListener(this);
         }
     }
-
     /**
      * Go back to dashboard
      */
@@ -163,6 +171,15 @@ public class CourseActivity extends AppCompatActivity implements View.OnLongClic
         return false;
     }
 
+    @Override
+    public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        courseActivityController.removeAssignment(position);
+        adapter.notifyItemRemoved(position);
+    }
+
+    /**
+     * OnResume of Activity
+     */
     @Override
     protected void onResume() {
         super.onResume();
