@@ -135,7 +135,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popUpManager.showPopUp(3);
+                popUpManager.showCourseDeletePopUp();
             }
         });
     }
@@ -160,21 +160,21 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.course_name:
-                popUpManager.showPopUp(0);
+                popUpManager.showCourseNameEditPopUp();
                 return true;
             case R.id.course_info:
-                popUpManager.showPopUp(1);
+                popUpManager.showCourseInfoEditPopUp();
                 return true;
             case R.id.course_notes:
-                popUpManager.showPopUp(2);
+                popUpManager.showCourseNotesEditPopUp();
         }
         return false;
     }
 
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        courseActivityController.removeAssignment(position);
-        adapter.notifyItemRemoved(position);
+        popUpManager.showAssignmentDeletePopUp(position, adapter);
+        adapter.notifyDataSetChanged();
     }
 
     /**

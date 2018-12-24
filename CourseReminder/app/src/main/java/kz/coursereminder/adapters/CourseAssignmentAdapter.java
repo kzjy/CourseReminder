@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.PipedOutputStream;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 
 import kz.coursereminder.R;
@@ -45,11 +46,15 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.assignmentName.setText(taskList.get(i).getName());
-        String s = taskList.get(i).getDate() + " at " + taskList.get(i).getTime();
-        viewHolder.assignmentDate.setText(s);
+        Task currentTask = taskList.get(i);
+        viewHolder.assignmentName.setText(currentTask.getNameDisplayString());
+        String time = currentTask.getTimeDisplayString();
+        String dateTime = currentTask.getDateDisplayString() + "   at   " + time;
+        viewHolder.assignmentDate.setText(dateTime);
         setLayoutOnClickListener(viewHolder);
     }
+
+
 
     private void setLayoutOnClickListener(ViewHolder viewHolder) {
         viewHolder.foreground.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +76,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         TextView assignmentName;
         TextView assignmentDate;
         RelativeLayout background;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             foreground = itemView.findViewById(R.id.assignment_list_item_foreground);

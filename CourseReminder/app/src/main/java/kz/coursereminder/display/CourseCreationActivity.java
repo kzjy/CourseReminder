@@ -1,11 +1,13 @@
 package kz.coursereminder.display;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -117,6 +119,7 @@ public class CourseCreationActivity extends AppCompatActivity {
 
     /**
      * Course Name TextEdit Listener
+     *
      * @return text within textedit
      */
     private String courseNameListener() {
@@ -128,6 +131,7 @@ public class CourseCreationActivity extends AppCompatActivity {
 
     /**
      * Course Info TextEdit Listener
+     *
      * @return text within the textEdit
      */
     private String courseInfoListener() {

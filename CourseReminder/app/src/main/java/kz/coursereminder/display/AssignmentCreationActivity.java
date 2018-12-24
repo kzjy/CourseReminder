@@ -1,5 +1,6 @@
 package kz.coursereminder.display;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
@@ -77,12 +79,14 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         timeSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(timeSelect);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AssignmentCreationActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                                String s = hourOfDay + " : " + minutes;
+                                String nonZeroMinute = (minutes == 0) ?  "00": String.valueOf(minutes);
+                                String s = hourOfDay + " : " + nonZeroMinute;
                                 timeSelect.setText(s);
                             }
                         }, 0, 0, false);
@@ -97,6 +101,7 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         dateSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(dateSelect);
                 Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
@@ -114,6 +119,14 @@ public class AssignmentCreationActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 
     private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();

@@ -5,11 +5,20 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import kz.coursereminder.controllers.CourseActivityController;
+import kz.coursereminder.display.CourseActivity;
+
 public abstract class PopUp {
 
     Context context;
     Dialog dialog;
+    CourseActivityController controller;
 
+    public PopUp(Context context, CourseActivityController controller) {
+        this.context = context;
+        this.controller = controller;
+        this.dialog = new Dialog(context);
+    }
     /**
      * Display popup and set it transparent
      * @param dialog dialog to pop up

@@ -14,12 +14,8 @@ import kz.coursereminder.display.CourseActivity;
 
 public class CourseNameEditPopUp extends PopUp {
 
-    CourseActivityController controller;
-
     public CourseNameEditPopUp(Context context, CourseActivityController controller) {
-        this.context = context;
-        this.controller = controller;
-        this.dialog = new Dialog(context);
+        super(context, controller);
     }
 
 

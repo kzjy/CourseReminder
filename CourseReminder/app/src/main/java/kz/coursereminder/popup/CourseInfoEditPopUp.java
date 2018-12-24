@@ -13,12 +13,8 @@ import kz.coursereminder.display.CourseActivity;
 
 public class CourseInfoEditPopUp extends PopUp {
 
-    CourseActivityController controller;
-
     public CourseInfoEditPopUp(Context context, CourseActivityController controller) {
-        this.context = context;
-        this.controller = controller;
-        this.dialog = new Dialog(context);
+        super(context, controller);
     }
 
 

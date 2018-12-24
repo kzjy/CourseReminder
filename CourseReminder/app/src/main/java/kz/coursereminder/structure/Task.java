@@ -1,6 +1,7 @@
 package kz.coursereminder.structure;
 
 import java.io.Serializable;
+import java.text.DateFormatSymbols;
 
 public class Task implements Serializable{
 
@@ -44,5 +45,26 @@ public class Task implements Serializable{
 
     public boolean getIsTest() {
         return isTest;
+    }
+
+    public String getTimeDisplayString() {
+        String[] timeArray = time.split(":");
+        if (timeArray[1].trim().equals("0")) {
+            return timeArray[0] + ": 00";
+        }
+        return time;
+    }
+
+    public String getDateDisplayString() {
+        String[] dateArray = date.split("/");
+        String month = new DateFormatSymbols().getMonths()[Integer.valueOf(dateArray[1].trim()) - 1];
+        return month + " " + dateArray[0] + ", " + dateArray[2];
+    }
+
+    public String getNameDisplayString() {
+        if (isTest) {
+            return "Test: " + name;
+        }
+        return "Assignment: " + name;
     }
 }
