@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.Task;
+import kz.coursereminder.structure.Reminder;
 
 
 public class CourseActivityController extends CourseControllers implements Serializable {
@@ -47,12 +47,12 @@ public class CourseActivityController extends CourseControllers implements Seria
         Toast.makeText(context, "Edits saved", Toast.LENGTH_SHORT).show();
     }
 
-    public boolean addTask(Task task) {
-        if (task.getTime().equals("at") || task.getDate().equals("") || task.getName().equals("")) {
+    public boolean addTask(Reminder reminder) {
+        if (reminder.getTime().equals("at") || reminder.getDate().equals("") || reminder.getName().equals("")) {
             makeToastTaskFieldNotCompleted();
             return false;
         }
-        currentCourse.addTask(task);
+        currentCourse.addTask(reminder);
         save();
         return true;
     }
@@ -62,7 +62,7 @@ public class CourseActivityController extends CourseControllers implements Seria
         save();
     }
 
-    private void save() {
+    public void save() {
         fileManager.writeFile(CourseManager.COURSES, courseManager);
     }
 

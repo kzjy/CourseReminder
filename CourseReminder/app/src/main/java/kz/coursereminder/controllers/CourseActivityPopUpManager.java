@@ -8,6 +8,7 @@ import kz.coursereminder.popup.CourseDeletePopUp;
 import kz.coursereminder.popup.CourseInfoEditPopUp;
 import kz.coursereminder.popup.CourseNameEditPopUp;
 import kz.coursereminder.popup.CourseNotesEditPopUp;
+import kz.coursereminder.popup.GradeAdditionPopUp;
 
 public class CourseActivityPopUpManager {
 
@@ -39,4 +40,7 @@ public class CourseActivityPopUpManager {
         new AssignmentDeletePopUp(context, controller, position, adapter).showPopUp();
     }
 
+    public void showGradeAdditionPopUp() {
+        new GradeAdditionPopUp(context, controller).showPopUp();
+    }
 }

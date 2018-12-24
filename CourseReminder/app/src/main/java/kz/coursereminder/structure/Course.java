@@ -8,13 +8,13 @@ import kz.coursereminder.R;
 public class Course implements Serializable {
 
     /**
-     * ArrayList for keeping tack of tasks and tests
+     * ArrayList for keeping tack of reminders and tests
      */
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Reminder> reminders = new ArrayList<>();
     /**
-     * Arraylist for keeping tack of grades
+     * Arraylist for completed reminders
      */
-    private ArrayList<Grade> grades = new ArrayList<>();
+    private ArrayList<Reminder> completedReminders = new ArrayList<>();
     /**
      * Short notes for the course
      */
@@ -41,8 +41,12 @@ public class Course implements Serializable {
         selectImage(image);
     }
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public ArrayList<Reminder> getReminders() {
+        return reminders;
+    }
+
+    public ArrayList<Reminder> getCompletedReminders() {
+        return completedReminders;
     }
 
     public String getName() {
@@ -51,10 +55,6 @@ public class Course implements Serializable {
 
     public int getImage() {
         return image;
-    }
-
-    public ArrayList<Grade> getGrades() {
-        return grades;
     }
 
     public String getInfo() {
@@ -77,12 +77,35 @@ public class Course implements Serializable {
         this.info = info;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void addTask(Reminder reminder) {
+        reminders.add(reminder);
     }
 
     public void removeTask(int position) {
-        tasks.remove(position);
+        reminders.remove(position);
+    }
+
+    public void setReminderGrade(Grade grade, int position) {
+        Reminder temp = reminders.get(position);
+        reminders.remove(temp);
+        temp.setGrade(grade);
+        completedReminders.add(temp);
+    }
+
+    public float calculateAverage() {
+        if (completedReminders.isEmpty()) {
+            return 0;
+        }
+        int totalWeight = 0;
+        float average = 0;
+        for (Reminder r: completedReminders) {
+            totalWeight += r.getGrade().getWeight();
+        }
+        for (Reminder r: completedReminders) {
+            average += ((float) r.getGrade().getGrade()/ r.getGrade().getTotal()) *
+                    ((float) r.getGrade().getWeight()/ totalWeight);
+        }
+        return average;
     }
 
     /**

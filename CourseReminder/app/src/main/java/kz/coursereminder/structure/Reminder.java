@@ -3,36 +3,29 @@ package kz.coursereminder.structure;
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 
-public class Task implements Serializable{
+public class Reminder implements Serializable{
 
     private String date;
-    private String course;
     private String name;
     private String time;
-    private String specialNotes;
+    private Grade grade;
     private boolean isTest;
 
-    public Task() {
+    public Reminder() {
         date = "";
-        course = "";
         name = "";
         time = "";
     }
 
-    public Task(String name, String date, String time, boolean isTest, String specialNotes) {
+    public Reminder(String name, String date, String time, boolean isTest) {
         this.date = date;
         this.name = name;
         this.time = time;
         this.isTest = isTest;
-        this.specialNotes = specialNotes;
     }
 
     public String getDate() {
         return date;
-    }
-
-    public String getCourse() {
-        return course;
     }
 
     public String getName() {
@@ -41,6 +34,10 @@ public class Task implements Serializable{
 
     public String getTime() {
         return time;
+    }
+
+    public Grade getGrade() {
+        return grade;
     }
 
     public boolean getIsTest() {
@@ -66,5 +63,14 @@ public class Task implements Serializable{
             return "Test: " + name;
         }
         return "Assignment: " + name;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

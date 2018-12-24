@@ -30,7 +30,7 @@
                 android:id="@+id/assignment_creation_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Task Name "
+                android:hint="Remind me for .."
                 android:textSize="25dp" />
 
         </LinearLayout>
@@ -124,31 +124,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@android:color/transparent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:background="@color/White"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Special Notes" />
-
-            <EditText
-                android:id="@+id/assignment_creation_notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Optional" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

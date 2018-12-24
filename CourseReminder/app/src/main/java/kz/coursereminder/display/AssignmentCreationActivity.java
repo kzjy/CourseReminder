@@ -22,7 +22,7 @@ import android.widget.TimePicker;
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.Task;
+import kz.coursereminder.structure.Reminder;
 
 public class AssignmentCreationActivity extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class AssignmentCreationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assignment_creation);
-        setTitle("New Task ");
+        setTitle("New Reminder ");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -133,8 +133,7 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
         String taskDate = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
         String taskTime = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
-        String taskNotes = ((EditText) findViewById(R.id.assignment_creation_notes)).getText().toString();
-        Task task = new Task(taskName, taskDate, taskTime, taskIsTest, taskNotes);
-        return controller.addTask(task);
+        Reminder reminder = new Reminder(taskName, taskDate, taskTime, taskIsTest);
+        return controller.addTask(reminder);
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,8 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
      * index 2 -> course notes
      */
     private ArrayList<TextView> textViews = new ArrayList<>();
-    CourseAssignmentAdapter adapter;
+    CourseAssignmentAdapter assignmentAdapter;
+    CourseAssignmentAdapter gradeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         displayCourseInfo();
         // Button listeners
         deleteButtonListener();
+        gradeButtonListener();
         assignmentButtonListener();
         courseDisplayEditListener();
     }
@@ -75,25 +78,39 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
      */
     public void displayCourseInfo() {
         courseActivityController.updateController();
+        Log.v(courseActivityController.getCurrentCourse().getReminders().toString(),
+                "1");
+        Log.v(courseActivityController.getCurrentCourse().getCompletedReminders().toString(),
+                "2");
         setTitle(courseActivityController.getCurrentCourse().getName());
         textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
         textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
         textViews.get(2).setText(courseActivityController.getCurrentCourse().getNotes());
         updateAssignment();
+        updateGrade();
     }
     /**
      * Display assignment listview information
      */
     private void updateAssignment() {
         RecyclerView recyclerView = findViewById(R.id.course_assignment_list);
-        adapter = new CourseAssignmentAdapter(this,
-                courseActivityController);
-        recyclerView.setAdapter(adapter);
+        assignmentAdapter = new CourseAssignmentAdapter(this,
+                courseActivityController, false);
+        recyclerView.setAdapter(assignmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         ItemTouchHelper.SimpleCallback itemTouchHelper =
                 new CourseRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
+    }
+
+    private void updateGrade() {
+        RecyclerView recyclerView = findViewById(R.id.course_grade_list);
+        gradeAdapter = new CourseAssignmentAdapter(this,
+                courseActivityController, true);
+        recyclerView.setAdapter(gradeAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
     }
     /**
      * Add new assignment button
@@ -123,7 +140,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         addGrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO add something
+                popUpManager.showGradeAdditionPopUp();
             }
         });
     }
@@ -173,10 +190,15 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        popUpManager.showAssignmentDeletePopUp(position, adapter);
-        adapter.notifyDataSetChanged();
+        popUpManager.showAssignmentDeletePopUp(position, assignmentAdapter);
+        assignmentAdapter.notifyDataSetChanged();
     }
 
+    public void notifyAdapterChange() {
+        courseActivityController.updateController();
+        assignmentAdapter.notifyDataSetChanged();
+        gradeAdapter.notifyDataSetChanged();
+    }
     /**
      * OnResume of Activity
      */

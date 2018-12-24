@@ -3,35 +3,34 @@ package kz.coursereminder.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.PipedOutputStream;
-import java.text.DateFormatSymbols;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.FileManager;
-import kz.coursereminder.structure.Task;
+import kz.coursereminder.structure.Reminder;
 
 public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignmentAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<Task> taskList;
+    private Course course;
+    private boolean isGrade;
 
-    public CourseAssignmentAdapter(Context context, CourseActivityController controller) {
+    public CourseAssignmentAdapter(Context context, CourseActivityController controller, boolean isGrade) {
         this.context = context;
-        this.taskList = controller.getCurrentCourse().getTasks();
+        this.course = controller.getCurrentCourse();
+        this.isGrade = isGrade;
     }
 
     @NonNull
@@ -40,34 +39,56 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.layout_assignment_list_item,
                 viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Task currentTask = taskList.get(i);
-        viewHolder.assignmentName.setText(currentTask.getNameDisplayString());
-        String time = currentTask.getTimeDisplayString();
-        String dateTime = currentTask.getDateDisplayString() + "   at   " + time;
-        viewHolder.assignmentDate.setText(dateTime);
-        setLayoutOnClickListener(viewHolder);
+        Reminder currentReminder;
+        if (isGrade) {
+            currentReminder = course.getCompletedReminders().get(i);
+            setUpAssignmentName(viewHolder, currentReminder);
+            setUpGrade(viewHolder, currentReminder);
+        } else {
+            currentReminder = course.getReminders().get(i);
+            setUpAssignmentName(viewHolder, currentReminder);
+        }
     }
 
+    private void setUpAssignmentName(@NonNull ViewHolder viewHolder, Reminder currentReminder) {
+        viewHolder.assignmentGrade.setText("");
+        viewHolder.assignmentWeight.setText("");
+        viewHolder.assignmentName.setText(currentReminder.getNameDisplayString());
+        String time = currentReminder.getTimeDisplayString();
+        String dateTime = currentReminder.getDateDisplayString() + "   at   " + time;
+        viewHolder.assignmentDate.setText(dateTime);
+    }
 
+    private void setUpGrade(@NonNull ViewHolder viewHolder, Reminder currentReminder) {
+        String point = currentReminder.getGrade().getGrade()
+                + " / " + currentReminder.getGrade().getTotal();
+        String weight = "Weight: " + currentReminder.getGrade().getWeight();
+        viewHolder.assignmentWeight.setText(weight);
+        viewHolder.assignmentGrade.setText(point);
+        setLayoutOnClickListener(viewHolder);
+    }
 
     private void setLayoutOnClickListener(ViewHolder viewHolder) {
         viewHolder.foreground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "bleh", Toast.LENGTH_SHORT).show();
+                String s = String.format(Locale.CANADA,"%.2f", course.calculateAverage());
+                Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return taskList.size();
+        if (isGrade) {
+            return course.getCompletedReminders().size();
+        }
+        return course.getReminders().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,6 +96,8 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         LinearLayout foreground;
         TextView assignmentName;
         TextView assignmentDate;
+        TextView assignmentGrade;
+        TextView assignmentWeight;
         RelativeLayout background;
 
         public ViewHolder(@NonNull View itemView) {
@@ -82,6 +105,8 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
             foreground = itemView.findViewById(R.id.assignment_list_item_foreground);
             assignmentDate = itemView.findViewById(R.id.assignment_list_date);
             assignmentName = itemView.findViewById(R.id.assignment_list_name);
+            assignmentGrade = itemView.findViewById(R.id.assignment_grade_point);
+            assignmentWeight = itemView.findViewById(R.id.assignment_grade_weight);
             background = itemView.findViewById(R.id.assignment_list_item_background);
         }
     }

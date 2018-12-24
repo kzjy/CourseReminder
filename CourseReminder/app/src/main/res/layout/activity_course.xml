@@ -114,7 +114,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Grades"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:paddingBottom="10dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/course_grade_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
 
             <Button
                 android:id="@+id/course_add_grade_button"
