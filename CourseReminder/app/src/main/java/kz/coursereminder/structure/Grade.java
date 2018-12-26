@@ -4,24 +4,24 @@ import java.io.Serializable;
 
 public class Grade implements Serializable{
 
-    private int grade;
-    private int total;
-    private int weight;
+    private float grade;
+    private float total;
+    private float weight;
 
-    public Grade(int grade, int total, int weight) {
+    public Grade(float grade, float total, float weight) {
         this.grade = grade;
         this.weight = weight;
         this.total = total;
     }
-    public int getGrade() {
+    public float getGrade() {
         return grade;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 }

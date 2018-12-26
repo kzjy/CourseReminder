@@ -1,8 +1,6 @@
 package kz.coursereminder.popup;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,18 +11,27 @@ import kz.coursereminder.display.CourseActivity;
 
 public class CourseInfoEditPopUp extends PopUp {
 
+    /**
+     * Constructor
+     * @param context context of the activity
+     * @param controller the controller of the activity
+     */
     public CourseInfoEditPopUp(Context context, CourseActivityController controller) {
         super(context, controller);
     }
 
-
+    /**
+     * Inflate popup with a layout
+     */
     @Override
     void inflatePopUp() {
         dialog.setContentView(R.layout.popup_course_info_edit);
         String info = controller.getCurrentCourse().getInfo();
         ((EditText) dialog.findViewById(R.id.course_info_edit)).setText(info);
     }
-
+    /**
+     * Activate the no button
+     */
     @Override
     void noButtonListener() {
         Button no = dialog.findViewById(R.id.course_info_discard);
@@ -35,27 +42,29 @@ public class CourseInfoEditPopUp extends PopUp {
             }
         });
     }
-
+    /**
+     * Activate the yes button
+     */
     @Override
     void yesButtonListener() {
         Button yes = dialog.findViewById(R.id.course_info_save);
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = getDialogInput();
-                controller.saveEdits((String) bundle.get("info"), "info");
+                String s = getInfoEdit();
+                controller.saveEdits(s, "info");
                 dismiss();
                 ((CourseActivity) context).displayCourseInfo();
             }
         });
     }
 
-    @Override
-    Bundle getDialogInput() {
-        Bundle bundle = new Bundle();
-        String edit = ((EditText) dialog.findViewById(R.id.course_info_edit)).getText().toString();
-        bundle.putString("info", edit);
-        return bundle;
+    /**
+     * Get info edit from input
+     * @return edited info
+     */
+    private String getInfoEdit() {
+        return ((EditText) dialog.findViewById(R.id.course_info_edit)).getText().toString();
     }
 
 }

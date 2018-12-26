@@ -13,10 +13,18 @@ import kz.coursereminder.display.CourseActivity;
 
 public class CourseNotesEditPopUp extends PopUp{
 
+    /**
+     * Constructor of the popup
+     * @param context context of the activity
+     * @param controller controller of the activity
+     */
     public CourseNotesEditPopUp(Context context, CourseActivityController controller) {
         super(context, controller);
     }
 
+    /**
+     * Inflate popup with a layout
+     */
     @Override
     void inflatePopUp() {
         dialog.setContentView(R.layout.popup_course_notes_edit);
@@ -24,6 +32,9 @@ public class CourseNotesEditPopUp extends PopUp{
         ((EditText) dialog.findViewById(R.id.course_notes_edit)).setText(notes);
     }
 
+    /**
+     * Activate the no button
+     */
     @Override
     void noButtonListener() {
         Button no = dialog.findViewById(R.id.course_notes_discard);
@@ -35,14 +46,18 @@ public class CourseNotesEditPopUp extends PopUp{
         });
     }
 
+    /**
+     * Activate the yes button
+     *
+     */
     @Override
     void yesButtonListener() {
         Button yes = dialog.findViewById(R.id.course_notes_save);
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = getDialogInput();
-                controller.saveEdits((String) bundle.get("notes"), "notes");
+                String s = getNotesEdit();
+                controller.saveEdits(s, "notes");
                 dismiss();
                 ((CourseActivity) context).displayCourseInfo();
             }
@@ -50,14 +65,11 @@ public class CourseNotesEditPopUp extends PopUp{
     }
 
     /**
-     *
-     * @return
+     * Get the string input of new edit
+     * @return the edited input
      */
-    @Override
-    Bundle getDialogInput() {
-        Bundle bundle = new Bundle();
-        String edit = ((EditText) dialog.findViewById(R.id.course_notes_edit)).getText().toString();
-        bundle.putString("notes", edit);
-        return bundle;
+    private String getNotesEdit() {
+        return ((EditText) dialog.findViewById(R.id.course_notes_edit)).getText().toString();
     }
+
 }

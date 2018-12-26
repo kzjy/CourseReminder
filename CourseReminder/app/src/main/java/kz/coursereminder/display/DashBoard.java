@@ -33,7 +33,6 @@ public class DashBoard extends Fragment {
      */
     private FileManager fileManager;
     private CourseManager courseManager;
-    private ArrayList<Course> courseList;
     /**
      * Display Fields
      */
@@ -55,7 +54,6 @@ public class DashBoard extends Fragment {
         super.onCreate(savedInstanceState);
         fileManager = new FileManager(this.getActivity());
         courseManager = fileManager.getCourseManager();
-        courseList = new ArrayList<>(courseManager.getCourses());
     }
 
     @Override

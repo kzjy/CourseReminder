@@ -11,14 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.CourseAssignmentAdapter;
 import kz.coursereminder.adapters.CourseRecyclerItemTouchHelper;
 import kz.coursereminder.controllers.CourseActivityController;
-import kz.coursereminder.controllers.CourseActivityPopUpManager;
+import kz.coursereminder.popup.AssignmentDeletePopUp;
+import kz.coursereminder.popup.CourseDeletePopUp;
+import kz.coursereminder.popup.CourseInfoEditPopUp;
+import kz.coursereminder.popup.CourseNameEditPopUp;
+import kz.coursereminder.popup.CourseNotesEditPopUp;
+import kz.coursereminder.popup.GradeAdditionPopUp;
+import kz.coursereminder.popup.GradeEditPopUp;
 
 public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener,
 CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -26,7 +31,6 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
      * Course Activity Controller
      */
     CourseActivityController courseActivityController;
-    CourseActivityPopUpManager popUpManager;
 
     /**
      * Arraylist of all textViews
@@ -45,7 +49,6 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         // get current course info
         String name = getIntent().getStringExtra("name");
         courseActivityController = new CourseActivityController(this, name);
-        popUpManager = new CourseActivityPopUpManager(this, courseActivityController);
         // display current course info
         findTextView();
         displayCourseInfo();
@@ -78,10 +81,6 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
      */
     public void displayCourseInfo() {
         courseActivityController.updateController();
-        Log.v(courseActivityController.getCurrentCourse().getReminders().toString(),
-                "1");
-        Log.v(courseActivityController.getCurrentCourse().getCompletedReminders().toString(),
-                "2");
         setTitle(courseActivityController.getCurrentCourse().getName());
         textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
         textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
@@ -90,7 +89,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         updateGrade();
     }
     /**
-     * Display assignment listview information
+     * Display assignment information
      */
     private void updateAssignment() {
         RecyclerView recyclerView = findViewById(R.id.course_assignment_list);
@@ -103,7 +102,9 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
                 new CourseRecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
     }
-
+    /**
+     * Display grade information
+     */
     private void updateGrade() {
         RecyclerView recyclerView = findViewById(R.id.course_grade_list);
         gradeAdapter = new CourseAssignmentAdapter(this,
@@ -140,9 +141,13 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         addGrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popUpManager.showGradeAdditionPopUp();
+                showGradeAdditionPopUp();
             }
         });
+    }
+
+    private void showGradeAdditionPopUp() {
+        new GradeAdditionPopUp(this, courseActivityController).showPopUp();
     }
     /**
      * Delete course button
@@ -152,9 +157,13 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popUpManager.showCourseDeletePopUp();
+                showDeleteCoursePopUp();
             }
         });
+    }
+
+    private void showDeleteCoursePopUp() {
+        new CourseDeletePopUp(this, courseActivityController).showPopUp();
     }
     /**
      * Activate textView hold listeners
@@ -173,32 +182,32 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         finish();
     }
 
+    public void onGradeLongClicked(int i) {
+        new GradeEditPopUp(this, courseActivityController, i).showPopUp();
+
+    }
     @Override
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.course_name:
-                popUpManager.showCourseNameEditPopUp();
+                new CourseNameEditPopUp(this, courseActivityController).showPopUp();
                 return true;
             case R.id.course_info:
-                popUpManager.showCourseInfoEditPopUp();
+                new CourseInfoEditPopUp(this, courseActivityController).showPopUp();
                 return true;
             case R.id.course_notes:
-                popUpManager.showCourseNotesEditPopUp();
+                new CourseNotesEditPopUp(this, courseActivityController).showPopUp();
+                return true;
         }
         return false;
     }
 
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        popUpManager.showAssignmentDeletePopUp(position, assignmentAdapter);
+        new AssignmentDeletePopUp(this, courseActivityController, position).showPopUp();
         assignmentAdapter.notifyDataSetChanged();
     }
 
-    public void notifyAdapterChange() {
-        courseActivityController.updateController();
-        assignmentAdapter.notifyDataSetChanged();
-        gradeAdapter.notifyDataSetChanged();
-    }
     /**
      * OnResume of Activity
      */

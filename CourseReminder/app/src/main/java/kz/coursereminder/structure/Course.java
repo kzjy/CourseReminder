@@ -92,6 +92,10 @@ public class Course implements Serializable {
         completedReminders.add(temp);
     }
 
+    public void editReminderGrade(Grade grade, int position) {
+        completedReminders.get(position).setGrade(grade);
+    }
+
     public float calculateAverage() {
         if (completedReminders.isEmpty()) {
             return 0;

@@ -18,6 +18,8 @@ import java.util.Locale;
 
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
+import kz.coursereminder.display.CourseActivity;
+import kz.coursereminder.popup.GradeEditPopUp;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.Reminder;
 
@@ -44,11 +46,19 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Reminder currentReminder;
+        final Reminder currentReminder;
+        final int position = i;
         if (isGrade) {
             currentReminder = course.getCompletedReminders().get(i);
             setUpAssignmentName(viewHolder, currentReminder);
             setUpGrade(viewHolder, currentReminder);
+            viewHolder.foreground.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ((CourseActivity) context).onGradeLongClicked(position);
+                    return true;
+                }
+            });
         } else {
             currentReminder = course.getReminders().get(i);
             setUpAssignmentName(viewHolder, currentReminder);
@@ -70,18 +80,9 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         String weight = "Weight: " + currentReminder.getGrade().getWeight();
         viewHolder.assignmentWeight.setText(weight);
         viewHolder.assignmentGrade.setText(point);
-        setLayoutOnClickListener(viewHolder);
     }
 
-    private void setLayoutOnClickListener(ViewHolder viewHolder) {
-        viewHolder.foreground.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String s = String.format(Locale.CANADA,"%.2f", course.calculateAverage());
-                Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 
     @Override
     public int getItemCount() {

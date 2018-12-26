@@ -1,8 +1,6 @@
 package kz.coursereminder.popup;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,16 +10,26 @@ import kz.coursereminder.display.CourseActivity;
 
 public class CourseDeletePopUp extends PopUp {
 
-
+    /**
+     * Constructor
+     * @param context context of the activity
+     * @param controller the controller of the activity
+     */
     public CourseDeletePopUp(Context context, CourseActivityController controller) {
         super(context, controller);
     }
 
+    /**
+     * Inflate popup with a layout
+     */
     @Override
     void inflatePopUp() {
         dialog.setContentView(R.layout.popup_delete_course);
     }
 
+    /**
+     * Activate the no button
+     */
     @Override
     void noButtonListener() {
         Button no = dialog.findViewById(R.id.popup_delete_no);
@@ -33,6 +41,9 @@ public class CourseDeletePopUp extends PopUp {
         });
     }
 
+    /**
+     * Activate the yes button
+     */
     @Override
     void yesButtonListener() {
         Button yes = dialog.findViewById(R.id.popup_delete_yes);
@@ -44,10 +55,5 @@ public class CourseDeletePopUp extends PopUp {
                 ((CourseActivity) context).back();
             }
         });
-    }
-
-    @Override
-    Bundle getDialogInput() {
-        return null;
     }
 }

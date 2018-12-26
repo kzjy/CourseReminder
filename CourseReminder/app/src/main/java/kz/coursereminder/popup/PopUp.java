@@ -48,5 +48,4 @@ public abstract class PopUp {
 
     abstract void yesButtonListener();
 
-    abstract Bundle getDialogInput();
 }
