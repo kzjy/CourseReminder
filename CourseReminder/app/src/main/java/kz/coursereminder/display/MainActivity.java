@@ -1,5 +1,6 @@
 package kz.coursereminder.display;
 
+import android.app.Notification;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            mViewStatePagerAdapter.notifyDataSetChanged();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);

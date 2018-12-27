@@ -61,8 +61,8 @@ public class CourseActivityController extends CourseControllers implements Seria
      * @return whether addition is successful
      */
     public boolean addTask(Reminder reminder) {
-        if (!(reminder.getDate().contains("/") && !reminder.getName().equals("") &&
-                reminder.getTime().contains(":"))) {
+        if (!(reminder.getDateString().contains("/") && !reminder.getName().equals("") &&
+                reminder.getTimeString().contains(":"))) {
             makeToastTaskFieldNotCompleted();
             return false;
         }

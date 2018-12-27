@@ -9,21 +9,22 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.coursereminder.R;
+import kz.coursereminder.structure.Course;
+import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Reminder;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
-    private ArrayList<String> images;
-    private ArrayList<Reminder> reminders;
     private Context context;
+    private ArrayList<Reminder> reminders;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> images, ArrayList<Reminder> reminders) {
-        this.images = images;
+    public NotificationRecyclerViewAdapter(Context context, ArrayList<Reminder> reminders) {
         this.reminders = reminders;
         this.context = context;
     }
@@ -37,7 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String dateTime = reminders.get(i).getDate() + reminders.get(i).getTime();
+        String dateTime = reminders.get(i).getDateDisplayString() + " at " +
+                reminders.get(i).getTimeDisplayString();
         viewHolder.dueDate.setText(dateTime);
         viewHolder.assignment.setText(reminders.get(i).getName());
         if (reminders.get(i).getIsTest()) {
@@ -46,31 +48,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             viewHolder.image.setImageResource(R.drawable.medium_assignment_72);
         }
 
-        viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO redirect to another screen
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return reminders.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout relativeLayout;
         CircleImageView image;
-        TextView course;
         TextView assignment;
         TextView dueDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.recycler_image);
-            course = itemView.findViewById(R.id.recycler_course_name);
             assignment = itemView.findViewById(R.id.recycler_assignment);
             dueDate = itemView.findViewById(R.id.recycler_due_date);
             relativeLayout = itemView.findViewById(R.id.recycler_item);

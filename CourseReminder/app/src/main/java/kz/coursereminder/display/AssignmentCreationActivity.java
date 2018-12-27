@@ -74,6 +74,9 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Timepicker dialog listener
+     */
     private void timeSelectListener() {
         final TextView timeSelect = findViewById(R.id.assignment_choose_time);
         timeSelect.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,9 @@ public class AssignmentCreationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The datepicker dialog listener
+     */
     private void dateSelectListener() {
         final TextView dateSelect = findViewById(R.id.assignment_choose_date);
         dateSelect.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +126,10 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Hide the keyboard
+     * @param view the view to hide from
+     */
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {
@@ -127,7 +137,10 @@ public class AssignmentCreationActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Create a task via controller
+     * @return whether creation was successful
+     */
     private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();

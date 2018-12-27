@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -186,6 +185,12 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         new GradeEditPopUp(this, courseActivityController, i).showPopUp();
 
     }
+
+    /**
+     * onLongClick method for course name, info ,notes edit
+     * @param v the view longclicked
+     * @return a boolean
+     */
     @Override
     public boolean onLongClick(View v) {
         switch (v.getId()) {
@@ -202,6 +207,12 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         return false;
     }
 
+    /**
+     * onSwipe to delete assignment
+     * @param viewHolder viewholder of the assignment to delete
+     * @param direction direction of swipe
+     * @param position position of viewholder
+     */
     @Override
     public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         new AssignmentDeletePopUp(this, courseActivityController, position).showPopUp();

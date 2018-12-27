@@ -44,6 +44,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Reminder currentReminder;
@@ -65,6 +66,11 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         }
     }
 
+    /**
+     * Set up the view holder for reminder display
+     * @param viewHolder viewholder of the reminder
+     * @param currentReminder current reminder to display
+     */
     private void setUpAssignmentName(@NonNull ViewHolder viewHolder, Reminder currentReminder) {
         viewHolder.assignmentGrade.setText("");
         viewHolder.assignmentWeight.setText("");
@@ -74,6 +80,11 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         viewHolder.assignmentDate.setText(dateTime);
     }
 
+    /**
+     * Set up the viewholder for grade display
+     * @param viewHolder viewholder of the grade
+     * @param currentReminder current reminder to display
+     */
     private void setUpGrade(@NonNull ViewHolder viewHolder, Reminder currentReminder) {
         String point = currentReminder.getGrade().getGrade()
                 + " / " + currentReminder.getGrade().getTotal();
@@ -82,8 +93,10 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         viewHolder.assignmentGrade.setText(point);
     }
 
-
-
+    /**
+     * Return the item count in the view
+     * @return the item count
+     */
     @Override
     public int getItemCount() {
         if (isGrade) {
@@ -92,6 +105,9 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         return course.getReminders().size();
     }
 
+    /**
+     * View holder class that holds each item
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout foreground;

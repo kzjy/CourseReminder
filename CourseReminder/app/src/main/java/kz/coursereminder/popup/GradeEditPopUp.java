@@ -16,17 +16,30 @@ public class GradeEditPopUp extends PopUp {
 
     private int position;
 
+    /**
+     * Constructor
+     * @param context context of the activity
+     * @param controller course activity controller
+     * @param position position of the hold
+     */
     public GradeEditPopUp(Context context, CourseActivityController controller, int position) {
         super(context, controller);
         this.position = position;
     }
 
+    /**
+     * Inflate the layout popup
+     */
     @Override
     void inflatePopUp() {
         dialog.setContentView(R.layout.popup_grade_edit);
         setGradeName();
+        setPreviousGradeDetail();
     }
 
+    /**
+     * Activate no button
+     */
     @Override
     void noButtonListener() {
         Button no = dialog.findViewById(R.id.popup_grade_discard_edit);
@@ -38,6 +51,9 @@ public class GradeEditPopUp extends PopUp {
         });
     }
 
+    /**
+     * Activate yes button
+     */
     @Override
     void yesButtonListener() {
         Button yes = dialog.findViewById(R.id.popup_grade_save_edit);
@@ -55,11 +71,28 @@ public class GradeEditPopUp extends PopUp {
         });
     }
 
+    /**
+     * Set up assignment
+     */
     private void setGradeName() {
         TextView textView = dialog.findViewById(R.id.popup_grade_edit_name);
         textView.setText(controller.getCurrentCourse().getCompletedReminders().get(position).getName());
     }
 
+    /**
+     * Set up prev grade for easier editing
+     */
+    private void setPreviousGradeDetail() {
+        EditText prevPointReceived = dialog.findViewById(R.id.popup_grade_point_received_edit);
+        prevPointReceived.setText(String.valueOf(controller.getCurrentCourse().
+                getCompletedReminders().get(position).getGrade().getGrade()));
+        EditText prevPointTotal = dialog.findViewById(R.id.popup_grade_point_total_edit);
+        prevPointTotal.setText(String.valueOf(controller.getCurrentCourse().
+                getCompletedReminders().get(position).getGrade().getTotal()));
+        EditText prevWeight = dialog.findViewById(R.id.popup_grade_weight_edit);
+        prevWeight.setText(String.valueOf(controller.getCurrentCourse().
+                getCompletedReminders().get(position).getGrade().getWeight()));
+    }
 
     /**
      * Add a grade to the selected assignment at positionSelected
@@ -95,7 +128,9 @@ public class GradeEditPopUp extends PopUp {
                 Integer.valueOf(stringInput[2])};
     }
 
-
+    /**
+     * Make Toast invalid settings
+     */
     private void makeToastInvalidInput() {
         Toast.makeText(context, "Invalid grade inputs ", Toast.LENGTH_SHORT).show();
     }
