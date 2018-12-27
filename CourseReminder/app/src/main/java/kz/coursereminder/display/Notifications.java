@@ -12,20 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.NotificationRecyclerViewAdapter;
+import kz.coursereminder.controllers.NotificationFragmentController;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 import kz.coursereminder.structure.Reminder;
+import kz.coursereminder.structure.ReminderDateTime;
 
 
 public class Notifications extends Fragment {
 
-    private CourseManager courseManager;
+    private NotificationFragmentController controller;
     private NotificationRecyclerViewAdapter adapter;
+    private NotificationRecyclerViewAdapter pastAdapter;
 
     public Notifications() {
         // Required empty public constructor
@@ -34,46 +38,52 @@ public class Notifications extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadManager();
+        controller = new NotificationFragmentController(this.getActivity());
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
-        setUpRecyclerView(view);
+        setUpUpcomingRecyclerView(view);
+        setUpPastRecyclerView(view);
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void setUpRecyclerView(View view) {
+    /**
+     * Set up recyclerview for upcoming notifications
+     * @param view view of the fragment
+     */
+    private void setUpUpcomingRecyclerView(View view) {
         RecyclerView notificationRecycler = view.findViewById(R.id.notification_recycler_view);
         adapter = new NotificationRecyclerViewAdapter(getContext(),
-                generateDisplayArrayList());
+                controller.getUpcoming());
         notificationRecycler.setAdapter(adapter);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         notificationRecycler.setNestedScrollingEnabled(false);
     }
 
-    private void loadManager() {
-        FileManager fileManager = new FileManager(this.getActivity());
-        courseManager = fileManager.getCourseManager();
+    /**
+     * Set up recyclerview for past notifications
+     * @param view view of the fragment
+     *
+     */
+    private void setUpPastRecyclerView(View view) {
+        RecyclerView pastRecycler = view.findViewById(R.id.notification_recycler_view_past);
+        pastAdapter = new NotificationRecyclerViewAdapter(getContext(),
+                controller.getPast());
+        pastRecycler.setAdapter(pastAdapter);
+        pastRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        pastRecycler.setNestedScrollingEnabled(false);
     }
 
-    private ArrayList<Reminder> generateDisplayArrayList() {
-        ArrayList<Reminder> reminders = new ArrayList<>();
-        ArrayList<Course> courseList = courseManager.getCourses();
-        for (int i = 0; i < courseList.size(); i++) {
-            Course course = courseList.get(i);
-            reminders.addAll(course.getReminders());
-        }
-        Collections.sort(reminders);
-        Collections.reverse(reminders);
-        return reminders;
-    }
-
+    /**
+     * Reads file for new reminders and update recyclerview
+     */
     public void refresh() {
-        loadManager();
+        controller.update();
         adapter.notifyDataSetChanged();
+        pastAdapter.notifyDataSetChanged();
     }
 }

@@ -27,6 +27,8 @@ import kz.coursereminder.structure.Reminder;
 public class AssignmentCreationActivity extends AppCompatActivity {
 
     private CourseActivityController controller;
+    private Integer[] selectedDate = new Integer[3];
+    private Integer[] selectedTime = new Integer[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,9 @@ public class AssignmentCreationActivity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                                String nonZeroMinute = (minutes == 0) ?  "00": String.valueOf(minutes);
+                                selectedTime[0] = hourOfDay;
+                                selectedTime[1] = minutes;
+                                String nonZeroMinute = (minutes == 0) ? "00" : String.valueOf(minutes);
                                 String s = hourOfDay + " : " + nonZeroMinute;
                                 timeSelect.setText(s);
                             }
@@ -117,6 +121,9 @@ public class AssignmentCreationActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                selectedDate[0] = dayOfMonth;
+                                selectedDate[1] = month;
+                                selectedDate[2] = year;
                                 String s = dayOfMonth + " / " + (month + 1) + " / " + year;
                                 dateSelect.setText(s);
                             }
@@ -128,6 +135,7 @@ public class AssignmentCreationActivity extends AppCompatActivity {
 
     /**
      * Hide the keyboard
+     *
      * @param view the view to hide from
      */
     public void hideKeyboard(View view) {
@@ -139,14 +147,13 @@ public class AssignmentCreationActivity extends AppCompatActivity {
 
     /**
      * Create a task via controller
+     *
      * @return whether creation was successful
      */
     private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
-        String taskDate = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
-        String taskTime = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
-        Reminder reminder = new Reminder(taskName, taskDate, taskTime, taskIsTest);
-        return controller.addTask(reminder);
+        Reminder reminder = new Reminder(taskName, selectedDate, selectedTime, taskIsTest);
+        return controller.addReminder(reminder);
     }
 }

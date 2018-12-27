@@ -9,6 +9,7 @@ import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Grade;
 import kz.coursereminder.structure.Reminder;
+import kz.coursereminder.structure.ReminderDateTime;
 
 
 public class CourseActivityController extends CourseControllers implements Serializable {
@@ -60,9 +61,9 @@ public class CourseActivityController extends CourseControllers implements Seria
      * @param reminder reminder to be added
      * @return whether addition is successful
      */
-    public boolean addTask(Reminder reminder) {
-        if (!(reminder.getDateString().contains("/") && !reminder.getName().equals("") &&
-                reminder.getTimeString().contains(":"))) {
+    public boolean addReminder(Reminder reminder) {
+        ReminderDateTime dateTime = reminder.getDateTime();
+        if (dateTime.getDate()[0] == null || dateTime.getTime()[0] == null) {
             makeToastTaskFieldNotCompleted();
             return false;
         }

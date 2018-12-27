@@ -38,8 +38,8 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String dateTime = reminders.get(i).getDateDisplayString() + " at " +
-                reminders.get(i).getTimeDisplayString();
+        String dateTime = reminders.get(i).getDateTime().getDateDisplayString() + " at " +
+                reminders.get(i).getDateTime().getTimeDisplayString();
         viewHolder.dueDate.setText(dateTime);
         viewHolder.assignment.setText(reminders.get(i).getName());
         if (reminders.get(i).getIsTest()) {
