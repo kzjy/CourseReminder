@@ -101,14 +101,16 @@ public class Reminder implements Serializable, Comparable<Reminder> {
      */
     private int compareDate(Integer[] otherDate) {
         Integer[] thisDate = getDate();
-        if (thisDate[2] >= otherDate[2]) {
+        if (thisDate[2] > otherDate[2]) {
             return 1;
-        } else if (thisDate[1] >= otherDate[1]) {
+        } else if (thisDate[2] < otherDate[2]) {
+            return -1;
+        } else if (thisDate[1] > otherDate[1]) {
             return 1;
+        } else if (thisDate[1] < otherDate[1]) {
+            return -1;
         } else if (thisDate[0] > otherDate[0]) {
             return 1;
-        } else if (thisDate[0].equals(otherDate[0])) {
-            return 0;
         }
         return -1;
     }

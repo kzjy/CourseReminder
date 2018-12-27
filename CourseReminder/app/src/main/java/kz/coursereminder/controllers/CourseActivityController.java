@@ -82,7 +82,7 @@ public class CourseActivityController extends CourseControllers implements Seria
                 return false;
             }
             if (i == 1) {
-                if (Integer.valueOf(stringInput[i]) == 0) {
+                if (Float.valueOf(stringInput[i]) == 0) {
                     return false;
                 }
             }

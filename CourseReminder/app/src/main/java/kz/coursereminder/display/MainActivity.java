@@ -23,34 +23,38 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Bottom Navigation bar listener
      */
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            mViewStatePagerAdapter.notifyDataSetChanged();
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mViewPager.setCurrentItem(0);
-                    setTitle("Home");
-                    return true;
-                case R.id.navigation_dashboard:
-                    mViewPager.setCurrentItem(1);
-                    setTitle("Dashboard");
-                    return true;
-                case R.id.navigation_calendar:
-                    setTitle("Calendar");
-                    mViewPager.setCurrentItem(2);
-                    return true;
-                case R.id.navigation_notifications:
-                    setTitle("Notifications");
-                    mViewPager.setCurrentItem(3);
-                    return true;
 
+    private void setUpBottomNavigationViewListener() {
+        mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                mViewStatePagerAdapter.notifyDataSetChanged();
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        mViewPager.setCurrentItem(0);
+                        setTitle("Home");
+                        return true;
+                    case R.id.navigation_dashboard:
+                        mViewPager.setCurrentItem(1);
+                        setTitle("Dashboard");
+                        return true;
+                    case R.id.navigation_calendar:
+                        setTitle("Calendar");
+                        mViewPager.setCurrentItem(2);
+                        return true;
+                    case R.id.navigation_notifications:
+                        setTitle("Notifications");
+                        mViewPager.setCurrentItem(3);
+                        ((Notifications) mViewStatePagerAdapter.getItem(3)).refresh();
+                        return true;
+
+                }
+                return false;
             }
-            return false;
-        }
-    };
+        };
+    }
 
     /**
      * On create method
@@ -68,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         setUpViewPager(mViewPager);
 
         // set up bottom navigation bar
+        setUpBottomNavigationViewListener();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mViewPager.setOffscreenPageLimit(3);
         // set bar to be home
         setTitle("Home");
     }
@@ -81,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
      * @param mViewPager the viewpager for  fragments
      */
     private void setUpViewPager(ViewPager mViewPager) {
-        ViewStatePagerAdapter adapter = new ViewStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Home());
-        adapter.addFragment(new DashBoard());
-        adapter.addFragment(new Calendar());
-        adapter.addFragment(new Notifications());
-        mViewPager.setAdapter(adapter);
+        mViewStatePagerAdapter = new ViewStatePagerAdapter(getSupportFragmentManager());
+        mViewStatePagerAdapter.addFragment(new Home());
+        mViewStatePagerAdapter.addFragment(new DashBoard());
+        mViewStatePagerAdapter.addFragment(new Calendar());
+        mViewStatePagerAdapter.addFragment(new Notifications());
+        mViewPager.setAdapter(mViewStatePagerAdapter);
     }
 
     /**
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * action bar icon button listener
+     *
      * @param item action bar
      * @return selected item
      */

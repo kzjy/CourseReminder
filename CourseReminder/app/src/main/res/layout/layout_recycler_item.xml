@@ -7,8 +7,8 @@
     android:id="@+id/recycler_item">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/recycler_image"
         android:src="@drawable/medium_assignment_72"
         />
@@ -20,7 +20,7 @@
         android:id="@+id/recycler_assignment"
         android:layout_toRightOf="@id/recycler_image"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:text="Assignment"
         android:textSize="20sp"/>
 

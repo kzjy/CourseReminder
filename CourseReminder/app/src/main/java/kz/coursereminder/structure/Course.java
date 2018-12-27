@@ -2,6 +2,8 @@ package kz.coursereminder.structure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import kz.coursereminder.R;
 
@@ -79,6 +81,8 @@ public class Course implements Serializable {
 
     public void addTask(Reminder reminder) {
         reminders.add(reminder);
+        Collections.sort(reminders);
+        Collections.reverse(reminders);
     }
 
     public void removeTask(int position) {
@@ -109,7 +113,7 @@ public class Course implements Serializable {
             average += ((float) r.getGrade().getGrade()/ r.getGrade().getTotal()) *
                     ((float) r.getGrade().getWeight()/ totalWeight);
         }
-        return average;
+        return average * 100;
     }
 
     /**

@@ -100,9 +100,9 @@ public class GradeEditPopUp extends PopUp {
      * @return whether grade addition is successful
      */
     private boolean editGrade() {
-        Integer[] integerInput = getValidInput();
+        Float[] integerInput = getValidInput();
         if (integerInput != null) {
-            Grade grade = new Grade((float) integerInput[0], (float) integerInput[1], (float) integerInput[2]);
+            Grade grade = new Grade(integerInput[0], integerInput[1],  integerInput[2]);
             controller.editGrade(grade, position);
             return true;
         }
@@ -113,7 +113,7 @@ public class GradeEditPopUp extends PopUp {
      * Get the edittext inputs for grade
      * @return an array of ints for grade
      */
-    private Integer[] getValidInput() {
+    private Float[] getValidInput() {
         String[] stringInput = new String[3];
         stringInput[0] = ((EditText) dialog.findViewById(R.id.popup_grade_point_received_edit)).
                 getText().toString().trim();
@@ -124,8 +124,8 @@ public class GradeEditPopUp extends PopUp {
         if (!controller.checkGradeInput(stringInput)) {
             return null;
         }
-        return new Integer[]{Integer.valueOf(stringInput[0]), Integer.valueOf(stringInput[1]),
-                Integer.valueOf(stringInput[2])};
+        return new Float[]{Float.valueOf(stringInput[0]), Float.valueOf(stringInput[1]),
+                Float.valueOf(stringInput[2])};
     }
 
     /**

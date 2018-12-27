@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".display.Calendar">
+    tools:context=".display.Calendar"
+    android:background="@drawable/cloud"
+    android:backgroundTint="#E6FFFFFF"
+    android:backgroundTintMode="src_atop">
 
     <LinearLayout
         android:layout_height="match_parent"

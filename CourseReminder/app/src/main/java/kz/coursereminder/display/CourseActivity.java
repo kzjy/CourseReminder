@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.CourseAssignmentAdapter;
 import kz.coursereminder.adapters.CourseRecyclerItemTouchHelper;
@@ -74,6 +76,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         textViews.add((TextView) findViewById(R.id.course_name));
         textViews.add((TextView) findViewById(R.id.course_info));
         textViews.add((TextView) findViewById(R.id.course_notes));
+        textViews.add((TextView) findViewById(R.id.course_average));
     }
     /**
      * Displays the course info on activity
@@ -84,6 +87,9 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         textViews.get(0).setText(courseActivityController.getCurrentCourse().getName());
         textViews.get(1).setText(courseActivityController.getCurrentCourse().getInfo());
         textViews.get(2).setText(courseActivityController.getCurrentCourse().getNotes());
+        String s = String.format(Locale.CANADA, "%.2f ",
+                courseActivityController.getCurrentCourse().calculateAverage()) + "%";
+        textViews.get(3).setText(s);
         updateAssignment();
         updateGrade();
     }

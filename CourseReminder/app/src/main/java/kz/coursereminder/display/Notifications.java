@@ -52,11 +52,11 @@ public class Notifications extends Fragment {
                 generateDisplayArrayList());
         notificationRecycler.setAdapter(adapter);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        notificationRecycler.setNestedScrollingEnabled(false);
     }
 
     private void loadManager() {
-        FileManager fileManager = new FileManager(this.getContext());
+        FileManager fileManager = new FileManager(this.getActivity());
         courseManager = fileManager.getCourseManager();
     }
 
@@ -68,6 +68,7 @@ public class Notifications extends Fragment {
             reminders.addAll(course.getReminders());
         }
         Collections.sort(reminders);
+        Collections.reverse(reminders);
         return reminders;
     }
 
