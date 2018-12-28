@@ -14,44 +14,68 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/notification_upcoming_set"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upcoming" />
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/LightGrey"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upcoming" />
 
-        </View>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/LightGrey">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/notification_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            </View>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notification_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/notification_past_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Past " />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/LightGrey">
+
+            </View>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notification_recycler_view_past"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
+            android:id="@+id/notification_nothing_currently"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Past " />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/LightGrey"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
-
-        </View>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/notification_recycler_view_past"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:text="Nothing currently"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 </ScrollView>

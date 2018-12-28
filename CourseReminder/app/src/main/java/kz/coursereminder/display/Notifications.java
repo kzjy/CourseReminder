@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +49,7 @@ public class Notifications extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         setUpUpcomingRecyclerView(view);
         setUpPastRecyclerView(view);
+        reduceViews(view);
         // Inflate the layout for this fragment
         return view;
     }
@@ -57,8 +60,7 @@ public class Notifications extends Fragment {
      */
     private void setUpUpcomingRecyclerView(View view) {
         RecyclerView notificationRecycler = view.findViewById(R.id.notification_recycler_view);
-        adapter = new NotificationRecyclerViewAdapter(getContext(),
-                controller.getUpcoming());
+        adapter = new NotificationRecyclerViewAdapter(controller.getUpcoming());
         notificationRecycler.setAdapter(adapter);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         notificationRecycler.setNestedScrollingEnabled(false);
@@ -71,11 +73,32 @@ public class Notifications extends Fragment {
      */
     private void setUpPastRecyclerView(View view) {
         RecyclerView pastRecycler = view.findViewById(R.id.notification_recycler_view_past);
-        pastAdapter = new NotificationRecyclerViewAdapter(getContext(),
-                controller.getPast());
+        pastAdapter = new NotificationRecyclerViewAdapter(controller.getPast());
         pastRecycler.setAdapter(pastAdapter);
         pastRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         pastRecycler.setNestedScrollingEnabled(false);
+    }
+
+    /**
+     * Set unnecessary views to be gone
+     * @param view view of the fragment
+     */
+    private void reduceViews(View view){
+        LinearLayout upcoming = view.findViewById(R.id.notification_upcoming_set);
+        LinearLayout past = view.findViewById(R.id.notification_past_set);
+        boolean upcomingEmpty = controller.getUpcoming().size() == 0;
+        boolean pastEmpty = controller.getPast().size() == 0;
+        if (upcomingEmpty && pastEmpty) {
+            view.findViewById(R.id.notification_nothing_currently).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.notification_nothing_currently).setVisibility(View.INVISIBLE);
+        }
+        if (upcomingEmpty) {
+            upcoming.setVisibility(View.GONE);
+        }
+        if (pastEmpty) {
+            past.setVisibility(View.GONE);
+        }
     }
 
     /**

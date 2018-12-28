@@ -63,7 +63,8 @@ public class CourseActivityController extends CourseControllers implements Seria
      */
     public boolean addReminder(Reminder reminder) {
         ReminderDateTime dateTime = reminder.getDateTime();
-        if (dateTime.getDate()[0] == null || dateTime.getTime()[0] == null) {
+        if (dateTime.getDate()[0] == null || dateTime.getTime()[0] == null ||
+                reminder.getName().equals("")) {
             makeToastTaskFieldNotCompleted();
             return false;
         }
