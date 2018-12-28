@@ -16,42 +16,68 @@ public class FileManager {
 
     private Context context;
     private CourseManager courseManager;
+    private Setting setting;
 
     public FileManager(Context context) {
         this.context = context;
         loadFile(CourseManager.COURSES);
+        loadFile(Setting.SETTINGS);
     }
 
     public void loadFile(String fileName) {
         try {
             if (!checkFile(fileName)) {
-                createFile(fileName);
+                createFile();
             }
             InputStream inputStream = context.openFileInput(fileName);
             ObjectInputStream input = new ObjectInputStream(inputStream);
-            courseManager = (CourseManager) input.readObject();
+            inputSelect(fileName, input);
             inputStream.close();
         } catch (FileNotFoundException e) {
             Log.e(TAG, "FileNotFoundException");
         } catch (IOException e) {
             Log.e(TAG, "IOException");
             // TODO remove it after all debugging
-            createFile(fileName);
+            createFile();
         } catch (ClassNotFoundException e) {
             Log.e(TAG, "ClassNotFoundException");
         }
     }
 
+    private void inputSelect(String fileName, ObjectInputStream input) throws
+            ClassNotFoundException, IOException {
+        switch (fileName) {
+            case CourseManager.COURSES:
+                courseManager = (CourseManager) input.readObject();
+                break;
+            case Setting.SETTINGS:
+                setting = (Setting) input.readObject();
+                break;
+        }
+    }
+    /**
+     * Check if file with filename exists
+     * @param fileName filename to be checked
+     * @return whether it exists
+     */
     private boolean checkFile(String fileName) {
         File file = context.getFileStreamPath(fileName);
         return file.exists();
     }
 
-    public void createFile(String fileName) {
+
+    private void createFile() {
         courseManager = new CourseManager();
+        setting = new Setting();
         writeFile(CourseManager.COURSES, courseManager);
+        writeFile(Setting.SETTINGS, setting);
     }
 
+    /**
+     * Write toSave to fileName
+     * @param fileName filename of the file
+     * @param toSave object to save
+     */
     public void writeFile(String fileName, Object toSave) {
         try {
             ObjectOutputStream ouputStream = new ObjectOutputStream(
@@ -61,6 +87,10 @@ public class FileManager {
         } catch (IOException e) {
             Log.e(TAG, "IOException");
         }
+    }
+
+    public Setting getSetting() {
+        return setting;
     }
 
     public CourseManager getCourseManager() {

@@ -24,7 +24,7 @@ import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.Reminder;
 
-public class AssignmentCreationActivity extends AppCompatActivity {
+public class AssignmentCreationActivity extends ThemedActivity {
 
     private CourseActivityController controller;
     private Integer[] selectedDate = new Integer[3];

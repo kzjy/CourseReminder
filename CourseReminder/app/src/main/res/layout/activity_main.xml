@@ -8,14 +8,14 @@
     tools:context=".display.MainActivity">
 
 
-    <kz.coursereminder.adapters.NoSwipeViewPager
+    <kz.coursereminder.layouts.NoSwipeViewPager
         android:id="@+id/page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"
         android:layout_alignParentTop="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </kz.coursereminder.adapters.NoSwipeViewPager>
+    </kz.coursereminder.layouts.NoSwipeViewPager>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -24,7 +24,7 @@
         android:background="?android:attr/windowBackground"
         android:layout_alignParentBottom="true"
         style="@style/BottomNavigationView"
-        app:menu="@menu/navigation"
-        app:itemIconTint="@drawable/bottom_navigation_selector"/>
+        app:menu="@menu/navigation"/>
+
 
 </RelativeLayout>

@@ -1,8 +1,23 @@
 package kz.coursereminder.structure;
 
-public class Setting {
+import android.graphics.Color;
 
-    public Setting () {
+import java.io.Serializable;
 
+import kz.coursereminder.R;
+
+public class Setting implements Serializable {
+
+    public static final String SETTINGS = "settings.ser";
+
+    private int themeColor = 0;
+
+    public int getThemeColor() {
+        return 0;
     }
+
+    public void setThemeColor(int themeColor) {
+        this.themeColor = themeColor;
+    }
+
 }

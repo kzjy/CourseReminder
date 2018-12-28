@@ -9,10 +9,11 @@
     <color name="Black">#000000</color>
     <color name="actionbar">#aa7db9</color>
     <color name="green">#30a727</color>
-    <color name="Theme1">#e9a29a</color>
-    <color name="Theme2">#d9d980</color>
-    <color name="Theme3">#85b97d</color>
-    <color name="Theme4">#7db9b2</color>
+    <color name="Theme0">#e9a29a</color>
+    <color name="Theme1">#d9d980</color>
+    <color name="Theme2">#85b97d</color>
+    <color name="Theme3">#7db9b2</color>
+    <color name="Theme4">#5165d4</color>
     <color name="Theme5">#aa7db9</color>
     <color name="Theme6">#b97dab</color>
 

@@ -18,7 +18,7 @@ import kz.coursereminder.R;
 import kz.coursereminder.adapters.CourseCreationIconAdapter;
 import kz.coursereminder.controllers.CourseCreationController;
 
-public class CourseCreationActivity extends AppCompatActivity {
+public class CourseCreationActivity extends ThemedActivity {
 
     private static final String TAG = "CourseCreationActivity";
 

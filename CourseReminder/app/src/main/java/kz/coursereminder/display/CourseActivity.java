@@ -26,7 +26,7 @@ import kz.coursereminder.popup.CourseNotesEditPopUp;
 import kz.coursereminder.popup.GradeAdditionPopUp;
 import kz.coursereminder.popup.GradeEditPopUp;
 
-public class CourseActivity extends AppCompatActivity implements View.OnLongClickListener,
+public class CourseActivity extends ThemedActivity implements View.OnLongClickListener,
 CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     /**
      * Course Activity Controller

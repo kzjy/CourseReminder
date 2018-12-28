@@ -13,17 +13,20 @@ import android.widget.GridView;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.SettingsThemeAdapter;
+import kz.coursereminder.controllers.SettingsController;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ThemedActivity {
 
     private GridView gridView;
     private SettingsThemeAdapter adapter;
+    private SettingsController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setTitle("Settings");
+        controller = new SettingsController(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -52,25 +55,39 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.save_settings:
-                finish();
+                controller.save();
+                startMainActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void startMainActivity() {
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
+    }
+
+    /**
+     * Set up the gridview for theme color selection
+     */
     private void setUpThemeColor() {
         gridView = findViewById(R.id.setting_theme_color_gridview);
         adapter = new SettingsThemeAdapter(this);
         gridView.setAdapter(adapter);
+        adapter.setHighlight(preferences.getInt("Theme", 0));
     }
 
+    /**
+     * Activate gridview click listener
+     */
     private void addThemeColorListener() {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.setHighlight(position);
                 adapter.notifyDataSetChanged();
+                controller.setThemeColor(position);
             }
         });
     }

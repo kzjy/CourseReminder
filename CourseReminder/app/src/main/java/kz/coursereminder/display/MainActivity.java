@@ -2,6 +2,8 @@ package kz.coursereminder.display;
 
 import android.app.Notification;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,8 +14,10 @@ import android.view.MenuItem;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.ViewStatePagerAdapter;
+import kz.coursereminder.structure.FileManager;
+import kz.coursereminder.structure.Setting;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ThemedActivity {
 
     /**
      * FragmentStatePagerAdapter and viewpager object
@@ -66,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // add fragments to fragment manager
         mViewStatePagerAdapter = new ViewStatePagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.page);

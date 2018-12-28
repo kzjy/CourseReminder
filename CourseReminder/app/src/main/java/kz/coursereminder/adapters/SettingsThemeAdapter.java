@@ -58,6 +58,9 @@ public class SettingsThemeAdapter extends BaseAdapter {
 
     private void setThemeColor(View theme, int position) {
         switch (position) {
+            case 0:
+                theme.setBackgroundColor(ContextCompat.getColor(context, R.color.Theme0));
+                break;
             case 1:
                 theme.setBackgroundColor(ContextCompat.getColor(context, R.color.Theme1));
                 break;

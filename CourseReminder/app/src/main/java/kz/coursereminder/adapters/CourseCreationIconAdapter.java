@@ -2,6 +2,7 @@ package kz.coursereminder.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class CourseCreationIconAdapter extends BaseAdapter {
         if (position == highLight) {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.DarkGray));
         } else {
-            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.actionbar));
+            setBackgroundColor(convertView);
         }
 
         // set icon image
@@ -67,4 +68,10 @@ public class CourseCreationIconAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private void setBackgroundColor(View view) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int color = typedValue.data;
+        view.setBackgroundColor(color);
+    }
 }

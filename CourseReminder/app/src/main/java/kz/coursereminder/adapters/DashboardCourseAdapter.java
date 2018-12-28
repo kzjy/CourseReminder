@@ -2,6 +2,7 @@ package kz.coursereminder.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,7 @@ public class DashboardCourseAdapter extends BaseAdapter{
             convertView = layoutInflater.inflate(R.layout.layout_grid_item, null);
         }
         // set color
-        convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.actionbar));
-//        convertView.setBackground(ContextCompat.getDrawable(context, R.drawable.b0));
+        setBackgroundColor(convertView);
         if (course.getImage() == R.drawable.course_icoin_add) {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.DarkGray));
         }
@@ -68,5 +68,11 @@ public class DashboardCourseAdapter extends BaseAdapter{
         return convertView;
     }
 
+    private void setBackgroundColor(View view) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        int color = typedValue.data;
+        view.setBackgroundColor(color);
+    }
 
 }
