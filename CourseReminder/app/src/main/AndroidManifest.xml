@@ -32,11 +32,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".display.MainActivity" />
         </activity>
-        <activity android:name=".display.AssignmentCreationActivity"
+        <activity
+            android:name=".display.AssignmentCreationActivity"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".display.CourseActivity" />
+        </activity>
+        <activity
+            android:name=".display.SettingsActivity"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".display.MainActivity" />
         </activity>
     </application>
 

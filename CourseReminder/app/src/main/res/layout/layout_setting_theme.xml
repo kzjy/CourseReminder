@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kz.coursereminder.layouts.CourseLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/settings_theme_color_backgournd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:background="@color/White">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/settings_theme_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Theme1"
+            />
+    </LinearLayout>
+
+</kz.coursereminder.layouts.CourseLinearLayout>

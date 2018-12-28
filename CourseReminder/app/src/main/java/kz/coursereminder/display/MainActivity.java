@@ -1,6 +1,7 @@
 package kz.coursereminder.display;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -121,10 +122,15 @@ public class MainActivity extends AppCompatActivity {
                 // TODO implement add course work
                 break;
             case R.id.settings:
-                // TODO implement settings
+                swapToSettings();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void swapToSettings() {
+        Intent swapToSettings = new Intent(this, SettingsActivity.class);
+        startActivity(swapToSettings);
     }
 
 }
