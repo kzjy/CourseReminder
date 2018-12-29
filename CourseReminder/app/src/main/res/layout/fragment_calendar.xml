@@ -4,9 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".display.Calendar"
-    android:background="@drawable/cloud"
-    android:backgroundTint="#E6FFFFFF"
-    android:backgroundTintMode="src_atop">
+    >
+
+    <ImageView
+        android:id="@+id/calendar_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tint="#E6FFFFFF"
+        android:src="@drawable/cloud"
+        android:scaleType="centerCrop"
+        />
 
     <LinearLayout
         android:layout_height="match_parent"

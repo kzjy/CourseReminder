@@ -1,7 +1,14 @@
 package kz.coursereminder.display;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,16 +17,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.SettingsThemeAdapter;
 import kz.coursereminder.controllers.SettingsController;
+import kz.coursereminder.structure.BitmapConverter;
 
 public class SettingsActivity extends ThemedActivity {
 
     private GridView gridView;
     private SettingsThemeAdapter adapter;
     private SettingsController controller;
+    private ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,8 @@ public class SettingsActivity extends ThemedActivity {
         }
         setUpThemeColor();
         addThemeColorListener();
+        selectBackgroundListener();
+        setUpBackgroundImageView();
     }
 
     /**
@@ -63,6 +77,9 @@ public class SettingsActivity extends ThemedActivity {
         }
     }
 
+    /**
+     * Swap to Main Activity
+     */
     private void startMainActivity() {
         Intent main = new Intent(this, MainActivity.class);
         startActivity(main);
@@ -93,6 +110,24 @@ public class SettingsActivity extends ThemedActivity {
     }
 
     /**
+     * Activate background textview prompt listener
+     */
+    private void selectBackgroundListener() {
+        TextView backgroundText = findViewById(R.id.setting_choose_background);
+        backgroundText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+    }
+
+    private void setUpBackgroundImageView() {
+        background = findViewById(R.id.settings_background);
+        Bitmap bitmap = bitmapConverter.decodeBase64(preferences.getString("Background", bg));
+        background.setImageBitmap(bitmap);
+    }
+    /**
      * Hide the keyboard
      *
      * @param view the view to hide from
@@ -103,4 +138,70 @@ public class SettingsActivity extends ThemedActivity {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    /**
+     * Open gallery for image selection
+     */
+    private void openGallery() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }else {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, 1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            try { // When an Image is picked
+                if (requestCode == 1 && data != null) {
+                    String imgDecodableString = getImageDecodableString(data);
+                    // Set the Image in ImageView after decoding the String
+                    Bitmap background = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString);
+                    this.background.setImageBitmap(background);
+                    String encodedImage = bitmapConverter.encodeBase64(background);
+                    controller.getEditor().putString("Background", encodedImage);
+                    Toast.makeText(this, "Background Selected", Toast.LENGTH_SHORT).show();
+                } else if (requestCode == 11 && data != null) {
+                    // TODO implement icon selection
+                    Toast.makeText(this, "icon ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "You haven't picked Image",
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Oopsie ! Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String getImageDecodableString(Intent data) {
+        try {
+            // Get the Image from data
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            // Get the cursor
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            // Move to first row
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+            return imgDecodableString;
+        } catch (NullPointerException e) {
+            Toast.makeText(this, "Oopsie ! Something went wrong", Toast.LENGTH_LONG).show();
+        }
+        return "";
+    }
+
+
 }

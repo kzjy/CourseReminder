@@ -1,21 +1,15 @@
 package kz.coursereminder.display;
-
-import android.app.Notification;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.ViewStatePagerAdapter;
-import kz.coursereminder.structure.FileManager;
-import kz.coursereminder.structure.Setting;
 
 public class MainActivity extends ThemedActivity {
 
@@ -24,6 +18,7 @@ public class MainActivity extends ThemedActivity {
      */
     private ViewStatePagerAdapter mViewStatePagerAdapter;
     private ViewPager mViewPager;
+
 
     /**
      * Bottom Navigation bar listener
@@ -81,6 +76,7 @@ public class MainActivity extends ThemedActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // set bar to be home
         setTitle("Home");
+//        loadBackground();
     }
 
     /**
@@ -135,5 +131,7 @@ public class MainActivity extends ThemedActivity {
         Intent swapToSettings = new Intent(this, SettingsActivity.class);
         startActivity(swapToSettings);
     }
+
+
 
 }

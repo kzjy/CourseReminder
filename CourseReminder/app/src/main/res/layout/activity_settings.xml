@@ -84,10 +84,20 @@
                 android:text="Background"
                 android:textSize="20sp" />
 
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/settings_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="5dp"
+                />
+
             <TextView
+                android:id="@+id/setting_choose_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Choose from local storage"
+                android:text="Click here to choose from local storage"
                 android:textStyle="italic" />
 
         </LinearLayout>

@@ -3,10 +3,6 @@ package kz.coursereminder.controllers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import kz.coursereminder.structure.FileManager;
-import kz.coursereminder.structure.Setting;
-
 public class SettingsController {
 
     private Context context;
@@ -25,5 +21,13 @@ public class SettingsController {
 
     public void save() {
         editor.commit();
+    }
+
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
+
+    public SharedPreferences.Editor getEditor() {
+        return editor;
     }
 }

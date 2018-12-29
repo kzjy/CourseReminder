@@ -2,6 +2,7 @@ package kz.coursereminder.display;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -62,6 +64,8 @@ public class DashBoard extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_dashboard,container,false);
         gridView = view.findViewById(R.id.dashboard_gridview);
+        Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
+        ((ImageView)view.findViewById(R.id.dashboard_background)).setImageDrawable(backgroundDrawable);
         updateDashboard();
         addGridViewClickListener();
         return view;

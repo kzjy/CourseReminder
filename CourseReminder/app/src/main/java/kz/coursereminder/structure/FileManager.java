@@ -16,12 +16,10 @@ public class FileManager {
 
     private Context context;
     private CourseManager courseManager;
-    private Setting setting;
 
     public FileManager(Context context) {
         this.context = context;
         loadFile(CourseManager.COURSES);
-        loadFile(Setting.SETTINGS);
     }
 
     public void loadFile(String fileName) {
@@ -50,9 +48,6 @@ public class FileManager {
             case CourseManager.COURSES:
                 courseManager = (CourseManager) input.readObject();
                 break;
-            case Setting.SETTINGS:
-                setting = (Setting) input.readObject();
-                break;
         }
     }
     /**
@@ -68,9 +63,7 @@ public class FileManager {
 
     private void createFile() {
         courseManager = new CourseManager();
-        setting = new Setting();
         writeFile(CourseManager.COURSES, courseManager);
-        writeFile(Setting.SETTINGS, setting);
     }
 
     /**
@@ -87,10 +80,6 @@ public class FileManager {
         } catch (IOException e) {
             Log.e(TAG, "IOException");
         }
-    }
-
-    public Setting getSetting() {
-        return setting;
     }
 
     public CourseManager getCourseManager() {
