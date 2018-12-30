@@ -30,6 +30,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/setting_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"/>
@@ -56,10 +57,19 @@
                 android:text="Icon"
                 android:textSize="20sp" />
 
+            <ImageView
+                android:id="@+id/settings_icon"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"/>
+
             <TextView
+                android:id="@+id/setting_choose_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Choose from local storage"
+                android:text="Choose here to choose from local storage"
                 android:textStyle="italic" />
 
         </LinearLayout>
@@ -85,6 +95,7 @@
                 android:textSize="20sp" />
 
             <ImageView
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:id="@+id/settings_background"
                 android:layout_width="wrap_content"

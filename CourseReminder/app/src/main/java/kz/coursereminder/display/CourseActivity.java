@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
         gradeButtonListener();
         assignmentButtonListener();
         courseDisplayEditListener();
+        setImageBackground();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,6 +71,12 @@ CourseRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+//    @Override
+    public void setImageBackground() {
+        ((ImageView) findViewById(R.id.course_background)).setImageDrawable(getBackgroundDrawable());
+    }
+
     /**
      * Finds the layout views
      */

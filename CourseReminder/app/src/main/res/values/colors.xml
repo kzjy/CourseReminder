@@ -16,5 +16,13 @@
     <color name="Theme4">#5165d4</color>
     <color name="Theme5">#aa7db9</color>
     <color name="Theme6">#b97dab</color>
+    <color name="TintedWhite">#e6FFFFFF</color>
+    <color name="TintedTheme0">#E6e9a29a</color>
+    <color name="TintedTheme1">#E6d9d980</color>
+    <color name="TintedTheme3">#E67db9b2</color>
+    <color name="TintedTheme4">#E65165d4</color>
+    <color name="TintedTheme5">#E6aa7db9</color>
+    <color name="TintedTheme6">#E6b97dab</color>
+    <color name="TintedTheme2">#E685b97d</color>
 
 </resources>

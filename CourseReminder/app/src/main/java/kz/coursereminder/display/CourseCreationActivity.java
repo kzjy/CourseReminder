@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,7 @@ public class CourseCreationActivity extends ThemedActivity {
         setupView();
         //Instantiate controller
         courseCreationController = new CourseCreationController(this);
+        setImageBackground();
     }
 
     /**
@@ -104,6 +106,9 @@ public class CourseCreationActivity extends ThemedActivity {
         }
     }
 
+    public void setImageBackground() {
+        ((ImageView) findViewById(R.id.creation_background)).setImageDrawable(getBackgroundDrawable());
+    }
     /**
      * Listeners in layout
      */

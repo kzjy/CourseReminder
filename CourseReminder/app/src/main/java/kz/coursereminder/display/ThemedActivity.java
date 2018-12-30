@@ -22,6 +22,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
 
     protected SharedPreferences preferences;
     protected String bg = "";
+    protected String ic = "";
     protected BitmapConverter bitmapConverter = new BitmapConverter();
 
     @Override
@@ -31,22 +32,26 @@ public abstract class ThemedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+//    public abstract void setImageBackground();
+
     @Override
     protected void onRestart() {
         loadTheme();
         super.onRestart();
     }
 
-//    /**
-//     * Get default background if none is stored in sharedPreferences
-//     * @return the encoded string of background
-//     */
-//    protected String getDefaultBackgroundString() {
-////        Drawable vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.cloud,
-////                this.getTheme());
-//        Bitmap defaultBackground = BitmapFactory.decodeResource(getResources(),R.drawable.cloud);
-//        return bitmapConverter.encodeBase64(defaultBackground);
-//    }
+    public String getUserName() {
+        String s = preferences.getString("User", "Anonymous");
+        return s;
+    }
+    public Drawable getIconDrawable() {
+        String storedIcon = preferences.getString("Icon", ic);
+        if (storedIcon.equals("")) {
+            return getDrawable(R.drawable.home_user_175);
+        }
+        Bitmap backgroundBitmap = bitmapConverter.decodeBase64(storedIcon);
+        return new BitmapDrawable(getResources(), backgroundBitmap);
+    }
 
     /**
      * Get the background saved in sharedPreferences

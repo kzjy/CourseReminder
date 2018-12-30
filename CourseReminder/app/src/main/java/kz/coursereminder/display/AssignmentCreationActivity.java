@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -43,6 +44,7 @@ public class AssignmentCreationActivity extends ThemedActivity {
         controller = new CourseActivityController(this, course.getName());
         timeSelectListener();
         dateSelectListener();
+        setImageBackground();
     }
 
     /**
@@ -74,6 +76,11 @@ public class AssignmentCreationActivity extends ThemedActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+//    @Override
+    public void setImageBackground() {
+        ((ImageView) findViewById(R.id.assignment_background)).setImageDrawable(getBackgroundDrawable());
     }
 
     /**

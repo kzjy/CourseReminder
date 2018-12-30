@@ -70,7 +70,7 @@ public class DashboardCourseAdapter extends BaseAdapter{
 
     private void setBackgroundColor(View view) {
         TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        context.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
         int color = typedValue.data;
         view.setBackgroundColor(color);
     }

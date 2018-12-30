@@ -13,7 +13,7 @@
     <style name="Theme0" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme0</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme0</item>
         <item name="colorAccent">@color/Theme0</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -21,7 +21,7 @@
     <style name="Theme1" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme1</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme1</item>
         <item name="colorAccent">@color/Theme1</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -29,7 +29,7 @@
     <style name="Theme2" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme2</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme2</item>
         <item name="colorAccent">@color/Theme2</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -37,7 +37,7 @@
     <style name="Theme3" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme3</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme3</item>
         <item name="colorAccent">@color/Theme3</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -46,7 +46,7 @@
     <style name="Theme4" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme4</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme4</item>
         <item name="colorAccent">@color/Theme4</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -54,7 +54,7 @@
     <style name="Theme5" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme5</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme5</item>
         <item name="colorAccent">@color/Theme5</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>
@@ -62,7 +62,7 @@
     <style name="Theme6" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme6</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/TintedTheme6</item>
         <item name="colorAccent">@color/Theme6</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>

@@ -37,17 +37,20 @@ public class BitmapConverter {
     }
 
     @NonNull
-    private BitmapFactory.Options createBitmapFactoryOptions(String imgDecodableString) {
+    private BitmapFactory.Options createBitmapFactoryOptions(String imgDecodableString, String picker) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imgDecodableString, options);
         options.inSampleSize = calculateInSampleSize(options, 270, 480);
+        if (picker.equals("Icon")) {
+            options.inSampleSize = calculateInSampleSize(options, 120, 120);
+        }
         options.inJustDecodeBounds = false;
         return options;
     }
 
-    public Bitmap convertDecodableStringToBitmap(String imgDecodableString) {
-        BitmapFactory.Options options = createBitmapFactoryOptions(imgDecodableString);
+    public Bitmap convertDecodableStringToBitmap(String imgDecodableString, String size) {
+        BitmapFactory.Options options = createBitmapFactoryOptions(imgDecodableString, size);
         return BitmapFactory.decodeFile(imgDecodableString, options);
     }
 

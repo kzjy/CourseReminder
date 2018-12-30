@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class SettingsActivity extends ThemedActivity {
     private SettingsThemeAdapter adapter;
     private SettingsController controller;
     private ImageView background;
+    private ImageView icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +44,12 @@ public class SettingsActivity extends ThemedActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        ((EditText) findViewById(R.id.setting_user)).setText(getUserName());
         setUpThemeColor();
         addThemeColorListener();
         selectBackgroundListener();
         setUpBackgroundImageView();
+        selectIconListener();
     }
 
     /**
@@ -69,6 +73,7 @@ public class SettingsActivity extends ThemedActivity {
                 finish();
                 return true;
             case R.id.save_settings:
+                controller.getEditor().putString("User", userNameListener());
                 controller.save();
                 startMainActivity();
                 return true;
@@ -109,6 +114,20 @@ public class SettingsActivity extends ThemedActivity {
         });
     }
 
+    private String userNameListener() {
+        EditText name = findViewById(R.id.setting_user);
+        return name.getText().toString();
+    }
+
+    private void selectIconListener() {
+        TextView iconText = findViewById(R.id.setting_choose_icon);
+        iconText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery("Icon");
+            }
+        });
+    }
     /**
      * Activate background textview prompt listener
      */
@@ -117,15 +136,18 @@ public class SettingsActivity extends ThemedActivity {
         backgroundText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                openGallery("Background");
             }
         });
     }
 
     private void setUpBackgroundImageView() {
         background = findViewById(R.id.settings_background);
-        Bitmap bitmap = bitmapConverter.decodeBase64(preferences.getString("Background", bg));
-        background.setImageBitmap(bitmap);
+        Bitmap backgroundBitmap= bitmapConverter.decodeBase64(preferences.getString("Background", bg));
+        background.setImageBitmap(backgroundBitmap);
+        icon = findViewById(R.id.settings_icon);
+        Bitmap iconBitmap = bitmapConverter.decodeBase64(preferences.getString("Icon", ic));
+        icon.setImageBitmap(iconBitmap);
     }
     /**
      * Hide the keyboard
@@ -142,13 +164,17 @@ public class SettingsActivity extends ThemedActivity {
     /**
      * Open gallery for image selection
      */
-    private void openGallery() {
+    private void openGallery(String picker) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }else {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, 1);
+            if (picker.equals("Background")) {
+                startActivityForResult(photoPickerIntent, 1);
+            } else {
+                startActivityForResult(photoPickerIntent, 11);
+            }
         }
     }
 
@@ -159,16 +185,26 @@ public class SettingsActivity extends ThemedActivity {
         if (resultCode == RESULT_OK) {
             try { // When an Image is picked
                 if (requestCode == 1 && data != null) {
+
                     String imgDecodableString = getImageDecodableString(data);
                     // Set the Image in ImageView after decoding the String
-                    Bitmap background = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString);
+                    Bitmap background = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Background");
                     this.background.setImageBitmap(background);
                     String encodedImage = bitmapConverter.encodeBase64(background);
                     controller.getEditor().putString("Background", encodedImage);
                     Toast.makeText(this, "Background Selected", Toast.LENGTH_SHORT).show();
+
                 } else if (requestCode == 11 && data != null) {
+
                     // TODO implement icon selection
-                    Toast.makeText(this, "icon ", Toast.LENGTH_SHORT).show();
+                    String imgDecodableString = getImageDecodableString(data);
+                    // Set the Image in ImageView after decoding the String
+                    Bitmap icon = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Icon");
+                    this.icon.setImageBitmap(icon);
+                    String encodedImage = bitmapConverter.encodeBase64(icon);
+                    controller.getEditor().putString("Icon", encodedImage);
+                    Toast.makeText(this, "Icon Selected", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(this, "You haven't picked Image",
                             Toast.LENGTH_LONG).show();

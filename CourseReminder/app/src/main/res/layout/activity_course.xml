@@ -1,168 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cloud"
-    android:backgroundTint="#E6FFFFFF"
-    android:backgroundTintMode="src_atop"
-    android:orientation="vertical"
     tools:context=".display.CourseActivity">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/course_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/cloud"
+        android:tint="#E6FFFFFF"
+        android:scaleType="centerCrop"/>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/course_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="CSC200"
-                            android:textSize="40sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/course_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CSC200"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="some info"
-                            android:textSize="12sp"
-                            android:textStyle="italic"
-                            android:id="@+id/course_info"
-                            android:paddingBottom="10dp"/>
+                    <TextView
+                        android:id="@+id/course_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:text="some info"
+                        android:textSize="12sp"
+                        android:textStyle="italic" />
                 </LinearLayout>
 
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/LightGrey">
-
-            </View>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
-                android:text="Assignments"
-                android:textSize="20sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/course_assignment_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/LightGrey">
-
-            </View>
-
-            <Button
-                android:id="@+id/course_add_assignment_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Add New + "
-                android:textColor="@color/green"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Notes"
-                android:textSize="20dp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp">
-
-                <TextView
-                    android:paddingTop="10dp"
-                    android:id="@+id/course_notes"
+                <View
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="some notes"
-                    android:textStyle="italic"
-                    android:paddingBottom="5dp"/>
+                    android:layout_height="1dp"
+                    android:background="@color/LightGrey">
 
-                <EditText
-                    android:id="@+id/course_notes_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="edit some notes"
-                    android:visibility="invisible"/>
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grades"
-                android:textSize="20dp"
-                android:paddingBottom="10dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/course_grade_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp">
+                </View>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Current Average: "/>
+                    android:paddingBottom="10dp"
+                    android:paddingTop="20dp"
+                    android:text="Assignments"
+                    android:textSize="20sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/course_assignment_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGrey">
+
+                </View>
+
+                <Button
+                    android:id="@+id/course_add_assignment_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Add New + "
+                    android:textColor="@color/green" />
 
                 <TextView
-                    android:id="@+id/course_average"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Notes"
+                    android:textSize="20dp" />
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="100%"
-                    android:layout_marginEnd="10dp"/>
-            </RelativeLayout>
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp">
 
-            <Button
-                android:id="@+id/course_add_grade_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Add New + "
-                android:textColor="@color/green"/>
+                    <TextView
+                        android:id="@+id/course_notes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:text="some notes"
+                        android:textStyle="italic" />
 
-            <Button
-                android:id="@+id/course_delete_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Delete Course"
-                android:textColor="@color/colorAccent" />
+                    <EditText
+                        android:id="@+id/course_notes_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="edit some notes"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:text="Grades"
+                    android:textSize="20dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/course_grade_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Current Average: " />
+
+                    <TextView
+                        android:id="@+id/course_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="100%" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/course_add_grade_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Add New + "
+                    android:textColor="@color/green" />
+
+                <Button
+                    android:id="@+id/course_delete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Delete Course"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
 
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</FrameLayout>
