@@ -13,25 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.NotificationRecyclerViewAdapter;
-import kz.coursereminder.controllers.NotificationFragmentController;
-import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.FileManager;
-import kz.coursereminder.structure.Reminder;
-import kz.coursereminder.structure.ReminderDateTime;
+import kz.coursereminder.controllers.NotificationController;
 
 
 public class Notifications extends Fragment {
 
-    private NotificationFragmentController controller;
+    private NotificationController controller;
     private NotificationRecyclerViewAdapter adapter;
     private NotificationRecyclerViewAdapter pastAdapter;
 
@@ -42,7 +32,7 @@ public class Notifications extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = new NotificationFragmentController(this.getActivity());
+        controller = new NotificationController(this.getActivity());
     }
 
     @Override

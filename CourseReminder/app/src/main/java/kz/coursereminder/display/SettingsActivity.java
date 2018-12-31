@@ -48,7 +48,7 @@ public class SettingsActivity extends ThemedActivity {
         setUpThemeColor();
         addThemeColorListener();
         selectBackgroundListener();
-        setUpBackgroundImageView();
+        setUpImageView();
         selectIconListener();
     }
 
@@ -114,11 +114,18 @@ public class SettingsActivity extends ThemedActivity {
         });
     }
 
+    /**
+     * Activate username listener
+     * @return string of input username
+     */
     private String userNameListener() {
         EditText name = findViewById(R.id.setting_user);
         return name.getText().toString();
     }
 
+    /**
+     * Activate icon click listener
+     */
     private void selectIconListener() {
         TextView iconText = findViewById(R.id.setting_choose_icon);
         iconText.setOnClickListener(new View.OnClickListener() {
@@ -141,12 +148,15 @@ public class SettingsActivity extends ThemedActivity {
         });
     }
 
-    private void setUpBackgroundImageView() {
+    /**
+     * Set up background and icon image view in settings
+     */
+    private void setUpImageView() {
         background = findViewById(R.id.settings_background);
-        Bitmap backgroundBitmap= bitmapConverter.decodeBase64(preferences.getString("Background", bg));
+        Bitmap backgroundBitmap= bitmapConverter.decodeBase64(preferences.getString("Background", ""));
         background.setImageBitmap(backgroundBitmap);
         icon = findViewById(R.id.settings_icon);
-        Bitmap iconBitmap = bitmapConverter.decodeBase64(preferences.getString("Icon", ic));
+        Bitmap iconBitmap = bitmapConverter.decodeBase64(preferences.getString("Icon", ""));
         icon.setImageBitmap(iconBitmap);
     }
     /**
@@ -171,54 +181,69 @@ public class SettingsActivity extends ThemedActivity {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             if (picker.equals("Background")) {
+                // background intent
                 startActivityForResult(photoPickerIntent, 1);
             } else {
+                // icon intent
                 startActivityForResult(photoPickerIntent, 11);
             }
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             try { // When an Image is picked
                 if (requestCode == 1 && data != null) {
-
-                    String imgDecodableString = getImageDecodableString(data);
-                    // Set the Image in ImageView after decoding the String
-                    Bitmap background = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Background");
-                    this.background.setImageBitmap(background);
-                    String encodedImage = bitmapConverter.encodeBase64(background);
-                    controller.getEditor().putString("Background", encodedImage);
-                    Toast.makeText(this, "Background Selected", Toast.LENGTH_SHORT).show();
-
+                    // background
+                    onBackgroundResult(data);
                 } else if (requestCode == 11 && data != null) {
-
-                    // TODO implement icon selection
-                    String imgDecodableString = getImageDecodableString(data);
-                    // Set the Image in ImageView after decoding the String
-                    Bitmap icon = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Icon");
-                    this.icon.setImageBitmap(icon);
-                    String encodedImage = bitmapConverter.encodeBase64(icon);
-                    controller.getEditor().putString("Icon", encodedImage);
-                    Toast.makeText(this, "Icon Selected", Toast.LENGTH_SHORT).show();
-
+                    // icon
+                    onIconResult(data);
                 } else {
-                    Toast.makeText(this, "You haven't picked Image",
+                    Toast.makeText(this, "You didn't pick an image",
                             Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Oopsie ! Something went wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Oopsie ! Something went wrong",
+                        Toast.LENGTH_LONG).show();
             }
-
         }else {
-            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You didn't pick an image",Toast.LENGTH_LONG).show();
         }
     }
+    /**
+     * Set icon if launched with icon intent
+     * @param data data from onActivityResult
+     */
+    private void onIconResult(Intent data) {
+        String imgDecodableString = getImageDecodableString(data);
+        Bitmap icon = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Icon");
+        this.icon.setImageBitmap(icon);
+        String encodedImage = bitmapConverter.encodeBase64(icon);
+        controller.getEditor().putString("Icon", encodedImage);
+        Toast.makeText(this, "Icon Selected", Toast.LENGTH_SHORT).show();
+    }
 
+    /**
+     * Set background if launched with background intent
+     * @param data data from onActivityResult
+     */
+    private void onBackgroundResult(Intent data) {
+        String imgDecodableString = getImageDecodableString(data);
+        Bitmap background = bitmapConverter.convertDecodableStringToBitmap(imgDecodableString, "Background");
+        this.background.setImageBitmap(background);
+        String encodedImage = bitmapConverter.encodeBase64(background);
+        controller.getEditor().putString("Background", encodedImage);
+        Toast.makeText(this, "Background Selected", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Get the decodable string from data
+     * @param data data catched from onActivityResult
+     * @return string of file location
+     */
     private String getImageDecodableString(Intent data) {
         try {
             // Get the Image from data
@@ -238,6 +263,5 @@ public class SettingsActivity extends ThemedActivity {
         }
         return "";
     }
-
 
 }

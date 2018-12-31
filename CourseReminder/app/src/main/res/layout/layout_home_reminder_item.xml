@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/home_list_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Some assignment "
+        android:textSize="17sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_list_item_date"
+        android:text="Some date"
+        android:textSize="10sp"
+        />
+</LinearLayout>

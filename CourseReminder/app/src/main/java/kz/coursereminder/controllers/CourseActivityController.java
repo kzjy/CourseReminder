@@ -78,18 +78,18 @@ public class CourseActivityController extends CourseControllers implements Seria
      * @param stringInput string input of grade
      * @return whether it is valid
      */
-    public boolean checkGradeInput(String[] stringInput) {
+    public boolean checkNotValidGradeInput(String[] stringInput) {
         for (int i = 0; i < stringInput.length; i++) {
             if (stringInput[i].equals("")) {
-                return false;
+                return true;
             }
             if (i == 1) {
                 if (Float.valueOf(stringInput[i]) == 0) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**

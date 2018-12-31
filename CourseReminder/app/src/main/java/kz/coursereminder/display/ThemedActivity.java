@@ -21,8 +21,6 @@ import kz.coursereminder.structure.BitmapConverter;
 public abstract class ThemedActivity extends AppCompatActivity {
 
     protected SharedPreferences preferences;
-    protected String bg = "";
-    protected String ic = "";
     protected BitmapConverter bitmapConverter = new BitmapConverter();
 
     @Override
@@ -32,7 +30,6 @@ public abstract class ThemedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-//    public abstract void setImageBackground();
 
     @Override
     protected void onRestart() {
@@ -40,12 +37,20 @@ public abstract class ThemedActivity extends AppCompatActivity {
         super.onRestart();
     }
 
+    /**
+     * Get username stored in sharedpreferences
+     * @return username
+     */
     public String getUserName() {
-        String s = preferences.getString("User", "Anonymous");
-        return s;
+        return preferences.getString("User", "Anonymous");
     }
+
+    /**
+     * Get icon stored in sharedpreferences
+     * @return icon
+     */
     public Drawable getIconDrawable() {
-        String storedIcon = preferences.getString("Icon", ic);
+        String storedIcon = preferences.getString("Icon", "");
         if (storedIcon.equals("")) {
             return getDrawable(R.drawable.home_user_175);
         }
@@ -58,13 +63,14 @@ public abstract class ThemedActivity extends AppCompatActivity {
      * @return a drawable of the background
      */
     public Drawable getBackgroundDrawable() {
-        String storedBackground = preferences.getString("Background", bg);
+        String storedBackground = preferences.getString("Background", "");
         if (storedBackground.equals("")) {
             return getDrawable(R.drawable.cloud);
         }
         Bitmap backgroundBitmap = bitmapConverter.decodeBase64(storedBackground);
         return new BitmapDrawable(getResources(), backgroundBitmap);
     }
+
     /**
      * Load the currently saved theme from preferences
      */

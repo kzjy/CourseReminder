@@ -103,7 +103,7 @@ public class GradeAdditionPopUp extends PopUp {
                 getText().toString().trim();
         stringInput[2] = ((EditText) dialog.findViewById(R.id.popup_grade_weight)).
                 getText().toString().trim();
-        if (!controller.checkGradeInput(stringInput)) {
+        if (controller.checkNotValidGradeInput(stringInput)) {
             return null;
         }
         return new Float[]{Float.valueOf(stringInput[0]), Float.valueOf(stringInput[1]),

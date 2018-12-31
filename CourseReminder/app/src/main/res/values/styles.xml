@@ -4,7 +4,6 @@
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Theme2</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/Theme2</item>
         <item name="actionMenuTextColor">@color/White</item>
         <item name="actionBarSize">50dp</item>

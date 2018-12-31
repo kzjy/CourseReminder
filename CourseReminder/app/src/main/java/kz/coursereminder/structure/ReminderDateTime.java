@@ -35,6 +35,24 @@ public class ReminderDateTime implements Serializable, Comparable<ReminderDateTi
         return month + " " + date[0] + ", " + date[2];
     }
 
+    public String getDueDateTimeDisplayString() {
+        return getDateDisplayString() + " at " + getTimeDisplayString();
+    }
+
+    /**
+     * Compare with other for same day
+     * @param other other reminderDatetime
+     * @return whether it is the same day
+     */
+    public boolean getSameDate(ReminderDateTime other) {
+        for (int i = 0; i < date.length; i ++) {
+            if (!date[i].equals(other.date[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public int compareTo(@NonNull ReminderDateTime o) {
         Integer[] otherTime = o.getTime();

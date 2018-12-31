@@ -35,6 +35,7 @@ public class MainActivity extends ThemedActivity {
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(0);
                         setTitle("Home");
+                        ((Home) mViewStatePagerAdapter.getItem(0)).refresh();
                         return true;
                     case R.id.navigation_dashboard:
                         mViewPager.setCurrentItem(1);
