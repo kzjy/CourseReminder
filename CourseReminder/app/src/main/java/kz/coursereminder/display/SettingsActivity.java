@@ -16,16 +16,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.SettingsThemeAdapter;
 import kz.coursereminder.controllers.SettingsController;
 import kz.coursereminder.structure.BitmapConverter;
+import kz.coursereminder.structure.Reminder;
 
 public class SettingsActivity extends ThemedActivity {
 
@@ -159,6 +165,7 @@ public class SettingsActivity extends ThemedActivity {
         Bitmap iconBitmap = bitmapConverter.decodeBase64(preferences.getString("Icon", ""));
         icon.setImageBitmap(iconBitmap);
     }
+
     /**
      * Hide the keyboard
      *
@@ -246,13 +253,10 @@ public class SettingsActivity extends ThemedActivity {
      */
     private String getImageDecodableString(Intent data) {
         try {
-            // Get the Image from data
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            // Get the cursor
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
-            // Move to first row
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String imgDecodableString = cursor.getString(columnIndex);

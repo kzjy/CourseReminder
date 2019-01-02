@@ -1,19 +1,19 @@
 package kz.coursereminder.structure;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CourseManager implements Serializable {
 
     private ArrayList<Course> courses = new ArrayList<>();
+    private ReminderManager reminderManager;
 
     public static final String COURSES = "course_manager.ser";
 
     public CourseManager() {
         Course addNew = new Course("Add New", "", 0);
         addCourse(addNew);
+        reminderManager = new ReminderManager();
     }
 
     /**
@@ -78,5 +78,22 @@ public class CourseManager implements Serializable {
             return true;
         }
         return false;
+    }
+
+
+    public boolean addReminderToCourse(Course course, Reminder reminder) {
+        if (courses.contains(course)) {
+            int i = reminderManager.addReminder(reminder);
+            if (i == -1) {
+                return false;
+            }
+            course.addTask(reminder);
+        }
+        return false;
+    }
+
+    public void removeReminderFromCourse(Course course, int position, Reminder reminder) {
+        reminderManager.removeReminder(reminder);
+        course.removeTask(position);
     }
 }

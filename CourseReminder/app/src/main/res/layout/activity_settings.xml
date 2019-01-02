@@ -150,26 +150,7 @@
 
         </View>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/White"
-            android:orientation="vertical"
-            android:padding="10dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Notification"
-                android:textSize="20sp" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="20dp">
-
-            </Spinner>
-
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

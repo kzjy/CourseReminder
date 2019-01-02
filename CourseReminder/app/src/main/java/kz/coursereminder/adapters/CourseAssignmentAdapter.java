@@ -75,8 +75,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         viewHolder.assignmentGrade.setText("");
         viewHolder.assignmentWeight.setText("");
         viewHolder.assignmentName.setText(currentReminder.getNameDisplayString());
-        String time = currentReminder.getDateTime().getTimeDisplayString();
-        String dateTime = currentReminder.getDateTime().getDateDisplayString() + "   at   " + time;
+        String dateTime = currentReminder.getDueDateTimeDisplayString();
         viewHolder.assignmentDate.setText(dateTime);
     }
 

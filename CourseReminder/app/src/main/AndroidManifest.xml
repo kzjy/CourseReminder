@@ -50,6 +50,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".display.MainActivity" />
         </activity>
+
+        <receiver android:name=".structure.NotificationReceiver">
+
+        </receiver>
     </application>
 
 </manifest>

@@ -10,15 +10,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
@@ -28,8 +34,8 @@ import kz.coursereminder.structure.Reminder;
 public class AssignmentCreationActivity extends ThemedActivity {
 
     private CourseActivityController controller;
-    private Integer[] selectedDate = new Integer[3];
-    private Integer[] selectedTime = new Integer[2];
+    private int minutesBeforeNotification = -30;
+    private Calendar dueDate = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,8 @@ public class AssignmentCreationActivity extends ThemedActivity {
         timeSelectListener();
         dateSelectListener();
         setImageBackground();
+        populateNotificationSpinner();
+        notificationSpinnerListener();
     }
 
     /**
@@ -71,6 +79,8 @@ public class AssignmentCreationActivity extends ThemedActivity {
                 boolean creationSuccesful = createTask();
                 if (creationSuccesful) {
                     finish();
+                } else {
+                    makeToastMaximumReminderExceeded();
                 }
                 return true;
             default:
@@ -78,7 +88,11 @@ public class AssignmentCreationActivity extends ThemedActivity {
         }
     }
 
-//    @Override
+    private void makeToastMaximumReminderExceeded() {
+        Toast.makeText(this, "You have reached 50 reminders, " +
+                "delete inactive ones and try again", Toast.LENGTH_SHORT).show();
+    }
+
     public void setImageBackground() {
         ((ImageView) findViewById(R.id.assignment_background)).setImageDrawable(getBackgroundDrawable());
     }
@@ -97,8 +111,8 @@ public class AssignmentCreationActivity extends ThemedActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                                selectedTime[0] = hourOfDay;
-                                selectedTime[1] = minutes;
+                                dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                dueDate.set(Calendar.MINUTE, minutes);
                                 String nonZeroMinute = (minutes == 0) ? "00" : String.valueOf(minutes);
                                 String s = hourOfDay + " : " + nonZeroMinute;
                                 timeSelect.setText(s);
@@ -128,14 +142,42 @@ public class AssignmentCreationActivity extends ThemedActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                selectedDate[0] = dayOfMonth;
-                                selectedDate[1] = month;
-                                selectedDate[2] = year;
+                                dueDate.set(Calendar.YEAR, year);
+                                dueDate.set(Calendar.MONTH, month);
+                                dueDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                 String s = dayOfMonth + " / " + (month + 1) + " / " + year;
                                 dateSelect.setText(s);
                             }
                         }, year, month, day);
                 datePickerDialog.show();
+            }
+        });
+    }
+
+    /**
+     * Add notification time options to the spinner
+     */
+    private void populateNotificationSpinner() {
+        List<String> notificationTime = new ArrayList<>();
+        controller.addSpinnerOptions(notificationTime);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, notificationTime);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner notificationSpinner = findViewById(R.id.setting_notification_spinner);
+        notificationSpinner.setAdapter(adapter);
+
+    }
+
+    private void notificationSpinnerListener() {
+        Spinner notificationSpinner = findViewById(R.id.setting_notification_spinner);
+        notificationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                minutesBeforeNotification = (- 1) * controller.calculateSpinnerMinutesBefore(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
@@ -160,7 +202,23 @@ public class AssignmentCreationActivity extends ThemedActivity {
     private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
-        Reminder reminder = new Reminder(taskName, selectedDate, selectedTime, taskIsTest);
-        return controller.addReminder(reminder);
+        String date  = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
+        String time = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
+        if (date.contains("/") && time.contains(":")) {
+            Calendar c = (Calendar) dueDate.clone();
+            c.add(Calendar.MINUTE, minutesBeforeNotification);
+            Reminder reminder = new Reminder(taskName, dueDate, taskIsTest, c);
+            return controller.addReminder(reminder);
+        }
+        makeToastTaskFieldNotCompleted();
+        return false;
+    }
+
+    /**
+     * Make toast fill in details
+     */
+    private void makeToastTaskFieldNotCompleted() {
+        Toast.makeText(this, "Please fill in reminder name, date, time, and notification " +
+                "settings", Toast.LENGTH_SHORT).show();
     }
 }

@@ -3,13 +3,14 @@ package kz.coursereminder.controllers;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Grade;
 import kz.coursereminder.structure.Reminder;
-import kz.coursereminder.structure.ReminderDateTime;
 
 
 public class CourseActivityController extends CourseControllers implements Serializable {
@@ -27,8 +28,9 @@ public class CourseActivityController extends CourseControllers implements Seria
 
     /**
      * Save an edit to the course name, info or notes
+     *
      * @param input the edit to be saved
-     * @param type one of name, info or notes
+     * @param type  one of name, info or notes
      */
     public void saveEdits(String input, String type) {
         switch (type) {
@@ -38,10 +40,10 @@ public class CourseActivityController extends CourseControllers implements Seria
                     currentCourse.setName(input);
                 }
                 break;
-            case("info"):
+            case ("info"):
                 currentCourse.setInfo(input);
                 break;
-            case("notes"):
+            case ("notes"):
                 currentCourse.setNotes(input);
                 break;
         }
@@ -58,23 +60,19 @@ public class CourseActivityController extends CourseControllers implements Seria
 
     /**
      * Add a reminder to the current course
+     *
      * @param reminder reminder to be added
      * @return whether addition is successful
      */
     public boolean addReminder(Reminder reminder) {
-        ReminderDateTime dateTime = reminder.getDateTime();
-        if (dateTime.getDate()[0] == null || dateTime.getTime()[0] == null ||
-                reminder.getName().equals("")) {
-            makeToastTaskFieldNotCompleted();
-            return false;
-        }
-        currentCourse.addTask(reminder);
+        boolean succesful = courseManager.addReminderToCourse(currentCourse, reminder);
         save();
-        return true;
+        return succesful;
     }
 
     /**
      * Check stringInput for empty or 0 inputs
+     *
      * @param stringInput string input of grade
      * @return whether it is valid
      */
@@ -94,16 +92,19 @@ public class CourseActivityController extends CourseControllers implements Seria
 
     /**
      * Removes an assignment from course
+     *
      * @param position position of assignment in list
      */
     public void removeAssignment(int position) {
-        currentCourse.removeTask(position);
+        courseManager.removeReminderFromCourse(currentCourse, position,
+                currentCourse.getReminders().get(position));
         save();
     }
 
     /**
      * Assign a grade to an assignment
-     * @param grade grade to be added
+     *
+     * @param grade            grade to be added
      * @param positionSelected position in list of assignment
      */
     public void addGradeToAssignment(Grade grade, int positionSelected) {
@@ -113,13 +114,15 @@ public class CourseActivityController extends CourseControllers implements Seria
 
     /**
      * Edit grade in completed assignments
-     * @param grade new grade to be changed
+     *
+     * @param grade            new grade to be changed
      * @param positionSelected position of the assignment
      */
     public void editGrade(Grade grade, int positionSelected) {
         currentCourse.editReminderGrade(grade, positionSelected);
         save();
     }
+
     /**
      * Save the course manager
      */
@@ -144,10 +147,30 @@ public class CourseActivityController extends CourseControllers implements Seria
         currentCourse = courseManager.getSpecificCourse(currentCourse.getName());
     }
 
-    /**
-     * Make toast fill in details
-     */
-    private void makeToastTaskFieldNotCompleted() {
-        Toast.makeText(context, "Please fill in task name, date, and time", Toast.LENGTH_SHORT).show();
+    public int calculateSpinnerMinutesBefore(int position) {
+        switch (position) {
+            case 0:
+                return 30;
+            case 1:
+                return 60;
+            case 2:
+                return 120;
+            case 3:
+                return 240;
+            case 4:
+                return 1440;
+            default:
+                return 30;
+        }
+    }
+
+
+
+    public void addSpinnerOptions(List<String> notificationTime) {
+        notificationTime.add("30 minutes");
+        notificationTime.add("1 hour");
+        notificationTime.add("2 hours");
+        notificationTime.add("4 hours");
+        notificationTime.add("1 day");
     }
 }

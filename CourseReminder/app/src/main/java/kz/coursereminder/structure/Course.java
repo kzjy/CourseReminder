@@ -110,8 +110,8 @@ public class Course implements Serializable {
             totalWeight += r.getGrade().getWeight();
         }
         for (Reminder r: completedReminders) {
-            average += ((float) r.getGrade().getGrade()/ r.getGrade().getTotal()) *
-                    ((float) r.getGrade().getWeight()/ totalWeight);
+            average += (r.getGrade().getGrade()/ r.getGrade().getTotal()) *
+                    ( r.getGrade().getWeight()/ totalWeight);
         }
         return average * 100;
     }

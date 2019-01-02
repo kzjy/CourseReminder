@@ -31,7 +31,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.date.setText(reminders.get(i).getDateTime().getDueDateTimeDisplayString());
+        viewHolder.date.setText(reminders.get(i).getDueDateTimeDisplayString());
         viewHolder.name.setText(reminders.get(i).getNameDisplayString());
     }
 

@@ -1,22 +1,24 @@
 package kz.coursereminder.display;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.view.View;
 
-import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 import kz.coursereminder.R;
 import kz.coursereminder.structure.BitmapConverter;
+import kz.coursereminder.structure.NotificationReceiver;
+import kz.coursereminder.structure.Reminder;
 
 public abstract class ThemedActivity extends AppCompatActivity {
 
@@ -78,6 +80,28 @@ public abstract class ThemedActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int theme = preferences.getInt("Theme", 0);
         selectTheme(theme);
+    }
+
+    private void startAlarm(Reminder reminder) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("title", "Course: Re");
+        String temp = reminder.getName() + " is coming up soon ~";
+        intent.putExtra("message", temp);
+        intent.putExtra("id", reminder.getID());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminder.getID(),
+                intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                reminder.getNotificationTime().getTimeInMillis(), pendingIntent);
+    }
+
+    private void cancelAlarm(int id) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+
+        alarmManager.cancel(pendingIntent);
     }
 
     /**

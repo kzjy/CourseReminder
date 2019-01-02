@@ -89,9 +89,10 @@ public class MainActivity extends ThemedActivity {
         mViewStatePagerAdapter = new ViewStatePagerAdapter(getSupportFragmentManager());
         mViewStatePagerAdapter.addFragment(new Home());
         mViewStatePagerAdapter.addFragment(new DashBoard());
-        mViewStatePagerAdapter.addFragment(new Calendar());
+        mViewStatePagerAdapter.addFragment(new CalendarFragment());
         mViewStatePagerAdapter.addFragment(new Notifications());
         mViewPager.setAdapter(mViewStatePagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     /**

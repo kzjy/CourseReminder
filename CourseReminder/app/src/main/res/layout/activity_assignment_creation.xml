@@ -129,11 +129,31 @@
 
         </LinearLayout>
 
-
         <View
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="10dp"
             android:background="@android:color/transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notification" />
+
+            <Spinner
+                android:layout_marginTop="5dp"
+                android:id="@+id/setting_notification_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+            </Spinner>
+
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

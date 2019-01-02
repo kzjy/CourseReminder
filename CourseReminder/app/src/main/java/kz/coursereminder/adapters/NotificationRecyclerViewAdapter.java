@@ -1,21 +1,16 @@
 package kz.coursereminder.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.coursereminder.R;
-import kz.coursereminder.structure.Course;
-import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Reminder;
 
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder> {
@@ -35,8 +30,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String dateTime = reminders.get(i).getDateTime().getDateDisplayString() + " at " +
-                reminders.get(i).getDateTime().getTimeDisplayString();
+        String dateTime = reminders.get(i).getDueDateTimeDisplayString();
         viewHolder.dueDate.setText(dateTime);
         viewHolder.assignment.setText(reminders.get(i).getNameDisplayString());
         if (reminders.get(i).getIsTest()) {
