@@ -29,7 +29,7 @@ public class NotificationHelper extends ContextWrapper {
     @TargetApi(Build.VERSION_CODES.O)
     public void createChannel() {
         NotificationChannel channel =  new NotificationChannel(channel1ID, channel1Name,
-                NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);
         channel.enableVibration(true);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);

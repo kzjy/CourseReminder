@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#E6FFFFFF"
-    tools:context=".display.Notifications">
+    tools:context=".display.NotificationsFragment">
 
     <ImageView
         android:id="@+id/notification_background"

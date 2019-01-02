@@ -1,6 +1,7 @@
 package kz.coursereminder.controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import kz.coursereminder.structure.Reminder;
 
 public class NotificationController {
 
+    private static final String TAG = "NotificationController";
     private Context context;
     private CourseManager courseManager;
 
@@ -47,6 +49,7 @@ public class NotificationController {
     public void update() {
         loadManager();
         generatDisplayArrayLists();
+        Log.v(TAG, String.valueOf(all.size()));
     }
 
     private void getReminderList() {
@@ -67,6 +70,7 @@ public class NotificationController {
         past = new ArrayList<>();
         for (Reminder r : all) {
             if (calendar.compareTo(r.getDateTime()) < 0) {
+                Log.v(TAG, r.getName());
                 upcoming.add(r);
             } else {
                 past.add(r);
@@ -104,13 +108,17 @@ public class NotificationController {
         ArrayList<Reminder> weekReminder = new ArrayList<>();
         Calendar current = Calendar.getInstance();
         Calendar week = (Calendar) current.clone();
-        week.set(Calendar.DATE, 7);
+        week.add(Calendar.DATE, 7);
+        Log.v(TAG, String.valueOf(upcoming));
         for (Reminder r : upcoming) {
             if (week.compareTo(r.getDateTime()) >= 0 && !r.getSameDate(current)) {
                 weekReminder.add(r);
+                Log.v(TAG, "added");
             }
+            Log.v(TAG, "checked");
         }
         Collections.sort(weekReminder);
+        Log.v(TAG, String.valueOf(weekReminder));
         return weekReminder;
     }
 }

@@ -79,8 +79,6 @@ public class AssignmentCreationActivity extends ThemedActivity {
                 boolean creationSuccesful = createTask();
                 if (creationSuccesful) {
                     finish();
-                } else {
-                    makeToastMaximumReminderExceeded();
                 }
                 return true;
             default:
@@ -88,10 +86,6 @@ public class AssignmentCreationActivity extends ThemedActivity {
         }
     }
 
-    private void makeToastMaximumReminderExceeded() {
-        Toast.makeText(this, "You have reached 50 reminders, " +
-                "delete inactive ones and try again", Toast.LENGTH_SHORT).show();
-    }
 
     public void setImageBackground() {
         ((ImageView) findViewById(R.id.assignment_background)).setImageDrawable(getBackgroundDrawable());
@@ -113,7 +107,7 @@ public class AssignmentCreationActivity extends ThemedActivity {
                             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                                 dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 dueDate.set(Calendar.MINUTE, minutes);
-                                String nonZeroMinute = (minutes == 0) ? "00" : String.valueOf(minutes);
+                                String nonZeroMinute = (minutes < 10) ? "0" + minutes : String.valueOf(minutes);
                                 String s = hourOfDay + " : " + nonZeroMinute;
                                 timeSelect.setText(s);
                             }
@@ -204,7 +198,7 @@ public class AssignmentCreationActivity extends ThemedActivity {
         boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
         String date  = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
         String time = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
-        if (date.contains("/") && time.contains(":")) {
+        if (date.contains("/") && time.contains(":") && !taskName.equals("")) {
             Calendar c = (Calendar) dueDate.clone();
             c.add(Calendar.MINUTE, minutesBeforeNotification);
             Reminder reminder = new Reminder(taskName, dueDate, taskIsTest, c);

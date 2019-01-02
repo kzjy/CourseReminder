@@ -26,7 +26,7 @@ import kz.coursereminder.structure.FileManager;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashBoard extends Fragment {
+public class DashBoardFragment extends Fragment {
 
     private static final String TAG = "DashBoard";
 
@@ -43,7 +43,7 @@ public class DashBoard extends Fragment {
     /**
      * default constructor
      */
-    public DashBoard() {
+    public DashBoardFragment() {
         // Required empty public constructor
     }
 

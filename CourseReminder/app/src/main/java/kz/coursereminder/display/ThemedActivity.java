@@ -12,11 +12,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.Calendar;
+import android.util.Log;
 
 import kz.coursereminder.R;
 import kz.coursereminder.structure.BitmapConverter;
+import kz.coursereminder.structure.CourseManager;
+import kz.coursereminder.structure.FileManager;
 import kz.coursereminder.structure.NotificationReceiver;
 import kz.coursereminder.structure.Reminder;
 
@@ -24,31 +25,48 @@ public abstract class ThemedActivity extends AppCompatActivity {
 
     protected SharedPreferences preferences;
     protected BitmapConverter bitmapConverter = new BitmapConverter();
+    protected CourseManager courseManager;
+    protected FileManager fileManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadTheme();
         super.onCreate(savedInstanceState);
+        fileManager = new FileManager(this);
+        courseManager = fileManager.getCourseManager();
+        setUpAlarms();
     }
 
 
     @Override
     protected void onRestart() {
         loadTheme();
+        FileManager fileManager = new FileManager(this);
+        courseManager = fileManager.getCourseManager();
+        setUpAlarms();
         super.onRestart();
     }
 
     /**
      * Get username stored in sharedpreferences
+     *
      * @return username
      */
     public String getUserName() {
         return preferences.getString("User", "Anonymous");
     }
 
+    protected void setUpAlarms() {
+        courseManager.getReminderManager().removePastReminder();
+        fileManager.writeFile(CourseManager.COURSES, courseManager);
+        cancelAllAlarm();
+        setAllReminderNotification();
+    }
+
     /**
      * Get icon stored in sharedpreferences
+     *
      * @return icon
      */
     public Drawable getIconDrawable() {
@@ -62,6 +80,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
 
     /**
      * Get the background saved in sharedPreferences
+     *
      * @return a drawable of the background
      */
     public Drawable getBackgroundDrawable() {
@@ -82,30 +101,70 @@ public abstract class ThemedActivity extends AppCompatActivity {
         selectTheme(theme);
     }
 
-    private void startAlarm(Reminder reminder) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra("title", "Course: Re");
-        String temp = reminder.getName() + " is coming up soon ~";
-        intent.putExtra("message", temp);
-        intent.putExtra("id", reminder.getID());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminder.getID(),
-                intent, 0);
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,
-                reminder.getNotificationTime().getTimeInMillis(), pendingIntent);
+    /**
+     * Set alarm for all the upcoming reminders
+     */
+    private void setAllReminderNotification() {
+        Reminder[] reminderArray = courseManager.getReminderManager().getActiveReminders();
+        Log.v("ALL", courseManager.getReminderManager().toString());
+        for (int i = 0; i < reminderArray.length; i++) {
+            if (reminderArray[i] != null) {
+                startAlarm(reminderArray[i], i);
+                Log.v(reminderArray[i].getName(), "alarm set");
+            }
+        }
     }
 
-    private void cancelAlarm(int id) {
+    /**
+     * set alarm for a specific reminder
+     *
+     * @param reminder reminder to set alarm for
+     * @param id       position in reminderManager
+     */
+    private void startAlarm(Reminder reminder, int id) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        // string to display for notification
+        intent.putExtra("title", reminder.getNameDisplayString());
+        intent.putExtra("message", "It is almost time! uwu");
+        intent.putExtra("id", id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                    reminder.getNotificationTime().getTimeInMillis(), pendingIntent);
+        }
+    }
+
+    /**
+     * Cancel all alarms active
+     */
+    private void cancelAllAlarm() {
+        Reminder[] reminderArray = courseManager.getReminderManager().getActiveReminders();
+        for (int i = 0; i < reminderArray.length; i++) {
+            if (reminderArray[i] != null) {
+                cancelAlarm(i);
+            }
+        }
+    }
+
+    /**
+     * Cancel the alarm with id
+     *
+     * @param id id of the reminder
+     */
+    public void cancelAlarm(int id) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
-
-        alarmManager.cancel(pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
     }
 
     /**
      * Chooses the theme to apply
+     *
      * @param theme theme stored in sharedPreferences
      */
     protected void selectTheme(int theme) {
@@ -134,4 +193,5 @@ public abstract class ThemedActivity extends AppCompatActivity {
 
         }
     }
+
 }

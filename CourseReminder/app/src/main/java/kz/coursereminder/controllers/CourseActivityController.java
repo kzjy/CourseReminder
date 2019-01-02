@@ -1,12 +1,15 @@
 package kz.coursereminder.controllers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
+import kz.coursereminder.display.CourseActivity;
+import kz.coursereminder.display.MainActivity;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Grade;
@@ -14,6 +17,8 @@ import kz.coursereminder.structure.Reminder;
 
 
 public class CourseActivityController extends CourseControllers implements Serializable {
+
+    private static final String TAG = "CourseActivityControlle";
 
     private Course currentCourse;
 
@@ -67,7 +72,15 @@ public class CourseActivityController extends CourseControllers implements Seria
     public boolean addReminder(Reminder reminder) {
         boolean succesful = courseManager.addReminderToCourse(currentCourse, reminder);
         save();
+        if (!succesful) {
+            makeToastMaximumReminderExceeded();
+        }
         return succesful;
+    }
+
+    private void makeToastMaximumReminderExceeded() {
+        Toast.makeText(context, "You have reached 50 reminders, " +
+                "delete inactive ones and try again", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -96,8 +109,9 @@ public class CourseActivityController extends CourseControllers implements Seria
      * @param position position of assignment in list
      */
     public void removeAssignment(int position) {
-        courseManager.removeReminderFromCourse(currentCourse, position,
+        int id = courseManager.removeReminderFromCourse(currentCourse, position,
                 currentCourse.getReminders().get(position));
+        ((CourseActivity) context).cancelAlarm(id);
         save();
     }
 

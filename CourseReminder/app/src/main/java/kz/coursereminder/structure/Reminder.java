@@ -51,9 +51,6 @@ public class Reminder implements Serializable, Comparable<Reminder> {
         this.grade = grade;
     }
 
-    public int getID() {
-        return (name.hashCode() % 100);
-    }
 
     @Override
     public int hashCode() {
@@ -84,11 +81,11 @@ public class Reminder implements Serializable, Comparable<Reminder> {
      * @return string of time in dateTime
      */
     private String getTimeDisplayString() {
-        if (dateTime.get(Calendar.MINUTE) == 0) {
-            return String.valueOf(dateTime.get(Calendar.HOUR_OF_DAY)) + " : 00";
+        if (dateTime.get(Calendar.MINUTE) < 10) {
+            return dateTime.get(Calendar.HOUR_OF_DAY) + " : 0" +
+                    dateTime.get(Calendar.MINUTE);
         }
-        return String.valueOf(dateTime.get(Calendar.HOUR_OF_DAY)) + " : " + String.valueOf(
-                dateTime.get(Calendar.MINUTE));
+        return dateTime.get(Calendar.HOUR_OF_DAY) + " : " + dateTime.get(Calendar.MINUTE);
     }
 
     /**

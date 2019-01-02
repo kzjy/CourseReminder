@@ -28,6 +28,10 @@ public class CourseManager implements Serializable {
         return courses;
     }
 
+    public ReminderManager getReminderManager() {
+        return reminderManager;
+    }
+
     /**
      * Return a Course in courses with courseName
      * @param courseName name of the course
@@ -88,12 +92,15 @@ public class CourseManager implements Serializable {
                 return false;
             }
             course.addTask(reminder);
+            return true;
         }
         return false;
     }
 
-    public void removeReminderFromCourse(Course course, int position, Reminder reminder) {
-        reminderManager.removeReminder(reminder);
+    public int removeReminderFromCourse(Course course, int position, Reminder reminder) {
+        int id = reminderManager.removeReminder(reminder);
         course.removeTask(position);
+        return id;
     }
+
 }

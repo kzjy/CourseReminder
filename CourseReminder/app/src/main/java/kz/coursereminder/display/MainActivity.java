@@ -35,7 +35,7 @@ public class MainActivity extends ThemedActivity {
                     case R.id.navigation_home:
                         mViewPager.setCurrentItem(0);
                         setTitle("Home");
-                        ((Home) mViewStatePagerAdapter.getItem(0)).refresh();
+                        ((HomeFragment) mViewStatePagerAdapter.getItem(0)).refresh();
                         return true;
                     case R.id.navigation_dashboard:
                         mViewPager.setCurrentItem(1);
@@ -48,7 +48,7 @@ public class MainActivity extends ThemedActivity {
                     case R.id.navigation_notifications:
                         setTitle("Notifications");
                         mViewPager.setCurrentItem(3);
-                        ((Notifications) mViewStatePagerAdapter.getItem(3)).refresh();
+                        ((NotificationsFragment) mViewStatePagerAdapter.getItem(3)).refresh();
                         return true;
 
                 }
@@ -87,10 +87,10 @@ public class MainActivity extends ThemedActivity {
      */
     private void setUpViewPager(ViewPager mViewPager) {
         mViewStatePagerAdapter = new ViewStatePagerAdapter(getSupportFragmentManager());
-        mViewStatePagerAdapter.addFragment(new Home());
-        mViewStatePagerAdapter.addFragment(new DashBoard());
+        mViewStatePagerAdapter.addFragment(new HomeFragment());
+        mViewStatePagerAdapter.addFragment(new DashBoardFragment());
         mViewStatePagerAdapter.addFragment(new CalendarFragment());
-        mViewStatePagerAdapter.addFragment(new Notifications());
+        mViewStatePagerAdapter.addFragment(new NotificationsFragment());
         mViewPager.setAdapter(mViewStatePagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
     }

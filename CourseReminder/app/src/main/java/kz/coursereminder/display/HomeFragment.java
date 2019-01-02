@@ -3,6 +3,7 @@ package kz.coursereminder.display;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,14 +26,31 @@ import kz.coursereminder.structure.Reminder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment {
+public class HomeFragment extends Fragment {
 
+    private static final String TAG = "HomeFragment";
+
+    /**
+     * View of the fragment
+     */
     private View view;
+    /**
+     * Controller of the fragment
+     */
     private NotificationController controller;
+    /**
+     * Recyclerview adapter of today recycler view
+     */
     private HomeRecyclerViewAdapter todayAdapter;
+    /**
+     * Recycler view adapter for upcoming recycler view
+     */
     private HomeRecyclerViewAdapter upcomingAdapter;
 
-    public Home() {
+    private ArrayList<Reminder> today = new ArrayList<>();
+    private ArrayList<Reminder> upcoming = new ArrayList<>();
+
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -47,17 +65,22 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
         // set background
         Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
         ((ImageView) view.findViewById(R.id.home_background)).setImageDrawable(backgroundDrawable);
+
         // set icon
         Drawable iconDrawable = ((MainActivity) getActivity()).getIconDrawable();
         ((ImageView) view.findViewById(R.id.home_icon)).setImageDrawable(iconDrawable);
+
         // set name
         String user = "Welcome, " + ((MainActivity) getActivity()).getUserName();
         ((TextView) view.findViewById(R.id.home_user)).setText(user);
+
         // set theme accent
         setAccentColor();
+
         // set listview display
         setTodayListViewItem();
         setUpcomingListViewItem();
@@ -78,32 +101,35 @@ public class Home extends Fragment {
      * Set listivew for today's reminder
      */
     private void setTodayListViewItem() {
-        ArrayList<Reminder> todayReminder = controller.getTodayReminder();
-        todayAdapter = new HomeRecyclerViewAdapter(todayReminder);
-        RecyclerView today = view.findViewById(R.id.home_today_listview);
-        today.setAdapter(todayAdapter);
-        today.setLayoutManager(new LinearLayoutManager(getContext()));
-        today.setNestedScrollingEnabled(false);
-        if (todayReminder.size() != 0) {
-            view.findViewById(R.id.home_nothing_today).setVisibility(View.GONE);
-        } else {
-            view.findViewById(R.id.home_nothing_today).setVisibility(View.VISIBLE);
-        }
-
+        today.addAll(controller.getTodayReminder());
+        todayAdapter = new HomeRecyclerViewAdapter(today);
+        RecyclerView todayRecycler = view.findViewById(R.id.home_today_listview);
+        todayRecycler.setAdapter(todayAdapter);
+        todayRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        todayRecycler.setNestedScrollingEnabled(false);
+        toggleNothigTodayVisibility();
     }
 
     /**
      * set listivew for upcoming reminders
      */
     private void setUpcomingListViewItem() {
-        ArrayList<Reminder> weekReminder = controller.getWeekReminder();
-        upcomingAdapter = new HomeRecyclerViewAdapter(weekReminder);
-        RecyclerView upcoming = view.findViewById(R.id.home_upcoming_listview);
-        upcoming.setAdapter(upcomingAdapter);
-        upcoming.setLayoutManager(new LinearLayoutManager(getContext()));
-        upcoming.setNestedScrollingEnabled(false);
-        Log.v("updated", "b");
-        if (weekReminder.size() != 0) {
+        upcoming.addAll(controller.getWeekReminder());
+        upcomingAdapter = new HomeRecyclerViewAdapter(upcoming);
+        RecyclerView upcomingRecycler = view.findViewById(R.id.home_upcoming_listview);
+        upcomingRecycler.setAdapter(upcomingAdapter);
+        upcomingRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        upcomingRecycler.setNestedScrollingEnabled(false);
+        toggleNothigTodayVisibility();
+    }
+
+    private void toggleNothigTodayVisibility() {
+        if (today.size() != 0) {
+            view.findViewById(R.id.home_nothing_today).setVisibility(View.GONE);
+        } else {
+            view.findViewById(R.id.home_nothing_today).setVisibility(View.VISIBLE);
+        }
+        if (upcoming.size() != 0) {
             view.findViewById(R.id.home_nothing_upcoming).setVisibility(View.GONE);
         } else {
             view.findViewById(R.id.home_nothing_upcoming).setVisibility(View.VISIBLE);
@@ -115,7 +141,19 @@ public class Home extends Fragment {
      */
     public void refresh() {
         controller.update();
-        setTodayListViewItem();
-        setUpcomingListViewItem();
+        updateReminderArrayList();
+        todayAdapter.notifyDataSetChanged();
+        upcomingAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * update the today and upcoming arraylist
+     */
+    private void updateReminderArrayList() {
+        today.clear();
+        today.addAll(controller.getTodayReminder());
+        upcoming.clear();
+        upcoming.addAll(controller.getWeekReminder());
+        toggleNothigTodayVisibility();
     }
 }
