@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import kz.coursereminder.R;
@@ -134,6 +135,7 @@ public class NotificationsFragment extends Fragment {
 
     /**
      * Toggle past recycler visibility
+     *
      * @param pastEmpty whether past arraylist is empty
      */
     private void togglePastVisibility(boolean pastEmpty) {
@@ -147,6 +149,7 @@ public class NotificationsFragment extends Fragment {
 
     /**
      * Toggle upcoming recycler visibility
+     *
      * @param upcomingEmpty whether upcoming arraylist is empty
      */
     private void toggleUpcomingVisibility(boolean upcomingEmpty) {
@@ -162,11 +165,15 @@ public class NotificationsFragment extends Fragment {
      * Reads file for new reminders and update recyclerview
      */
     public void refresh() {
-        controller.update();
-        updateReminderArrayList();
-        adapter.notifyDataSetChanged();
-        pastAdapter.notifyDataSetChanged();
-        reduceViews(view);
+        try {
+            controller.update();
+            updateReminderArrayList();
+            adapter.notifyDataSetChanged();
+            pastAdapter.notifyDataSetChanged();
+            reduceViews(view);
+        } catch (NullPointerException e) {
+            Toast.makeText(getContext(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

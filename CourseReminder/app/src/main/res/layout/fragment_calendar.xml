@@ -18,8 +18,11 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
+
         <CalendarView
+            android:id="@+id/calendar_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -32,11 +35,21 @@
             android:background="@color/LightGrey"
             android:padding="1dp" />
 
-        <ListView
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/calendar_nothing"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:textStyle="italic"
+            android:text="Nothing on this day "/>
 
-        </ListView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calendar_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
 </FrameLayout>

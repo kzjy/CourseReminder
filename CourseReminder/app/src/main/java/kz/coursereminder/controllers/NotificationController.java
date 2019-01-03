@@ -99,6 +99,17 @@ public class NotificationController {
         return todayReminder;
     }
 
+    public ArrayList<Reminder> getDateReminder(Calendar calendar) {
+        ArrayList<Reminder> todayReminder = new ArrayList<>();
+        for (Reminder r : all) {
+            if (r.getSameDate(calendar)) {
+                todayReminder.add(r);
+            }
+        }
+        Collections.sort(todayReminder);
+        return todayReminder;
+    }
+
     /**
      * Get list of reminders less than a week from now
      *

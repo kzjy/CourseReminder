@@ -44,6 +44,7 @@ public class MainActivity extends ThemedActivity {
                     case R.id.navigation_calendar:
                         setTitle("Calendar");
                         mViewPager.setCurrentItem(2);
+                        ((CalendarFragment) mViewStatePagerAdapter.getItem(2)).refresh();
                         return true;
                     case R.id.navigation_notifications:
                         setTitle("Notifications");

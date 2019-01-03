@@ -36,6 +36,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
         fileManager = new FileManager(this);
         courseManager = fileManager.getCourseManager();
         setUpAlarms();
+        Log.v("created", "b");
     }
 
 
@@ -45,6 +46,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
         FileManager fileManager = new FileManager(this);
         courseManager = fileManager.getCourseManager();
         setUpAlarms();
+        Log.v("restarted", "b");
         super.onRestart();
     }
 

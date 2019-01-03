@@ -2,6 +2,7 @@ package kz.coursereminder.display;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -61,26 +63,13 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // set background
-        Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
-        ((ImageView) view.findViewById(R.id.home_background)).setImageDrawable(backgroundDrawable);
-
-        // set icon
-        Drawable iconDrawable = ((MainActivity) getActivity()).getIconDrawable();
-        ((ImageView) view.findViewById(R.id.home_icon)).setImageDrawable(iconDrawable);
-
-        // set name
-        String user = "Welcome, " + ((MainActivity) getActivity()).getUserName();
-        ((TextView) view.findViewById(R.id.home_user)).setText(user);
-
+        setSavedResources();
         // set theme accent
         setAccentColor();
-
         // set listview display
         setTodayListViewItem();
         setUpcomingListViewItem();
@@ -88,13 +77,33 @@ public class HomeFragment extends Fragment {
     }
 
     /**
+     * Set up the sharedpreferences resrouces
+     */
+    private void setSavedResources() {
+        try {
+            Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
+            ((ImageView) view.findViewById(R.id.home_background)).setImageDrawable(backgroundDrawable);
+            Drawable iconDrawable = ((MainActivity) getActivity()).getIconDrawable();
+            ((ImageView) view.findViewById(R.id.home_icon)).setImageDrawable(iconDrawable);
+            String user = "Welcome, " + ((MainActivity) getActivity()).getUserName();
+            ((TextView) view.findViewById(R.id.home_user)).setText(user);
+        } catch (NullPointerException e) {
+            Toast.makeText(getContext(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
      * set color accent above profile
      */
     private void setAccentColor() {
-        TypedValue typedValue = new TypedValue();
-        getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        int color = typedValue.data;
-        view.findViewById(R.id.home_themed_accent).setBackgroundColor(color);
+        try {
+            TypedValue typedValue = new TypedValue();
+            getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            int color = typedValue.data;
+            view.findViewById(R.id.home_themed_accent).setBackgroundColor(color);
+        } catch (NullPointerException e) {
+            Toast.makeText(getContext(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -123,6 +132,9 @@ public class HomeFragment extends Fragment {
         toggleNothigTodayVisibility();
     }
 
+    /**
+     * Toggle text nothing today visibility
+     */
     private void toggleNothigTodayVisibility() {
         if (today.size() != 0) {
             view.findViewById(R.id.home_nothing_today).setVisibility(View.GONE);
@@ -140,10 +152,14 @@ public class HomeFragment extends Fragment {
      * Reads file for new reminders and update recyclerview
      */
     public void refresh() {
-        controller.update();
-        updateReminderArrayList();
-        todayAdapter.notifyDataSetChanged();
-        upcomingAdapter.notifyDataSetChanged();
+        try {
+            controller.update();
+            updateReminderArrayList();
+            todayAdapter.notifyDataSetChanged();
+            upcomingAdapter.notifyDataSetChanged();
+        } catch (NullPointerException e) {
+            Toast.makeText(getContext(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

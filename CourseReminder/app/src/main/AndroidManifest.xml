@@ -51,7 +51,8 @@
                 android:value=".display.MainActivity" />
         </activity>
 
-        <receiver android:name=".structure.NotificationReceiver">
+        <receiver android:name=".structure.NotificationReceiver"
+            android:process=":remote">
 
         </receiver>
     </application>
