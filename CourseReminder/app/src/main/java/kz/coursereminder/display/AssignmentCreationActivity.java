@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -199,13 +200,19 @@ public class AssignmentCreationActivity extends ThemedActivity {
         String date  = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
         String time = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
         if (date.contains("/") && time.contains(":") && !taskName.equals("")) {
-            Calendar c = (Calendar) dueDate.clone();
-            c.add(Calendar.MINUTE, minutesBeforeNotification);
-            Reminder reminder = new Reminder(taskName, dueDate, taskIsTest, c);
+            Reminder reminder = createReminder(taskName, taskIsTest);
             return controller.addReminder(reminder);
         }
         makeToastTaskFieldNotCompleted();
         return false;
+    }
+
+    @NonNull
+    private Reminder createReminder(String taskName, boolean taskIsTest) {
+        Calendar c = (Calendar) dueDate.clone();
+        c.add(Calendar.MINUTE, minutesBeforeNotification);
+        c.set(Calendar.SECOND, 0);
+        return new Reminder(taskName, dueDate, taskIsTest, c);
     }
 
     /**

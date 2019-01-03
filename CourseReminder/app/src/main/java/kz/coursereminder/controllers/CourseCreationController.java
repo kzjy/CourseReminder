@@ -7,7 +7,7 @@ import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 
-public class CourseCreationController extends CourseControllers {
+public class CourseCreationController extends Controller {
 
     public CourseCreationController(Context context) {
         super(context);
@@ -31,5 +31,37 @@ public class CourseCreationController extends CourseControllers {
         return false;
     }
 
+    /**
+     * Make Toast invalid name
+     */
+    private void makeToastInvalidName() {
+        Toast.makeText(context, "Course name must be between 3 to 12 characters in length ",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Make Toast name in use
+     */
+    private void makeToastNameInUse() {
+        Toast.makeText(context, "Course name already in use", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Check whether name fits naming criteria
+     * @param course course to be checked
+     * @return whether name of the course is valid
+     */
+    protected boolean checkValidName(Course course) {
+        boolean valid = courseManager.checkValidCourseName(course);
+        boolean exists = courseManager.checkExistingCourse(course);
+        if (!valid) {
+            makeToastInvalidName();
+            return false;
+        } else if (exists) {
+            makeToastNameInUse();
+            return false;
+        }
+        return true;
+    }
 
 }

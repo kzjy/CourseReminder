@@ -6,14 +6,14 @@ import android.preference.PreferenceManager;
 
 import java.util.List;
 
-public class SettingsController {
+public class SettingsController extends Controller {
 
-    private Context context;
+
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
     public SettingsController (Context context) {
-        this.context = context;
+        super(context);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         editor = preferences.edit();
     }
@@ -24,10 +24,6 @@ public class SettingsController {
 
     public void save() {
         editor.commit();
-    }
-
-    public SharedPreferences getPreferences() {
-        return preferences;
     }
 
     public SharedPreferences.Editor getEditor() {

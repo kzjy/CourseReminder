@@ -16,7 +16,7 @@ import kz.coursereminder.structure.Grade;
 import kz.coursereminder.structure.Reminder;
 
 
-public class CourseActivityController extends CourseControllers implements Serializable {
+public class CourseActivityController extends CourseCreationController implements Serializable {
 
     private static final String TAG = "CourseActivityControlle";
 
@@ -64,20 +64,8 @@ public class CourseActivityController extends CourseControllers implements Seria
     }
 
     /**
-     * Add a reminder to the current course
-     *
-     * @param reminder reminder to be added
-     * @return whether addition is successful
+     * Make Toast maximum reminder exceeded
      */
-    public boolean addReminder(Reminder reminder) {
-        boolean succesful = courseManager.addReminderToCourse(currentCourse, reminder);
-        save();
-        if (!succesful) {
-            makeToastMaximumReminderExceeded();
-        }
-        return succesful;
-    }
-
     private void makeToastMaximumReminderExceeded() {
         Toast.makeText(context, "You have reached 50 reminders, " +
                 "delete inactive ones and try again", Toast.LENGTH_SHORT).show();
@@ -104,32 +92,49 @@ public class CourseActivityController extends CourseControllers implements Seria
     }
 
     /**
+     * Add a reminder to the current course
+     *
+     * @param reminder reminder to be added
+     * @return whether addition is successful
+     */
+    public boolean addReminder(Reminder reminder) {
+        boolean succesful = courseManager.addReminderToCourse(currentCourse, reminder);
+        save();
+        if (!succesful) {
+            makeToastMaximumReminderExceeded();
+        }
+        return succesful;
+    }
+
+    /**
      * Removes an assignment from course
      *
      * @param position position of assignment in list
      */
     public void removeAssignment(int position) {
-        int id = courseManager.removeReminderFromCourse(currentCourse, position,
-                currentCourse.getReminders().get(position));
-        ((CourseActivity) context).cancelAlarm(id);
+        currentCourse.removeTask(position);
+        courseManager.cleanUpReminderManager();
         save();
+        alarmManager.setUpAlarms();
     }
 
     /**
      * Assign a grade to an assignment
      *
-     * @param grade            grade to be added
+     * @param grade grade to be added
      * @param positionSelected position in list of assignment
      */
     public void addGradeToAssignment(Grade grade, int positionSelected) {
         currentCourse.setReminderGrade(grade, positionSelected);
+        courseManager.cleanUpReminderManager();
         save();
+        alarmManager.setUpAlarms();
     }
 
     /**
      * Edit grade in completed assignments
      *
-     * @param grade            new grade to be changed
+     * @param grade new grade to be changed
      * @param positionSelected position of the assignment
      */
     public void editGrade(Grade grade, int positionSelected) {
@@ -138,29 +143,10 @@ public class CourseActivityController extends CourseControllers implements Seria
     }
 
     /**
-     * Save the course manager
+     * Switch between the time of notification before due date
+     * @param position position selected
+     * @return minutes before notification
      */
-    private void save() {
-        fileManager.writeFile(CourseManager.COURSES, courseManager);
-    }
-
-    /**
-     * Delete the current course and save its changes
-     */
-    public void deleteCurrentCourse() {
-        courseManager.deleteCourse(currentCourse);
-        save();
-    }
-
-    /**
-     * Reads the most recent coursemanager file and updates the controller
-     */
-    public void updateController() {
-        fileManager.loadFile(CourseManager.COURSES);
-        this.courseManager = fileManager.getCourseManager();
-        currentCourse = courseManager.getSpecificCourse(currentCourse.getName());
-    }
-
     public int calculateSpinnerMinutesBefore(int position) {
         switch (position) {
             case 0:
@@ -178,8 +164,10 @@ public class CourseActivityController extends CourseControllers implements Seria
         }
     }
 
-
-
+    /**
+     * Add options for the drop down menu in reminder creation
+     * @param notificationTime list of notification times
+     */
     public void addSpinnerOptions(List<String> notificationTime) {
         notificationTime.add("30 minutes");
         notificationTime.add("1 hour");
@@ -187,4 +175,30 @@ public class CourseActivityController extends CourseControllers implements Seria
         notificationTime.add("4 hours");
         notificationTime.add("1 day");
     }
+
+    /**
+     * Save the course manager
+     */
+    private void save() {
+        fileManager.writeFile(CourseManager.COURSES, courseManager);
+    }
+
+    /**
+     * Delete the current course and save its changes
+     */
+    public void deleteCurrentCourse() {
+        courseManager.deleteCourse(currentCourse);
+        save();
+        alarmManager.setUpAlarms();
+    }
+
+    /**
+     * Reads the most recent coursemanager file and updates the controller
+     */
+    public void updateController() {
+        fileManager.loadFile(CourseManager.COURSES);
+        this.courseManager = fileManager.getCourseManager();
+        currentCourse = courseManager.getSpecificCourse(currentCourse.getName());
+    }
+
 }

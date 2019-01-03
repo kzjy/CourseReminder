@@ -1,9 +1,5 @@
 package kz.coursereminder.display;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,39 +11,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import kz.coursereminder.R;
+import kz.coursereminder.controllers.Controller;
 import kz.coursereminder.structure.BitmapConverter;
-import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.FileManager;
-import kz.coursereminder.structure.NotificationReceiver;
-import kz.coursereminder.structure.Reminder;
+
 
 public abstract class ThemedActivity extends AppCompatActivity {
 
     protected SharedPreferences preferences;
     protected BitmapConverter bitmapConverter = new BitmapConverter();
-    protected CourseManager courseManager;
-    protected FileManager fileManager;
+    private Controller baseController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadTheme();
         super.onCreate(savedInstanceState);
-        fileManager = new FileManager(this);
-        courseManager = fileManager.getCourseManager();
-        setUpAlarms();
-        Log.v("created", "b");
+        baseController = new Controller(this);
     }
-
+//
+//    @Override
+//    protected void onRestart() {
+//        loadTheme();
+//        baseController.updateCourseManager();
+//        baseController.getAlarmManager().setUpAlarms();
+//        super.onRestart();
+//    }
 
     @Override
-    protected void onRestart() {
-        loadTheme();
-        FileManager fileManager = new FileManager(this);
-        courseManager = fileManager.getCourseManager();
-        setUpAlarms();
-        Log.v("restarted", "b");
-        super.onRestart();
+    protected void onStop() {
+        baseController.updateCourseManager();
+        baseController.getAlarmManager().setUpAlarms();
+        Log.v("stopped", "beep");
+        super.onStop();
     }
 
     /**
@@ -57,13 +52,6 @@ public abstract class ThemedActivity extends AppCompatActivity {
      */
     public String getUserName() {
         return preferences.getString("User", "Anonymous");
-    }
-
-    protected void setUpAlarms() {
-        courseManager.getReminderManager().removePastReminder();
-        fileManager.writeFile(CourseManager.COURSES, courseManager);
-        cancelAllAlarm();
-        setAllReminderNotification();
     }
 
     /**
@@ -103,66 +91,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
         selectTheme(theme);
     }
 
-    /**
-     * Set alarm for all the upcoming reminders
-     */
-    private void setAllReminderNotification() {
-        Reminder[] reminderArray = courseManager.getReminderManager().getActiveReminders();
-        Log.v("ALL", courseManager.getReminderManager().toString());
-        for (int i = 0; i < reminderArray.length; i++) {
-            if (reminderArray[i] != null) {
-                startAlarm(reminderArray[i], i);
-                Log.v(reminderArray[i].getName(), "alarm set");
-            }
-        }
-    }
 
-    /**
-     * set alarm for a specific reminder
-     *
-     * @param reminder reminder to set alarm for
-     * @param id       position in reminderManager
-     */
-    private void startAlarm(Reminder reminder, int id) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        // string to display for notification
-        intent.putExtra("title", reminder.getNameDisplayString());
-        intent.putExtra("message", "It is almost time! uwu");
-        intent.putExtra("id", id);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
-                    reminder.getNotificationTime().getTimeInMillis(), pendingIntent);
-        }
-    }
-
-    /**
-     * Cancel all alarms active
-     */
-    private void cancelAllAlarm() {
-        Reminder[] reminderArray = courseManager.getReminderManager().getActiveReminders();
-        for (int i = 0; i < reminderArray.length; i++) {
-            if (reminderArray[i] != null) {
-                cancelAlarm(i);
-            }
-        }
-    }
-
-    /**
-     * Cancel the alarm with id
-     *
-     * @param id id of the reminder
-     */
-    public void cancelAlarm(int id) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
-        }
-    }
 
     /**
      * Chooses the theme to apply

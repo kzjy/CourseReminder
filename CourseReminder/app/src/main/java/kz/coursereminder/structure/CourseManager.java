@@ -1,5 +1,7 @@
 package kz.coursereminder.structure;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -84,7 +86,24 @@ public class CourseManager implements Serializable {
         return false;
     }
 
+    /**
+     * Return an arraylist of all the reminders
+     * @return arraylist of all reminders
+     */
+    private ArrayList<Reminder> getAllReminders() {
+        ArrayList<Reminder> allReminders = new ArrayList<>();
+        for (Course c: courses) {
+            allReminders.addAll(c.getReminders());
+        }
+        return allReminders;
+    }
 
+    /**
+     * Add a reminder to the course, and to reminderManager
+     * @param course course to add reminder in
+     * @param reminder reminder to be added
+     * @return whether addition is successful
+     */
     public boolean addReminderToCourse(Course course, Reminder reminder) {
         if (courses.contains(course)) {
             int i = reminderManager.addReminder(reminder);
@@ -97,10 +116,18 @@ public class CourseManager implements Serializable {
         return false;
     }
 
-    public int removeReminderFromCourse(Course course, int position, Reminder reminder) {
-        int id = reminderManager.removeReminder(reminder);
-        course.removeTask(position);
-        return id;
+    /**
+     * Clean up deleted and past reminders in reminderManager
+     */
+    public void cleanUpReminderManager() {
+        ArrayList<Reminder> allReminder = getAllReminders();
+        for (Reminder r: reminderManager.getActiveReminders()) {
+            if (r != null && !allReminder.contains(r)) {
+                Log.v("cleaned up", r.getName());
+                reminderManager.removeReminder(r);
+            }
+        }
+        reminderManager.removePastReminder();
     }
 
 }

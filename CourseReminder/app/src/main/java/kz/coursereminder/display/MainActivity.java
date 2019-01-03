@@ -117,12 +117,6 @@ public class MainActivity extends ThemedActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                // TODO implement search
-                break;
-            case R.id.add:
-                // TODO implement add course work
-                break;
             case R.id.settings:
                 swapToSettings();
                 break;

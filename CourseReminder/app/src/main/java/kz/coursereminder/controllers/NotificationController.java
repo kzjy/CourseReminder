@@ -12,10 +12,9 @@ import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.FileManager;
 import kz.coursereminder.structure.Reminder;
 
-public class NotificationController {
+public class NotificationController extends Controller{
 
     private static final String TAG = "NotificationController";
-    private Context context;
     private CourseManager courseManager;
 
     private ArrayList<Reminder> all = new ArrayList<>();
@@ -23,7 +22,7 @@ public class NotificationController {
     private ArrayList<Reminder> past = new ArrayList<>();
 
     public NotificationController(Context context) {
-        this.context = context;
+        super(context);
         update();
     }
 
