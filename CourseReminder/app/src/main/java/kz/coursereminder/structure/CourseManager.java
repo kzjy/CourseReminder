@@ -7,9 +7,18 @@ import java.util.ArrayList;
 
 public class CourseManager implements Serializable {
 
+    /**
+     * Arraylist of current courses
+     */
     private ArrayList<Course> courses = new ArrayList<>();
+    /**
+     * Remindermanager for active reminders
+     */
     private ReminderManager reminderManager;
 
+    /**
+     * Serializable filename
+     */
     public static final String COURSES = "course_manager.ser";
 
     public CourseManager() {

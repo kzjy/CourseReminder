@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -22,6 +21,10 @@ public class FileManager {
         loadFile(CourseManager.COURSES);
     }
 
+    /**
+     * Load file with filename
+     * @param fileName name of file to be loaded
+     */
     public void loadFile(String fileName) {
         try {
             if (!checkFile(fileName)) {
@@ -31,17 +34,21 @@ public class FileManager {
             ObjectInputStream input = new ObjectInputStream(inputStream);
             inputSelect(fileName, input);
             inputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "FileNotFoundException");
         } catch (IOException e) {
             Log.e(TAG, "IOException");
-            // TODO remove it after all debugging
             createFile();
         } catch (ClassNotFoundException e) {
             Log.e(TAG, "ClassNotFoundException");
         }
     }
 
+    /**
+     * Choose the object to get the input to
+     * @param fileName filename of object
+     * @param input inputstream
+     * @throws ClassNotFoundException .
+     * @throws IOException .
+     */
     private void inputSelect(String fileName, ObjectInputStream input) throws
             ClassNotFoundException, IOException {
         switch (fileName) {
@@ -61,6 +68,9 @@ public class FileManager {
     }
 
 
+    /**
+     * Create new coursemanager file
+     */
     private void createFile() {
         courseManager = new CourseManager();
         writeFile(CourseManager.COURSES, courseManager);

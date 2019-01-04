@@ -3,10 +3,8 @@ package kz.coursereminder.popup;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 
 import kz.coursereminder.controllers.CourseActivityController;
-import kz.coursereminder.display.CourseActivity;
 
 public abstract class PopUp {
 
@@ -14,7 +12,7 @@ public abstract class PopUp {
     Dialog dialog;
     CourseActivityController controller;
 
-    public PopUp(Context context, CourseActivityController controller) {
+    PopUp(Context context, CourseActivityController controller) {
         this.context = context;
         this.controller = controller;
         this.dialog = new Dialog(context);

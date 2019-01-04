@@ -9,10 +9,13 @@ import java.io.ByteArrayOutputStream;
 
 public class BitmapConverter {
 
-    public BitmapConverter() {
-
-    }
-
+    /**
+     * Calculate InSampleSize of options
+     * @param options option to calculate for
+     * @param reqWidth required width of bitmap
+     * @param reqHeight required height of bitmap
+     * @return insample size
+     */
     private int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -36,6 +39,12 @@ public class BitmapConverter {
         return inSampleSize;
     }
 
+    /**
+     * Create bitmapFactoryOption
+     * @param imgDecodableString imageDecodableString to pass in
+     * @param picker whether it is a background or icon
+     * @return bitmapfactory.options
+     */
     @NonNull
     private BitmapFactory.Options createBitmapFactoryOptions(String imgDecodableString, String picker) {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -49,16 +58,32 @@ public class BitmapConverter {
         return options;
     }
 
+    /**
+     * Convert decodable string to bitmap
+     * @param imgDecodableString imagedecodablestring from gallery
+     * @param size size of bitmap to convert
+     * @return bitmap of image
+     */
     public Bitmap convertDecodableStringToBitmap(String imgDecodableString, String size) {
         BitmapFactory.Options options = createBitmapFactoryOptions(imgDecodableString, size);
         return BitmapFactory.decodeFile(imgDecodableString, options);
     }
 
+    /**
+     * Decode base64 string to bitmap
+     * @param input base64 string
+     * @return bitmap
+     */
     public Bitmap decodeBase64(String input) {
         byte[] decodedBytes = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
+    /**
+     * Encode bitmap to base64 string
+     * @param bitmap bitmap to encode
+     * @return base64 string
+     */
     public String encodeBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);

@@ -146,7 +146,6 @@ public class GradeAdditionPopUp extends PopUp {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 context, android.R.layout.simple_spinner_item, reminderList);
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = dialog.findViewById(R.id.popup_grade_spinner);
         spinner.setAdapter(adapter);

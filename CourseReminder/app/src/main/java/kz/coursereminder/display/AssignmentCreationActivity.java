@@ -34,11 +34,24 @@ import kz.coursereminder.structure.Reminder;
 
 public class AssignmentCreationActivity extends ThemedActivity {
 
+    /**
+     * Controller of the activity
+     */
     private CourseActivityController controller;
 
+    /**
+     * Input notification time , -30 by default
+     */
     private int minutesBeforeNotification = -30;
-    private String selectedType;
 
+    /**
+     * Input type, Assignment by default
+     */
+    private String selectedType = "Assignment";
+
+    /**
+     * Calendar of current time
+     */
     private Calendar dueDate = Calendar.getInstance();
 
     @Override
@@ -93,6 +106,9 @@ public class AssignmentCreationActivity extends ThemedActivity {
     }
 
 
+    /**
+     * Set the background image of this activity
+     */
     public void setImageBackground() {
         ((ImageView) findViewById(R.id.assignment_background)).setImageDrawable(getBackgroundDrawable());
     }
@@ -168,6 +184,9 @@ public class AssignmentCreationActivity extends ThemedActivity {
 
     }
 
+    /**
+     * Activate the notification spinner listener
+     */
     private void notificationSpinnerListener() {
         Spinner notificationSpinner = findViewById(R.id.setting_notification_spinner);
         notificationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -194,6 +213,9 @@ public class AssignmentCreationActivity extends ThemedActivity {
         }
     }
 
+    /**
+     * Set the type spinner and add items to it
+     */
     private void populateTypeSpinner() {
         List<String> type = new ArrayList<>();
         type.add("Assignment");
@@ -207,6 +229,9 @@ public class AssignmentCreationActivity extends ThemedActivity {
         typeSpinner.setAdapter(adapter);
     }
 
+    /**
+     * Activate the type spinner listener
+     */
     private void typeSpinnerListener() {
         Spinner typeSpinner = findViewById(R.id.assignment_type);
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -238,6 +263,11 @@ public class AssignmentCreationActivity extends ThemedActivity {
         return false;
     }
 
+    /**
+     * Create a new reminder with the input fields
+     * @param taskName name of reminder
+     * @return new reminder
+     */
     @NonNull
     private Reminder createReminder(String taskName) {
         Calendar c = (Calendar) dueDate.clone();

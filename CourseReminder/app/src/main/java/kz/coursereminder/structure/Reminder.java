@@ -1,5 +1,6 @@
 package kz.coursereminder.structure;
 
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
@@ -7,10 +8,25 @@ import java.util.Calendar;
 
 public class Reminder implements Serializable, Comparable<Reminder> {
 
+    /**
+     * Name of reminder
+     */
     private String name;
+    /**
+     * date and time of reminder
+     */
     private Calendar dateTime;
+    /**
+     * Grade if it is an assignment or test
+     */
     private Grade grade;
+    /**
+     * Time to notify the user
+     */
     private Calendar notificationTime;
+    /**
+     * Type of reminder
+     */
     private String type;
 
     public Reminder(String name, Calendar dateTime, String type, Calendar notificationTime) {
@@ -54,6 +70,11 @@ public class Reminder implements Serializable, Comparable<Reminder> {
         return name.hashCode();
     }
 
+    /**
+     * Override the equals method, equal when name and due date and time are equal
+     * @param obj obj to compare
+     * @return whehter self and obj are equal
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Reminder)) {
@@ -63,13 +84,22 @@ public class Reminder implements Serializable, Comparable<Reminder> {
         return (name.equals(other.name) && dateTime.equals(other.dateTime));
     }
 
+    /**
+     * Override the toString
+     * @return string of reminder's name
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * Override compareTo, greater if self.dateTime is greater than o.dateTime
+     * @param o reminder to compare with
+     * @return whether self or o is greater
+     */
     @Override
-    public int compareTo(Reminder o) {
+    public int compareTo(@NonNull Reminder o) {
         return this.dateTime.compareTo(o.dateTime);
     }
 

@@ -1,4 +1,4 @@
-package kz.coursereminder.structure;
+package kz.coursereminder.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

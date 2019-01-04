@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import kz.coursereminder.display.CourseActivity;
@@ -167,6 +168,11 @@ public class CourseActivityController extends CourseCreationController implement
         notificationTime.add("1 day prior");
     }
 
+    /**
+     * Return type selected at position
+     * @param position position selected
+     * @return type of reminder to create
+     */
     public String getTypeSelected(int position) {
         String[] list = new String[] {"Assignment", "Meet up", "Study", "Test"};
         if (position < list.length) {

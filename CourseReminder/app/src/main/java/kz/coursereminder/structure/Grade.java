@@ -4,8 +4,19 @@ import java.io.Serializable;
 
 public class Grade implements Serializable{
 
+    /**
+     * Points received
+     */
     private float grade;
+
+    /**
+     * Points total
+     */
     private float total;
+
+    /**
+     * Overall weight
+     */
     private float weight;
 
     public Grade(float grade, float total, float weight) {

@@ -5,6 +5,9 @@ import java.util.Calendar;
 
 public class ReminderManager implements Serializable {
 
+    /**
+     * Activar reminders that will go off
+     */
     private Reminder[] activeReminders = new Reminder[40];
 
     public Reminder[] getActiveReminders() {
@@ -54,6 +57,10 @@ public class ReminderManager implements Serializable {
         }
     }
 
+    /**
+     * Override to string of remindermanager
+     * @return string representation of reminder manager
+     */
     @Override
     public String toString() {
         String s = "{";

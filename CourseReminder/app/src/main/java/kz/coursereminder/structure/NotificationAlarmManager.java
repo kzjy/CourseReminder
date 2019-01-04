@@ -6,18 +6,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import kz.coursereminder.notification.NotificationReceiver;
+
 
 public class NotificationAlarmManager {
 
+    /**
+     * CourseManager
+     */
     private CourseManager courseManager;
+    /**
+     * context of alarm manager
+     */
     private Context context;
 
+    /**
+     * Constructor
+     * @param context context
+     */
     public NotificationAlarmManager(Context context) {
         this.context = context;
         FileManager fileManager = new FileManager(context);
         courseManager = fileManager.getCourseManager();
     }
 
+    /**
+     * update coursemanager by reading from file
+     */
     private void updateCourseManager() {
         FileManager fileManager = new FileManager(context);
         courseManager = fileManager.getCourseManager();

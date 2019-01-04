@@ -1,5 +1,7 @@
 package kz.coursereminder.structure;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -79,6 +81,10 @@ public class Course implements Serializable {
         this.info = info;
     }
 
+    /**
+     * Create new reminder
+     * @param reminder reminder to add
+     */
     public void addTask(Reminder reminder) {
         reminders.add(reminder);
         Collections.sort(reminders);
@@ -89,17 +95,53 @@ public class Course implements Serializable {
         reminders.remove(position);
     }
 
+    /**
+     * Set new grade for reminder and remove it from reminders
+     * @param grade grade to set
+     * @param position position in reminder
+     */
     public void setReminderGrade(Grade grade, int position) {
-        Reminder temp = reminders.get(position);
+        int realPosition = calculatePositionInReminder(position);
+        Reminder temp = reminders.get(realPosition);
         reminders.remove(temp);
         temp.setGrade(grade);
         completedReminders.add(temp);
     }
 
+    /**
+     * Calculate the real position of a reminder given position of arraylist with only assignment
+     * and test
+     * @param position given position
+     * @return real position
+     */
+    private int calculatePositionInReminder(int position) {
+        int currentPosition = 0;
+        int positionAway = position;
+        for (Reminder r: reminders) {
+            if (r.getType().equals("Assignment") || r.getType().equals("Test")) {
+                positionAway -= 1;
+            }
+            if (positionAway == -1) {
+                return currentPosition;
+            }
+            currentPosition += 1;
+        }
+        return reminders.size() -1;
+    }
+
+    /**
+     * Edit reminder grade at position
+     * @param grade new edited grade
+     * @param position position in completedReminder
+     */
     public void editReminderGrade(Grade grade, int position) {
         completedReminders.get(position).setGrade(grade);
     }
 
+    /**
+     * Calculate current course average
+     * @return current average
+     */
     public float calculateAverage() {
         if (completedReminders.isEmpty()) {
             return 0;
