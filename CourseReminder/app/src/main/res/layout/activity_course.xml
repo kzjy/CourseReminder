@@ -9,7 +9,6 @@
         android:id="@+id/course_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/cloud"
         android:tint="#E6FFFFFF"
         android:scaleType="centerCrop"/>
 
@@ -63,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
                     android:paddingTop="20dp"
-                    android:text="Assignments"
+                    android:text="Reminders"
                     android:textSize="20sp" />
 
                 <android.support.v7.widget.RecyclerView

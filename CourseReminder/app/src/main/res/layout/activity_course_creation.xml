@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:id="@+id/creation_background"
-        android:tint="#E6FFFFFF"
-        android:src="@drawable/cloud"/>
+        android:tint="#E6FFFFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"

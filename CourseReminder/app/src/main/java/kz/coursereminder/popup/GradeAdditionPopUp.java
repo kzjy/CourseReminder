@@ -84,7 +84,7 @@ public class GradeAdditionPopUp extends PopUp {
     private boolean addGrade() {
         Float[] integerInput = getValidInput();
         if (integerInput != null) {
-            Grade grade = new Grade(integerInput[0],  integerInput[1],  integerInput[2]);
+            Grade grade = new Grade(integerInput[0], integerInput[1], integerInput[2]);
             controller.addGradeToAssignment(grade, positionSelected);
             return true;
         }
@@ -93,6 +93,7 @@ public class GradeAdditionPopUp extends PopUp {
 
     /**
      * Get the edittext inputs for grade
+     *
      * @return an array of ints for grade
      */
     private Float[] getValidInput() {
@@ -139,7 +140,9 @@ public class GradeAdditionPopUp extends PopUp {
     private void populateSpinner() {
         List<String> reminderList = new ArrayList<>();
         for (Reminder r : controller.getCurrentCourse().getReminders()) {
-            reminderList.add(r.getNameDisplayString());
+            if (r.getType().equals("Assignment") || r.getType().equals("Test")) {
+                reminderList.add(r.getNameDisplayString());
+            }
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 context, android.R.layout.simple_spinner_item, reminderList);

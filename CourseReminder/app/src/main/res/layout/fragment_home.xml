@@ -10,8 +10,7 @@
         android:id="@+id/home_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/cloud" />
+        android:scaleType="centerCrop" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

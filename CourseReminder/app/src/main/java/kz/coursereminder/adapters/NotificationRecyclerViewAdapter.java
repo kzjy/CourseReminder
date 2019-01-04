@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.coursereminder.R;
 import kz.coursereminder.structure.Reminder;
@@ -33,12 +35,26 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         String dateTime = reminders.get(i).getDueDateTimeDisplayString();
         viewHolder.dueDate.setText(dateTime);
         viewHolder.assignment.setText(reminders.get(i).getNameDisplayString());
-        if (reminders.get(i).getIsTest()) {
-            viewHolder.image.setImageResource(R.drawable.ic_edit_black_72dp);
-        } else {
-            viewHolder.image.setImageResource(R.drawable.medium_assignment_72);
-        }
+        selectIcon(reminders.get(i).getType(), viewHolder);
+    }
 
+    private void selectIcon(String type, ViewHolder viewHolder) {
+        switch (type) {
+            case "Assignment":
+                viewHolder.image.setImageResource(R.drawable.medium_assignment_72);
+                break;
+            case "Meet up":
+                viewHolder.image.setImageResource(R.drawable.ic_people_black_24dp);
+                break;
+            case "Study":
+                viewHolder.image.setImageResource(R.drawable.ic_local_library_black_24dp);
+                break;
+            case "Test":
+                viewHolder.image.setImageResource(R.drawable.ic_edit_black_72dp);
+                break;
+            default:
+                viewHolder.image.setImageResource(R.drawable.medium_assignment_72);
+        }
     }
 
     @Override

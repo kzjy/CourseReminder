@@ -79,7 +79,7 @@ public class CourseActivityController extends CourseCreationController implement
      */
     public boolean checkNotValidGradeInput(String[] stringInput) {
         for (int i = 0; i < stringInput.length; i++) {
-            if (stringInput[i].equals("")) {
+            if (stringInput[i].equals("") || stringInput[i].equals(".")) {
                 return true;
             }
             if (i == 1) {
@@ -148,34 +148,32 @@ public class CourseActivityController extends CourseCreationController implement
      * @return minutes before notification
      */
     public int calculateSpinnerMinutesBefore(int position) {
-        switch (position) {
-            case 0:
-                return 30;
-            case 1:
-                return 60;
-            case 2:
-                return 120;
-            case 3:
-                return 240;
-            case 4:
-                return 1440;
-            default:
-                return 30;
+        int[] list = new int[] {30, 60, 120, 240, 1440};
+        if (position < list.length) {
+            return list[position];
         }
+        return 30;
     }
 
     /**
      * Add options for the drop down menu in reminder creation
      * @param notificationTime list of notification times
      */
-    public void addSpinnerOptions(List<String> notificationTime) {
-        notificationTime.add("30 minutes");
-        notificationTime.add("1 hour");
-        notificationTime.add("2 hours");
-        notificationTime.add("4 hours");
-        notificationTime.add("1 day");
+    public void addNotificationSpinnerOptions(List<String> notificationTime) {
+        notificationTime.add("30 minutes prior");
+        notificationTime.add("1 hour prior");
+        notificationTime.add("2 hours prior");
+        notificationTime.add("4 hours prior");
+        notificationTime.add("1 day prior");
     }
 
+    public String getTypeSelected(int position) {
+        String[] list = new String[] {"Assignment", "Meet up", "Study", "Test"};
+        if (position < list.length) {
+            return list[position];
+        }
+        return "Assignment";
+    }
     /**
      * Save the course manager
      */

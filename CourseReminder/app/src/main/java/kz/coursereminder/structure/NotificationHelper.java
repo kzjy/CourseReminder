@@ -49,7 +49,7 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), channel1ID)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp);
+                .setSmallIcon(R.drawable.ic_notifications_none_black_24dp);
     }
 
 }

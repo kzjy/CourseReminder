@@ -56,6 +56,7 @@ public class SettingsActivity extends ThemedActivity {
         selectBackgroundListener();
         setUpImageView();
         selectIconListener();
+        setSettingBackground();
     }
 
     /**
@@ -96,6 +97,10 @@ public class SettingsActivity extends ThemedActivity {
         startActivity(main);
     }
 
+    private void setSettingBackground() {
+        ImageView imageView = findViewById(R.id.setting_background);
+        imageView.setImageDrawable(getBackgroundDrawable());
+    }
     /**
      * Set up the gridview for theme color selection
      */

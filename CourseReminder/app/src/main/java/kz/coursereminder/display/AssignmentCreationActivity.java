@@ -35,7 +35,10 @@ import kz.coursereminder.structure.Reminder;
 public class AssignmentCreationActivity extends ThemedActivity {
 
     private CourseActivityController controller;
+
     private int minutesBeforeNotification = -30;
+    private String selectedType;
+
     private Calendar dueDate = Calendar.getInstance();
 
     @Override
@@ -54,6 +57,8 @@ public class AssignmentCreationActivity extends ThemedActivity {
         setImageBackground();
         populateNotificationSpinner();
         notificationSpinnerListener();
+        populateTypeSpinner();
+        typeSpinnerListener();
     }
 
     /**
@@ -154,7 +159,7 @@ public class AssignmentCreationActivity extends ThemedActivity {
      */
     private void populateNotificationSpinner() {
         List<String> notificationTime = new ArrayList<>();
-        controller.addSpinnerOptions(notificationTime);
+        controller.addNotificationSpinnerOptions(notificationTime);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, notificationTime);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -189,6 +194,33 @@ public class AssignmentCreationActivity extends ThemedActivity {
         }
     }
 
+    private void populateTypeSpinner() {
+        List<String> type = new ArrayList<>();
+        type.add("Assignment");
+        type.add("Meet up");
+        type.add("Study");
+        type.add("Test");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, type);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner typeSpinner = findViewById(R.id.assignment_type);
+        typeSpinner.setAdapter(adapter);
+    }
+
+    private void typeSpinnerListener() {
+        Spinner typeSpinner = findViewById(R.id.assignment_type);
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedType = controller.getTypeSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     /**
      * Create a task via controller
      *
@@ -196,11 +228,10 @@ public class AssignmentCreationActivity extends ThemedActivity {
      */
     private boolean createTask() {
         String taskName = ((EditText) findViewById(R.id.assignment_creation_name)).getText().toString();
-        boolean taskIsTest = ((Switch) findViewById(R.id.assignment_test_switch)).isChecked();
         String date  = ((TextView) findViewById(R.id.assignment_choose_date)).getText().toString();
         String time = ((TextView) findViewById(R.id.assignment_choose_time)).getText().toString();
         if (date.contains("/") && time.contains(":") && !taskName.equals("")) {
-            Reminder reminder = createReminder(taskName, taskIsTest);
+            Reminder reminder = createReminder(taskName);
             return controller.addReminder(reminder);
         }
         makeToastTaskFieldNotCompleted();
@@ -208,11 +239,11 @@ public class AssignmentCreationActivity extends ThemedActivity {
     }
 
     @NonNull
-    private Reminder createReminder(String taskName, boolean taskIsTest) {
+    private Reminder createReminder(String taskName) {
         Calendar c = (Calendar) dueDate.clone();
         c.add(Calendar.MINUTE, minutesBeforeNotification);
         c.set(Calendar.SECOND, 0);
-        return new Reminder(taskName, dueDate, taskIsTest, c);
+        return new Reminder(taskName, dueDate, selectedType, c);
     }
 
     /**

@@ -11,12 +11,12 @@ public class Reminder implements Serializable, Comparable<Reminder> {
     private Calendar dateTime;
     private Grade grade;
     private Calendar notificationTime;
-    private boolean isTest;
+    private String type;
 
-    public Reminder(String name, Calendar dateTime, boolean isTest, Calendar notificationTime) {
+    public Reminder(String name, Calendar dateTime, String type, Calendar notificationTime) {
         this.name = name;
         this.dateTime = dateTime;
-        this.isTest = isTest;
+        this.type = type;
         this.notificationTime = notificationTime;
     }
 
@@ -36,15 +36,12 @@ public class Reminder implements Serializable, Comparable<Reminder> {
         return grade;
     }
 
-    public boolean getIsTest() {
-        return isTest;
+    public String getNameDisplayString() {
+       return type + ": " + name;
     }
 
-    public String getNameDisplayString() {
-        if (isTest) {
-            return "Test: " + name;
-        }
-        return "Assignment: " + name;
+    public String getType() {
+        return type;
     }
 
     public void setGrade(Grade grade) {
