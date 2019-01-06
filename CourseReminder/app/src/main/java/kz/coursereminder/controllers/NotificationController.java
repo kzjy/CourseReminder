@@ -12,11 +12,21 @@ import kz.coursereminder.structure.Reminder;
 
 public class NotificationController extends Controller{
 
-    private static final String TAG = "NotificationController";
+    /**
+     * CourseManager
+     */
     private CourseManager courseManager;
-
+    /**
+     * Arraylist of all reminders
+     */
     private ArrayList<Reminder> all = new ArrayList<>();
+    /**
+     * Arraylist of upcoming reminders
+     */
     private ArrayList<Reminder> upcoming = new ArrayList<>();
+    /**
+     * Arraylist of past reminders
+     */
     private ArrayList<Reminder> past = new ArrayList<>();
 
     public NotificationController(Context context) {

@@ -11,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class FileManager {
-    private static final String TAG = "FileManager";
 
     private Context context;
     private CourseManager courseManager;

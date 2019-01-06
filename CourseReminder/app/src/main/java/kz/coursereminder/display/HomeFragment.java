@@ -28,7 +28,6 @@ import kz.coursereminder.structure.Reminder;
  */
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
 
     /**
      * View of the fragment

@@ -9,17 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.CourseActivityController;
 import kz.coursereminder.display.CourseActivity;
-import kz.coursereminder.popup.GradeEditPopUp;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.Reminder;
 
@@ -116,7 +108,7 @@ public class CourseAssignmentAdapter extends RecyclerView.Adapter<CourseAssignme
         TextView assignmentWeight;
         RelativeLayout background;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             foreground = itemView.findViewById(R.id.assignment_list_item_foreground);
             assignmentDate = itemView.findViewById(R.id.assignment_list_date);

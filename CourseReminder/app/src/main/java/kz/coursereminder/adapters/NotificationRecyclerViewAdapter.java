@@ -62,14 +62,14 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         return reminders.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout linearLayout;
         CircleImageView image;
         TextView assignment;
         TextView dueDate;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.recycler_image);
             assignment = itemView.findViewById(R.id.recycler_assignment);

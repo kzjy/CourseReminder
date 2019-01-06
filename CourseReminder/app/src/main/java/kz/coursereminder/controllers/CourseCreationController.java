@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
-import kz.coursereminder.structure.FileManager;
 
 public class CourseCreationController extends Controller {
 
@@ -51,7 +50,7 @@ public class CourseCreationController extends Controller {
      * @param course course to be checked
      * @return whether name of the course is valid
      */
-    protected boolean checkValidName(Course course) {
+    boolean checkValidName(Course course) {
         boolean valid = courseManager.checkValidCourseName(course);
         boolean exists = courseManager.checkExistingCourse(course);
         if (!valid) {

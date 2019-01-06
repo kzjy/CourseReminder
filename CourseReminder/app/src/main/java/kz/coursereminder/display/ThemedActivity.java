@@ -66,7 +66,7 @@ public abstract class ThemedActivity extends AppCompatActivity {
     public Drawable getBackgroundDrawable() {
         String storedBackground = preferences.getString("Background", "");
         if (storedBackground.equals("")) {
-            return getDrawable(R.drawable.cloud);
+            return getDrawable(R.drawable.new_bg);
         }
         Bitmap backgroundBitmap = bitmapConverter.decodeBase64(storedBackground);
         return new BitmapDrawable(getResources(), backgroundBitmap);

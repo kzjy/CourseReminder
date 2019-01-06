@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
@@ -20,7 +21,7 @@ public class LinedEditText extends AppCompatEditText {
         mRect = new Rect();
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaint.setColor(context.getResources().getColor(R.color.Black));
+        mPaint.setColor(ContextCompat.getColor(context, R.color.Black));
     }
 
     @Override

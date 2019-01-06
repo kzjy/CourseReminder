@@ -19,7 +19,7 @@ public class CourseManager implements Serializable {
      */
     public static final String COURSES = "course_manager.ser";
 
-    public CourseManager() {
+    CourseManager() {
         Course addNew = new Course("Add New", "", 0);
         addCourse(addNew);
         reminderManager = new ReminderManager();

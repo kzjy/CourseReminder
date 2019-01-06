@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.List;
-
 public class SettingsController extends Controller {
-
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;

@@ -4,6 +4,7 @@ package kz.coursereminder.display;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-
-import java.util.ArrayList;
 
 import kz.coursereminder.R;
 import kz.coursereminder.adapters.DashboardCourseAdapter;
@@ -27,8 +26,6 @@ import kz.coursereminder.structure.FileManager;
  * A simple {@link Fragment} subclass.
  */
 public class DashBoardFragment extends Fragment {
-
-    private static final String TAG = "DashBoard";
 
     /**
      * Data Structure Fields
@@ -49,6 +46,7 @@ public class DashBoardFragment extends Fragment {
 
     /**
      * On creates
+     *
      * @param savedInstanceState some stuff
      */
     @Override
@@ -59,15 +57,18 @@ public class DashBoardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_dashboard,container,false);
-        gridView = view.findViewById(R.id.dashboard_gridview);
-        Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
-        ((ImageView)view.findViewById(R.id.dashboard_background)).setImageDrawable(backgroundDrawable);
-        updateDashboard();
-        addGridViewClickListener();
+            View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+            gridView = view.findViewById(R.id.dashboard_gridview);
+            if (getActivity() != null) {
+                Drawable backgroundDrawable = ((MainActivity) getActivity()).getBackgroundDrawable();
+                ((ImageView) view.findViewById(R.id.dashboard_background)).setImageDrawable(backgroundDrawable);
+            }
+            updateDashboard();
+            addGridViewClickListener();
+
         return view;
     }
 
@@ -76,6 +77,7 @@ public class DashBoardFragment extends Fragment {
                 this.getActivity(), courseManager);
         gridView.setAdapter(dashboardCourseAdapter);
     }
+
     /**
      * add grid view listener
      */
@@ -86,8 +88,7 @@ public class DashBoardFragment extends Fragment {
                 Course course = courseManager.getCourses().get(position);
                 if (course.getImage() == R.drawable.course_icoin_add) {
                     swapToCourseCreation();
-                }
-                else {
+                } else {
                     swapToCourse(course.getName());
                 }
             }
@@ -96,6 +97,7 @@ public class DashBoardFragment extends Fragment {
 
     /**
      * Swap to course specific activity
+     *
      * @param courseName the coursename to swap to
      */
     private void swapToCourse(String courseName) {
@@ -108,19 +110,19 @@ public class DashBoardFragment extends Fragment {
      * Swap to the course creation activity
      */
     private void swapToCourseCreation() {
-        Intent toCreate = new Intent(getActivity() , CourseCreationActivity.class);
+        Intent toCreate = new Intent(getActivity(), CourseCreationActivity.class);
         startActivityForResult(toCreate, 10001);
     }
 
     /**
      * Catches the Course Creation intent for succesfully finishing course creation
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     *
+     * @param requestCode .
+     * @param resultCode .
+     * @param data .
      */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (((requestCode == 10001) || (requestCode == 10000)) &&
                 (resultCode == AppCompatActivity.RESULT_OK)) {

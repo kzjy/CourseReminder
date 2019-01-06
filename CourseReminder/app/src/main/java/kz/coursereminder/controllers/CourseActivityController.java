@@ -12,8 +12,6 @@ import kz.coursereminder.structure.Reminder;
 
 public class CourseActivityController extends CourseCreationController implements Serializable {
 
-    private static final String TAG = "CourseActivityControlle";
-
     private Course currentCourse;
 
     public CourseActivityController(Context context, String courseName) {
