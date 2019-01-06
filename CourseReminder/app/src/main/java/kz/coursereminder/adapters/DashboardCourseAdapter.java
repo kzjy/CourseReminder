@@ -60,6 +60,8 @@ public class DashboardCourseAdapter extends BaseAdapter{
         // 3
         ImageView courseImage = convertView.findViewById(R.id.grid_image);
         TextView courseText = convertView.findViewById(R.id.grid_text);
+        courseText.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                context.getResources().getDimension(R.dimen.textsize));
 
         // 4
         courseImage.setImageResource(course.getImage());

@@ -2,7 +2,7 @@ package kz.coursereminder.structure;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +34,8 @@ public class FileManager {
             ObjectInputStream input = new ObjectInputStream(inputStream);
             inputSelect(fileName, input);
             inputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, "IOException");
+        } catch (Exception e) {
             createFile();
-        } catch (ClassNotFoundException e) {
-            Log.e(TAG, "ClassNotFoundException");
         }
     }
 
@@ -88,7 +85,7 @@ public class FileManager {
             ouputStream.writeObject(toSave);
             ouputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "IOException");
+            Toast.makeText(context, "Oops ! Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 

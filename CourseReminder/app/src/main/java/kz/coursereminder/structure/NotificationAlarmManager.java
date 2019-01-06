@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import kz.coursereminder.notification.NotificationReceiver;
 
@@ -54,11 +53,9 @@ public class NotificationAlarmManager {
      */
     private void setAllReminderNotification() {
         Reminder[] reminderArray = courseManager.getReminderManager().getActiveReminders();
-        Log.v("ALL", courseManager.getReminderManager().toString());
         for (int i = 0; i < reminderArray.length; i++) {
             if (reminderArray[i] != null) {
                 startAlarm(reminderArray[i], i);
-                Log.v(reminderArray[i].getName(), "alarm set");
             }
         }
     }
@@ -109,6 +106,5 @@ public class NotificationAlarmManager {
         if (alarmManager != null) {
             alarmManager.cancel(pendingIntent);
         }
-        Log.v("cancelled", String.valueOf(id));
     }
 }

@@ -172,7 +172,7 @@ public class NotificationsFragment extends Fragment {
             pastAdapter.notifyDataSetChanged();
             reduceViews(view);
         } catch (NullPointerException e) {
-            Toast.makeText(getContext(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Oopsie! Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 

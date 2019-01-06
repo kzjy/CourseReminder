@@ -1,16 +1,9 @@
 package kz.coursereminder.controllers;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
-
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-import kz.coursereminder.display.CourseActivity;
-import kz.coursereminder.display.MainActivity;
 import kz.coursereminder.structure.Course;
 import kz.coursereminder.structure.CourseManager;
 import kz.coursereminder.structure.Grade;

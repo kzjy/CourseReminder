@@ -3,6 +3,7 @@
     android:id="@+id/popup_assignment_delete"
     android:layout_width="250dp"
     android:layout_height="100dp"
+    android:layout_gravity="center"
     android:background="@android:color/transparent"
     android:orientation="vertical">
 

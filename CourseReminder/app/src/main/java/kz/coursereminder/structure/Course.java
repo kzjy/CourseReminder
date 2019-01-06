@@ -1,10 +1,6 @@
 package kz.coursereminder.structure;
-
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import kz.coursereminder.R;

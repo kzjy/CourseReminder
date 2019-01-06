@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="175dp"
+    android:layout_gravity="center"
     android:padding="25dp">
 
     <LinearLayout

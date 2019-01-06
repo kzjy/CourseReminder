@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import kz.coursereminder.R;
 import kz.coursereminder.controllers.Controller;
@@ -28,20 +27,11 @@ public abstract class ThemedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         baseController = new Controller(this);
     }
-//
-//    @Override
-//    protected void onRestart() {
-//        loadTheme();
-//        baseController.updateCourseManager();
-//        baseController.getAlarmManager().setUpAlarms();
-//        super.onRestart();
-//    }
 
     @Override
     protected void onStop() {
         baseController.updateCourseManager();
         baseController.getAlarmManager().setUpAlarms();
-        Log.v("stopped", "beep");
         super.onStop();
     }
 

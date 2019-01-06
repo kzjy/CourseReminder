@@ -1,7 +1,5 @@
 package kz.coursereminder.structure;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -132,7 +130,6 @@ public class CourseManager implements Serializable {
         ArrayList<Reminder> allReminder = getAllReminders();
         for (Reminder r: reminderManager.getActiveReminders()) {
             if (r != null && !allReminder.contains(r)) {
-                Log.v("cleaned up", r.getName());
                 reminderManager.removeReminder(r);
             }
         }
