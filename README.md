@@ -10,7 +10,8 @@ by searching "Course: Re".
 https://play.google.com/store/apps/details?id=kz.coursereminder
 
 # Preview
-![Alt text](/relative/path/to/Capture11.png?raw=true "Home Screen")
+![Alt text](promotion_pics/Capture11.PNG?raw=true "Home Screen")
+![Alt text](promotion_pics/Capture2.PNG?raw=true "Course")
 
 # Description 
 Having a hard time keeping track of all the assignments and tests headed your way?
